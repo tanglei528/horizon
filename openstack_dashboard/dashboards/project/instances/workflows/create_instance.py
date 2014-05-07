@@ -664,13 +664,9 @@ class LaunchInstance(workflows.Workflow):
                      SetNetwork,
                      PostCreationStep,
                      SetAdvanced)
-<<<<<<< HEAD
 
     wizard = True
 
-=======
-    wizard = True
->>>>>>> 28c5f4c42ecafb37de1989ad69adf4c87e894006
     def format_status_message(self, message):
         name = self.context.get('name', 'unknown instance')
         count = self.context.get('count', 1)
