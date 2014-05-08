@@ -96,7 +96,7 @@ class ResizeInstance(workflows.Workflow):
     failure_message = _('Unable to resize instance "%s".')
     success_url = "horizon:project:instances:index"
     default_steps = (SetFlavorChoice, create_instance.SetAdvanced)
-   
+
     wizard = True
 
     def format_status_message(self, message):
