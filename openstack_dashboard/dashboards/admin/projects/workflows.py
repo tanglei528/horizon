@@ -351,6 +351,7 @@ class CreateProject(workflows.Workflow):
     default_steps = (CreateProjectInfo,
                      UpdateProjectMembers,
                      UpdateProjectQuota)
+    wizard = True
 
     def __init__(self, request=None, context_seed=None, entry_point=None,
                  *args, **kwargs):
@@ -500,6 +501,8 @@ class UpdateProject(workflows.Workflow):
     default_steps = (UpdateProjectInfo,
                      UpdateProjectMembers,
                      UpdateProjectQuota)
+
+    wizard = True
 
     def __init__(self, request=None, context_seed=None, entry_point=None,
                  *args, **kwargs):

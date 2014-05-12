@@ -140,6 +140,8 @@ class UpdateInstance(workflows.Workflow):
     default_steps = (UpdateInstanceInfo,
                      UpdateInstanceSecurityGroups)
 
+    wizard = True
+
     def format_status_message(self, message):
         return message % self.context.get('name', 'unknown instance')
 

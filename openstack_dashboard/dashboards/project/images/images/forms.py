@@ -73,8 +73,24 @@ class CreateImageForm(forms.SelfHandlingForm):
     disk_format = forms.ChoiceField(label=_('Format'),
                                     required=True,
                                     choices=[],
-                                    widget=forms.Select(attrs={'class':
-                                                               'switchable'}))
+                                    widget=forms.Select(attrs={
+                                        'class': 'switchable',
+                                        'data-slug': 'source_format'}))
+    disk_type_source = forms.ChoiceField(
+        label=_("Choose a disk type"),
+        widget=forms.Select(attrs={
+            'class': 'switched',
+            'data-switch-on': 'source_format',
+            'data-source_format-vmdk': _('Choose a disk type')}),
+        required=False)
+    adapter_type_source = forms.ChoiceField(
+        label=_("Choose a adapter type"),
+        required=False,
+        widget=forms.Select(attrs={
+            'class': 'switched',
+            'data-switch-on': 'source_format',
+            'data-source_format-vmdk': _('Choose a adapter type')}))
+
     architecture = forms.CharField(max_length="255", label=_("Architecture"),
                                    required=False)
     minimum_disk = forms.IntegerField(label=_("Minimum Disk (GB)"),
@@ -104,6 +120,14 @@ class CreateImageForm(forms.SelfHandlingForm):
         if not policy.check((("image", "publicize_image"),), request):
             self._hide_is_public()
         self.fields['disk_format'].choices = IMAGE_FORMAT_CHOICES
+        self.fields['disk_type_source'].choices = [
+            ('', _("--- Select disk_type ---")),
+            ('thin', _("Thin")),
+            ('sparse', _("Sparse"))]
+        self.fields['adapter_type_source'].choices = [
+            ('', _("--- Select adapter_type ---")),
+            ('ide', _("IDE")),
+            ('lsiLogic', _("LsiLogic"))]
 
     def _hide_file_source_type(self):
         self.fields['image_file'].widget = HiddenInput()
@@ -161,7 +185,11 @@ class CreateImageForm(forms.SelfHandlingForm):
                 'min_ram': (data['minimum_ram'] or 0),
                 'name': data['name'],
                 'properties': {}}
-
+        if data['disk_type_source'] in ('sparse', 'thin',):
+            meta['properties']['vmware_disktype'] = data['disk_type_source']
+        if data['adapter_type_source'] in ('ide', 'lsiLogic',):
+            meta['properties']['vmware_adaptertype'] = \
+                data['adapter_type_source']
         if data['description']:
             meta['properties']['description'] = data['description']
         if data['architecture']:

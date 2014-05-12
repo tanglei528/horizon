@@ -155,6 +155,52 @@ class ImageViewTests(test.TestCase):
         self.assertNoFormErrors(res)
         self.assertEqual(res.status_code, 302)
 
+    @test.create_stubs({api.glance: ('image_create',)})
+    def test_image_create_vmware(self):
+        temp_file = tempfile.TemporaryFile()
+        temp_file.write('123')
+        temp_file.flush()
+        temp_file.seek(0)
+        data = {
+            'name': u'Test Image',
+            'description': u'Login with admin/admin',
+            'source_type': u'file',
+            'image_file': temp_file,
+            'disk_format': u'vmdk',
+            'disk_type_source': u'thin',
+            'adapter_type_source': u'ide',
+            'architecture': u'x86-64',
+            'minimum_disk': 15,
+            'minimum_ram': 512,
+            'is_public': True,
+            'protected': False,
+            'method': 'CreateImageForm'}
+
+        api.glance.image_create(IsA(http.HttpRequest),
+                                container_format="bare",
+                                disk_format=data['disk_format'],
+                                is_public=True,
+                                protected=False,
+                                min_disk=data['minimum_disk'],
+                                min_ram=data['minimum_ram'],
+                                properties={
+                                    'description': data['description'],
+                                    'vmware_disktype':
+                                    data['disk_type_source'],
+                                    'vmware_adaptertype':
+                                    data['adapter_type_source'],
+                                    'architecture': data['architecture']},
+                                name=data['name'],
+                                data=IsA(InMemoryUploadedFile)). \
+                        AndReturn(self.images.first())
+        self.mox.ReplayAll()
+
+        url = reverse('horizon:project:images:images:create')
+        res = self.client.post(url, data)
+
+        self.assertNoFormErrors(res)
+        self.assertEqual(res.status_code, 302)
+
     @test.create_stubs({api.glance: ('image_get',)})
     def test_image_detail_get(self):
         image = self.images.first()
