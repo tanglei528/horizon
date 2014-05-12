@@ -922,6 +922,8 @@ class DataTableOptions(object):
         # Set runtime table defaults; not configurable.
         self.has_more_data = False
 
+        self.has_previous_data = False
+
         # Set mixed data type table attr
         self.mixed_data_type = getattr(options, 'mixed_data_type', False)
         self.data_types = getattr(options, 'data_types', [])
@@ -1515,6 +1517,9 @@ class DataTable(object):
         override it to provide custom behavior you can do so at your own risk.
         """
         return self._meta.has_more_data
+
+    def has_previous_data(self):
+        return self._meta.has_previous_data
 
     def get_marker(self):
         """Returns the identifier for the last object in the current data set

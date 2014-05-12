@@ -417,3 +417,11 @@ msgstr "%s 成功完成"
 #, python-format
 msgid "%s did not complete."
 msgstr "%s 没有完成"
+
+#: horizon/common/_data_table.html:66
+msgid "page-previous"
+msgstr "上一页"
+
+#: horizon/common/_data_table.html:72
+msgid "page-next"
+msgstr "下一页"

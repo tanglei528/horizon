@@ -61,9 +61,15 @@
       <tr>
         <td colspan="{{ table.get_columns|length }}">
           <span class="table_count">{% blocktrans count counter=rows|length %}Displaying {{ counter }} item{% plural %}Displaying {{ counter }} items{% endblocktrans %}</span>
-          {% if table.has_more_data %}
-          <span class="spacer">|</span>
-          <a href="?{{ table.get_pagination_string }}">More&nbsp;&raquo;</a>
+
+          {% if table.has_previous_data %}          
+          <a href="javascript:window.history.go(-1)">{% trans 'page-previous' %} &nbsp;</a>
+            {% if table.has_more_data %}
+            <span class="spacer">|</span>
+            {% endif %}
+          {% endif %}
+          {% if table.has_more_data %} 
+          <a href="?{{ table.get_pagination_string }}">{% trans 'page-next' %} &nbsp;</a>
           {% endif %}
         </td>
       </tr>
