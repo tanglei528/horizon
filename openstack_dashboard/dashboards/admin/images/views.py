@@ -62,15 +62,18 @@ class IndexView(tables.DataTableView):
             return True
         return False
 
+
 class CreateView(views.CreateView):
     template_name = 'admin/images/create.html'
     form_class = forms.AdminCreateImageForm
     success_url = reverse_lazy('horizon:admin:images:index')
 
+
 class UpdateView(views.UpdateView):
     template_name = 'admin/images/update.html'
     form_class = forms.AdminUpdateImageForm
     success_url = reverse_lazy('horizon:admin:images:index')
+
 
 class DetailView(views.DetailView):
     """Admin placeholder for image detail view."""
