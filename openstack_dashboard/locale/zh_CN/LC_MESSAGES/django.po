@@ -132,7 +132,7 @@ msgstr "流出虚拟机网络接口的包数目"
 #: api/ceilometer.py:972
 #, python-format
 msgid "Duration of instance type %s (openstack flavor)"
-msgstr "实例类型%s (openstack flavor)的持续时间"
+msgstr "云主机类型%s (openstack flavor)的持续时间"
 
 #: api/ceilometer.py:992
 msgid "Duration of network"
@@ -329,15 +329,36 @@ msgstr "由于此容器非空，因此不能被删除。"
 
 #: dashboards/admin/dashboard.py:24
 msgid "System Panel"
-msgstr "系统面板"
+msgstr "系统报告"
 
-#: dashboards/admin/dashboard.py:32
+#: dashboards/admin/dashboard.py:30
 msgid "Identity Panel"
-msgstr "认证面板"
+msgstr "权限设置"
 
-#: dashboards/admin/dashboard.py:37
+#: dashboards/admin/dashboard.py:36 dashboards/project/dashboard.py:24
+msgid "Compute"
+msgstr "计算资源"
+
+#: dashboards/admin/dashboard.py:42 dashboards/project/dashboard.py:61
+msgid "Storage"
+msgstr "存储资源"
+
+#: dashboards/admin/dashboard.py:48
+#: dashboards/project/dashboard.py:31
+msgid "Network Panel"
+msgstr "网络资源"
+
+#: dashboards/project/dashboard.py:67
+msgid "Summary"
+msgstr "项目报告"
+
+#: dashboards/project/dashboard.py:73
+msgid "Security"
+msgstr "访问控制"
+
+#: dashboards/admin/dashboard.py:53
 msgid "Admin"
-msgstr "管理员"
+msgstr "系统管理"
 
 #: dashboards/admin/aggregates/forms.py:26
 #: dashboards/admin/aggregates/tables.py:95
@@ -384,7 +405,7 @@ msgstr "管理员"
 #: dashboards/project/firewalls/templates/firewalls/_policy_details.html:7
 #: dashboards/project/firewalls/templates/firewalls/_rule_details.html:7
 #: dashboards/project/images/images/forms.py:42
-#: dashboards/project/images/images/forms.py:188
+#: dashboards/project/images/images/forms.py:216
 #: dashboards/project/images/templates/images/images/_detail_overview.html:9
 #: dashboards/project/instances/templates/instances/_detail_overview.html:10
 #: dashboards/project/instances/templates/instances/_flavors_and_quotas.html:9
@@ -451,11 +472,11 @@ msgstr "无法更新聚集。"
 #: dashboards/admin/aggregates/templates/aggregates/index.html:3
 #: dashboards/admin/aggregates/templates/aggregates/index.html:6
 msgid "Host Aggregates"
-msgstr "主机集合"
+msgstr "主机组"
 
 #: dashboards/admin/aggregates/tables.py:23
 msgid "Host Aggregate"
-msgstr "主机集合"
+msgstr "主机组"
 
 #: dashboards/admin/aggregates/tables.py:32
 #: dashboards/admin/aggregates/workflows.py:177
@@ -463,7 +484,7 @@ msgstr "主机集合"
 #: dashboards/admin/aggregates/templates/aggregates/create.html:3
 #: dashboards/admin/aggregates/templates/aggregates/create.html:6
 msgid "Create Host Aggregate"
-msgstr "创建主机集合"
+msgstr "创建主机组"
 
 #: dashboards/admin/aggregates/tables.py:39
 msgid "Manage Hosts"
@@ -474,7 +495,7 @@ msgstr "管理主机"
 #: dashboards/admin/aggregates/templates/aggregates/update.html:3
 #: dashboards/admin/aggregates/templates/aggregates/update.html:6
 msgid "Edit Host Aggregate"
-msgstr "编辑主机集合"
+msgstr "编辑主机组"
 
 #: dashboards/admin/aggregates/tables.py:89
 msgid "Services Up"
@@ -520,7 +541,7 @@ msgstr "可用域"
 
 #: dashboards/admin/aggregates/views.py:47
 msgid "Unable to retrieve host aggregates list."
-msgstr "无法获取主机集合列表。"
+msgstr "无法获取主机组列表。"
 
 #: dashboards/admin/aggregates/views.py:59
 msgid "Unable to retrieve availability zone list."
@@ -532,20 +553,20 @@ msgstr "无法获取要更新的集合"
 
 #: dashboards/admin/aggregates/workflows.py:32
 msgid "Host Aggregate Info"
-msgstr "主机集合信息"
+msgstr "主机组信息"
 
 #: dashboards/admin/aggregates/workflows.py:33
 msgid "From here you can create a new host aggregate to organize instances."
-msgstr "你可以在这里创建新的主机集合来组织云主机。"
+msgstr "你可以在这里创建新的主机组来组织云主机。"
 
 #: dashboards/admin/aggregates/workflows.py:44
 msgid "Unable to get host aggregate list"
-msgstr "无法获取主机集合列表"
+msgstr "无法获取主机组列表"
 
 #: dashboards/admin/aggregates/workflows.py:51
 #, python-format
 msgid "The name \"%s\" is already used by another host aggregate."
-msgstr "该名称\"%s\"已经被其他主机集合使用。"
+msgstr "该名称\"%s\"已经被其他主机组使用。"
 
 #: dashboards/admin/aggregates/workflows.py:69
 #: dashboards/admin/aggregates/workflows.py:103
@@ -602,16 +623,16 @@ msgstr "没有选中的主机。"
 #: dashboards/admin/aggregates/workflows.py:179
 #, python-format
 msgid "Created new host aggregate \"%s\"."
-msgstr "已创建新的主机集合 \"%s\"."
+msgstr "已创建新的主机组 \"%s\"."
 
 #: dashboards/admin/aggregates/workflows.py:180
 #, python-format
 msgid "Unable to create host aggregate \"%s\"."
-msgstr "无法创建主机集合 \"%s\"."
+msgstr "无法创建主机组 \"%s\"."
 
 #: dashboards/admin/aggregates/workflows.py:195
 msgid "Unable to create host aggregate."
-msgstr "无法创建主机集合."
+msgstr "无法创建主机组."
 
 #: dashboards/admin/aggregates/workflows.py:204
 msgid "Error adding Hosts to the aggregate."
@@ -686,7 +707,7 @@ msgstr "更新集合出现错误."
 #: dashboards/project/firewalls/templates/firewalls/_policy_details.html:10
 #: dashboards/project/firewalls/templates/firewalls/_rule_details.html:10
 #: dashboards/project/images/images/forms.py:45
-#: dashboards/project/images/images/forms.py:190
+#: dashboards/project/images/images/forms.py:218
 #: dashboards/project/images/templates/images/images/_detail_overview.html:12
 #: dashboards/project/instances/templates/instances/_decryptpassword.html:20
 #: dashboards/project/instances/templates/instances/_rebuild.html:18
@@ -733,7 +754,7 @@ msgstr "描述"
 
 #: dashboards/admin/aggregates/templates/aggregates/_update.html:19
 msgid "From here you can edit the aggregate name and availability zone"
-msgstr "你可以在这里编辑主机集合的名称和可用区域"
+msgstr "你可以在这里编辑主机组的名称和可用区域"
 
 #: dashboards/admin/aggregates/templates/aggregates/_update.html:25
 #: dashboards/admin/flavors/templates/flavors/extras/_create.html:26
@@ -809,7 +830,7 @@ msgstr "取消"
 #: dashboards/admin/aggregates/templates/aggregates/manage_hosts.html:3
 #: dashboards/admin/aggregates/templates/aggregates/manage_hosts.html:6
 msgid "Manage Hosts Aggregate"
-msgstr "管理主机集合"
+msgstr "管理主机组"
 
 #: dashboards/admin/domains/panel.py:26 dashboards/admin/domains/tables.py:75
 #: dashboards/admin/domains/tables.py:174
@@ -983,7 +1004,7 @@ msgstr "修改域组%s失败。"
 #: dashboards/admin/flavors/templates/flavors/index.html:3
 #: dashboards/admin/flavors/templates/flavors/index.html:6
 msgid "Flavors"
-msgstr "云主机类型"
+msgstr "模板"
 
 #: dashboards/admin/flavors/tables.py:32
 #: dashboards/admin/flavors/templates/flavors/extras/create.html:7
@@ -993,7 +1014,7 @@ msgstr "云主机类型"
 #: dashboards/project/instances/templates/instances/_detail_overview.html:46
 #: dashboards/project/instances/workflows/create_instance.py:85
 msgid "Flavor"
-msgstr "云主机类型"
+msgstr "模板"
 
 #: dashboards/admin/flavors/tables.py:41
 #: dashboards/admin/flavors/workflows.py:180
@@ -1001,14 +1022,14 @@ msgstr "云主机类型"
 #: dashboards/admin/flavors/templates/flavors/create.html:3
 #: dashboards/admin/flavors/templates/flavors/create.html:6
 msgid "Create Flavor"
-msgstr "创建云主机类型"
+msgstr "创建模板"
 
 #: dashboards/admin/flavors/tables.py:48
 #: dashboards/admin/flavors/workflows.py:264
 #: dashboards/admin/flavors/templates/flavors/update.html:3
 #: dashboards/admin/flavors/templates/flavors/update.html:6
 msgid "Edit Flavor"
-msgstr "编辑云主机类型"
+msgstr "编辑模板"
 
 #: dashboards/admin/flavors/tables.py:55
 msgid "View Extra Specs"
@@ -1031,7 +1052,7 @@ msgstr "%sGB"
 
 #: dashboards/admin/flavors/tables.py:101
 msgid "Flavor Name"
-msgstr "云主机类型名称"
+msgstr "模板名称"
 
 #: dashboards/admin/flavors/tables.py:102
 #: dashboards/admin/flavors/workflows.py:48
@@ -1113,8 +1134,8 @@ msgstr "ID"
 #: dashboards/project/containers/forms.py:43
 #: dashboards/project/containers/templates/containers/_container_detail.html:14
 #: dashboards/project/containers/templates/containers/_container_metadata.html:7
-#: dashboards/project/images/images/forms.py:94
-#: dashboards/project/images/images/forms.py:210
+#: dashboards/project/images/images/forms.py:110
+#: dashboards/project/images/images/forms.py:238
 #: dashboards/project/images/images/tables.py:140
 #: dashboards/project/images/images/tables.py:220
 #: dashboards/project/images/templates/images/images/_detail_overview.html:19
@@ -1123,12 +1144,12 @@ msgstr "公有"
 
 #: dashboards/admin/flavors/views.py:51
 msgid "Unable to retrieve flavor list."
-msgstr "无法查询云主机类型列表。"
+msgstr "无法查询模板列表。"
 
 #: dashboards/admin/flavors/views.py:74
 #: dashboards/admin/flavors/extras/views.py:45
 msgid "Unable to retrieve flavor details."
-msgstr "无法获取云主机类型详细信息"
+msgstr "无法获取模板详细信息"
 
 #: dashboards/admin/flavors/workflows.py:34
 msgid ""
@@ -1160,16 +1181,16 @@ msgstr "交换盘空间MB"
 #: dashboards/admin/flavors/workflows.py:60
 #: dashboards/admin/flavors/workflows.py:227
 msgid "Flavor Info"
-msgstr "云主机类型信息"
+msgstr "模板信息"
 
 #: dashboards/admin/flavors/workflows.py:61
 msgid "From here you can create a new flavor to organize instance resources."
-msgstr "你可以在这里创建新的云主机类型来组织实例资源。"
+msgstr "你可以在这里创建新的模板来组织实例资源。"
 
 #: dashboards/admin/flavors/workflows.py:73
 #: dashboards/admin/flavors/workflows.py:238
 msgid "Unable to get flavor list"
-msgstr "无法查询云主机类型列表。"
+msgstr "无法查询模板列表。"
 
 #: dashboards/admin/flavors/workflows.py:80
 #: dashboards/admin/flavors/workflows.py:246
@@ -1180,15 +1201,15 @@ msgstr "名称\"%s\"已经被其他模板占用"
 #: dashboards/admin/flavors/workflows.py:85
 #, python-format
 msgid "The ID \"%s\" is already used by another flavor."
-msgstr "此ID \"%s\" 已经被其他云主机类型采用。"
+msgstr "此ID \"%s\" 已经被其他模板采用。"
 
 #: dashboards/admin/flavors/workflows.py:107
 msgid "Unable to retrieve flavor access list. Please try again later."
-msgstr "无法获取云主机类型的访问列表，请稍后重试。"
+msgstr "无法获取模板的访问列表，请稍后重试。"
 
 #: dashboards/admin/flavors/workflows.py:151
 msgid "Flavor Access"
-msgstr "云主机类型访问"
+msgstr "模板访问"
 
 #: dashboards/admin/flavors/workflows.py:157
 msgid ""
@@ -1196,7 +1217,7 @@ msgid ""
 "column to the right column. Only projects in the right column can use the "
 "flavor. If there are no projects in the right column, all projects can use "
 "the flavor."
-msgstr "把项目从左列移动到右列，可以控制对云主机类型的访问。只有位于右列的项目可以使用这种云主机类型。如果右列没有任何项目，则所有的项目都可以使用这种云主机类型。"
+msgstr "把项目从左列移动到右列，可以控制对模板的访问。只有位于右列的项目可以使用这种模板。如果右列没有任何项目，则所有的项目都可以使用这种模板。"
 
 #: dashboards/admin/flavors/workflows.py:162
 msgid "All Projects"
@@ -1212,44 +1233,44 @@ msgstr "没有找到任何项目"
 
 #: dashboards/admin/flavors/workflows.py:165
 msgid "No projects selected. All projects can use the flavor."
-msgstr "没有找到任何项目，所有项目都可以使用这种云主机类型。"
+msgstr "没有找到任何项目，所有项目都可以使用这种模板。"
 
 #: dashboards/admin/flavors/workflows.py:182
 #, python-format
 msgid "Created new flavor \"%s\"."
-msgstr "云主机类型 \"%s\" 创建完毕。"
+msgstr "模板 \"%s\" 创建完毕。"
 
 #: dashboards/admin/flavors/workflows.py:183
 #, python-format
 msgid "Unable to create flavor \"%s\"."
-msgstr "无法创建云主机类型\"%s\"。"
+msgstr "无法创建模板\"%s\"。"
 
 #: dashboards/admin/flavors/workflows.py:208
 msgid "Unable to create flavor."
-msgstr "无法创建云主机类型。"
+msgstr "无法创建模板。"
 
 #: dashboards/admin/flavors/workflows.py:219
 #, python-format
 msgid "Unable to set flavor access for project %s."
-msgstr "无法设置项目%s访问云主机类型。"
+msgstr "无法设置项目%s访问模板。"
 
 #: dashboards/admin/flavors/workflows.py:229
 msgid "From here you can edit the flavor details."
-msgstr "在这里你可以编辑云主机类型的详情。"
+msgstr "在这里你可以编辑模板的详情。"
 
 #: dashboards/admin/flavors/workflows.py:266
 #, python-format
 msgid "Modified flavor \"%s\"."
-msgstr "已修改云主机类型\"%s\""
+msgstr "已修改模板\"%s\""
 
 #: dashboards/admin/flavors/workflows.py:267
 #, python-format
 msgid "Unable to modify flavor \"%s\"."
-msgstr "无法修改云主机类型 \"%s\"。"
+msgstr "无法修改模板 \"%s\"。"
 
 #: dashboards/admin/flavors/workflows.py:312
 msgid "Modified flavor information, but unable to modify flavor access."
-msgstr "已修改云主机类型信息，但是无法修改云主机类型的访问。"
+msgstr "已修改模板信息，但是无法修改模板的访问。"
 
 #: dashboards/admin/flavors/extras/forms.py:36
 msgid "Keys"
@@ -1328,7 +1349,7 @@ msgstr "无法获取特别设定列表。"
 
 #: dashboards/admin/flavors/extras/views.py:98
 msgid "Unable to retrieve flavor extra spec details."
-msgstr "无法获取云主机类型额外的规格详细信息"
+msgstr "无法获取模板额外的规格详细信息"
 
 #: dashboards/admin/flavors/templates/flavors/extras/_create.html:10
 #: dashboards/admin/flavors/templates/flavors/extras/create.html:4
@@ -1535,7 +1556,7 @@ msgstr "组管理："
 #: dashboards/admin/hypervisors/tables.py:65
 #: dashboards/admin/hypervisors/templates/hypervisors/index.html:4
 msgid "Hypervisors"
-msgstr "虚拟机管理器"
+msgstr "主机"
 
 #: dashboards/admin/hypervisors/tables.py:26
 msgid "Hostname"
@@ -1599,7 +1620,7 @@ msgstr "存储(已使用)"
 #: dashboards/project/instances/templates/instances/index.html:6
 #: dashboards/project/network_topology/instances/tables.py:24
 msgid "Instances"
-msgstr "实例"
+msgstr "云主机"
 
 #: dashboards/admin/hypervisors/tables.py:70
 #: dashboards/project/instances/tables.py:724
@@ -1620,15 +1641,15 @@ msgstr "虚拟机实例"
 #: dashboards/admin/hypervisors/views.py:36
 #: dashboards/admin/instances/views.py:149
 msgid "Unable to retrieve hypervisor information."
-msgstr "无法获取虚拟机管理器信息。"
+msgstr "无法获取主机信息。"
 
 #: dashboards/admin/hypervisors/views.py:46
 msgid "Unable to retrieve hypervisor statistics."
-msgstr "无法获取虚拟机管理器统计信息。"
+msgstr "无法获取主机统计信息。"
 
 #: dashboards/admin/hypervisors/views.py:67
 msgid "Unable to retrieve hypervisor instances list."
-msgstr "无法获取虚拟机管理器上的云主机列表。"
+msgstr "无法获取主机上的云主机列表。"
 
 #: dashboards/admin/hypervisors/templates/hypervisors/detail.html:3
 #: dashboards/admin/hypervisors/templates/hypervisors/detail.html:6
@@ -1637,11 +1658,11 @@ msgstr "虚拟机管理程序服务器"
 
 #: dashboards/admin/hypervisors/templates/hypervisors/index.html:7
 msgid "All Hypervisors"
-msgstr "所有虚拟机管理器"
+msgstr "所有主机"
 
 #: dashboards/admin/hypervisors/templates/hypervisors/index.html:12
 msgid "Hypervisor Summary"
-msgstr "虚拟机管理器概述"
+msgstr "主机概述"
 
 #: dashboards/admin/hypervisors/templates/hypervisors/index.html:15
 msgid "VCPU Usage"
@@ -2045,12 +2066,12 @@ msgstr "没有其他可用的主机"
 #: dashboards/admin/instances/forms.py:72
 #, python-format
 msgid "The instance is preparing the live migration to host \"%s\"."
-msgstr "此实例正在准备热迁移到主机\"%s\"."
+msgstr "此云主机正在准备热迁移到主机\"%s\"."
 
 #: dashboards/admin/instances/forms.py:77
 #, python-format
 msgid "Failed to live migrate instance to host \"%s\"."
-msgstr "实例热迁移到主机\"%s\"失败"
+msgstr "云主机热迁移到主机\"%s\"失败"
 
 #: dashboards/admin/instances/tables.py:35
 msgid "Migrate"
@@ -2078,7 +2099,7 @@ msgstr "云主机"
 #: dashboards/admin/instances/tables.py:59
 #: dashboards/admin/instances/templates/instances/_live_migrate.html:23
 msgid "Live Migrate Instance"
-msgstr "实例热迁移"
+msgstr "云主机热迁移"
 
 #: dashboards/admin/instances/tables.py:88
 #: dashboards/admin/instances/tables.py:122
@@ -2087,7 +2108,7 @@ msgstr "实例热迁移"
 #: dashboards/admin/networks/tables.py:68
 #: dashboards/admin/projects/tables.py:103
 #: dashboards/admin/routers/tables.py:50 dashboards/admin/volumes/tables.py:52
-#: dashboards/project/dashboard.py:63
+#: dashboards/project/dashboard.py:78
 #: dashboards/project/images/images/tables.py:134
 #: dashboards/project/instances/workflows/create_instance.py:52
 #: dashboards/router/nexus1000v/forms.py:124
@@ -2171,7 +2192,7 @@ msgstr "热迁移"
 
 #: dashboards/admin/instances/templates/instances/_live_migrate.html:18
 msgid "From here you can live migrate an instance to a specific host."
-msgstr "你可以从这里热迁移一个实例到一个指定的主机"
+msgstr "你可以从这里热迁移一个云主机到一个指定的主机"
 
 #: dashboards/admin/instances/templates/instances/index.html:6
 msgid "All Instances"
@@ -2488,7 +2509,7 @@ msgstr "网络 %s 更新失败。"
 msgid "Networks"
 msgstr "网络"
 
-#: dashboards/admin/networks/tables.py:35 dashboards/project/dashboard.py:34
+#: dashboards/admin/networks/tables.py:35
 #: dashboards/project/networks/tables.py:43
 #: dashboards/project/networks/workflows.py:70
 #: dashboards/project/networks/templates/networks/subnets/index.html:3
@@ -2645,14 +2666,12 @@ msgid "Device Attached"
 msgstr "设备已连接"
 
 #: dashboards/admin/networks/ports/tabs.py:27
-#: dashboards/admin/overview/panel.py:29
 #: dashboards/admin/overview/templates/overview/usage.html:6
 #: dashboards/project/databases/tabs.py:27
 #: dashboards/project/images/images/tabs.py:24
 #: dashboards/project/instances/tabs.py:27
 #: dashboards/project/networks/ports/tabs.py:27
 #: dashboards/project/networks/subnets/tabs.py:27
-#: dashboards/project/overview/panel.py:29
 #: dashboards/project/overview/templates/overview/usage.html:6
 #: dashboards/project/routers/ports/tabs.py:26
 #: dashboards/project/stacks/tabs.py:48 dashboards/project/stacks/tabs.py:57
@@ -2660,6 +2679,14 @@ msgstr "设备已连接"
 #: dashboards/project/volumes/volumes/tabs.py:23
 msgid "Overview"
 msgstr "概况"
+
+#: dashboards/project/overview/panel.py:29
+msgid "Project Overview"
+msgstr "运行概况"
+
+#: dashboards/admin/overview/panel.py:29
+msgid "System Overview"
+msgstr "系统概况"
 
 #: dashboards/admin/networks/ports/tabs.py:37
 #: dashboards/project/networks/ports/tabs.py:37
@@ -3411,19 +3438,15 @@ msgstr "卷详细信息:"
 msgid "Volume Details:"
 msgstr "卷详细信息:"
 
-#: dashboards/project/dashboard.py:24
-msgid "Compute"
-msgstr "Compute"
-
-#: dashboards/project/dashboard.py:45
+#: dashboards/project/dashboard.py:42
 msgid "Object Store"
 msgstr "对象存储"
 
-#: dashboards/project/dashboard.py:50
+#: dashboards/project/dashboard.py:47
 msgid "Orchestration"
 msgstr "编配"
 
-#: dashboards/project/dashboard.py:56
+#: dashboards/project/dashboard.py:53
 #: dashboards/project/databases/tables.py:51
 #: dashboards/project/databases/tables.py:83
 #: dashboards/project/databases/tables.py:169
@@ -3438,7 +3461,7 @@ msgstr "数据库"
 #: dashboards/project/access_and_security/panel.py:26
 #: dashboards/project/instances/workflows/create_instance.py:475
 msgid "Access & Security"
-msgstr "访问 & 安全"
+msgstr "安全设置"
 
 #: dashboards/project/access_and_security/tabs.py:54
 #: dashboards/project/access_and_security/security_groups/views.py:118
@@ -3980,7 +4003,7 @@ msgstr "请妥善保管和使用SSH私钥。"
 
 #: dashboards/project/access_and_security/templates/access_and_security/keypairs/_import.html:18
 msgid "Key Pairs are how you login to your instance after it is launched."
-msgstr "密钥对是可以用来登陆你创建的实例"
+msgstr "密钥对是可以用来登陆你创建的云主机"
 
 #: dashboards/project/access_and_security/templates/access_and_security/keypairs/_import.html:19
 msgid ""
@@ -4002,7 +4025,7 @@ msgstr "这将生成一对密钥对：一个是私钥 (cloud.key)和一个公钥
 msgid ""
 "After launching an instance, you login using the private key (the username "
 "might be different depending on the image you launched):"
-msgstr "创建一个实例后，你使用密钥来登陆实例(用户名可能会不一样，这取决你生成的镜像)"
+msgstr "创建一个云主机后，你使用密钥来登陆云主机(用户名可能会不一样，这取决你生成的镜像)"
 
 #: dashboards/project/access_and_security/templates/access_and_security/keypairs/_import.html:25
 msgid "or:"
@@ -5424,6 +5447,24 @@ msgstr "镜像地址"
 msgid "Image File"
 msgstr "镜像文件"
 
+#: dashboards/project/images/images/forms.py:80
+#: dashboards/project/images/images/forms.py:84
+msgid "Choose a disk type"
+msgstr "磁盘类型"
+
+#: dashboards/project/images/images/forms.py:87
+#: dashboards/project/images/images/forms.py:92
+msgid "Choose a adapter type"
+msgstr "适配器类型"
+
+#: dashboards/project/images/images/forms.py:124
+msgid "--- Select disk_type ---"
+msgstr "--- 选择磁盘类型 ---"
+
+#: dashboards/project/images/images/forms.py:128
+msgid "--- Select adapter_type ---"
+msgstr "--- 选择适配器类型 ---"
+
 #: dashboards/project/images/images/forms.py:59
 msgid "An external (HTTP) URL to load the image from."
 msgstr "使用外部(HTTP)URL加载镜像。"
@@ -5433,74 +5474,74 @@ msgid "A local image to upload."
 msgstr "一个待上传的本地镜像。"
 
 #: dashboards/project/images/images/forms.py:73
-#: dashboards/project/images/images/forms.py:206
+#: dashboards/project/images/images/forms.py:234
 #: dashboards/project/images/images/tables.py:227
 msgid "Format"
 msgstr "格式化"
 
-#: dashboards/project/images/images/forms.py:78
-#: dashboards/project/images/images/forms.py:202
+#: dashboards/project/images/images/forms.py:94
+#: dashboards/project/images/images/forms.py:230
 msgid "Architecture"
 msgstr "构架"
 
-#: dashboards/project/images/images/forms.py:80
+#: dashboards/project/images/images/forms.py:96
 msgid "Minimum Disk (GB)"
 msgstr "最小磁盘（GB）"
 
-#: dashboards/project/images/images/forms.py:81
+#: dashboards/project/images/images/forms.py:97
 msgid ""
 "The minimum disk size required to boot the image. If unspecified, this value"
 " defaults to 0 (no minimum)."
 msgstr "为启动镜像设置的最小磁盘。如果不指定， 默认值为零 (没有限制)。"
 
-#: dashboards/project/images/images/forms.py:87
+#: dashboards/project/images/images/forms.py:103
 msgid "Minimum Ram (MB)"
 msgstr "最小内存(MB)"
 
-#: dashboards/project/images/images/forms.py:88
+#: dashboards/project/images/images/forms.py:104
 msgid ""
 "The minimum memory size required to boot the image. If unspecified, this "
 "value defaults to 0 (no minimum)."
 msgstr "启动镜像的最低磁盘容量要求。如果不指定， 默认值为0 (没有限制)。"
 
-#: dashboards/project/images/images/forms.py:95
-#: dashboards/project/images/images/forms.py:211
+#: dashboards/project/images/images/forms.py:111
+#: dashboards/project/images/images/forms.py:239
 #: dashboards/project/images/images/tables.py:224
 #: dashboards/project/images/templates/images/images/_detail_overview.html:21
 msgid "Protected"
 msgstr "受保护的"
 
-#: dashboards/project/images/images/forms.py:138
+#: dashboards/project/images/images/forms.py:162
 msgid "A image or external image location must be specified."
 msgstr "必须给定镜像或者外部镜像的位置"
 
-#: dashboards/project/images/images/forms.py:141
+#: dashboards/project/images/images/forms.py:165
 msgid "Can not specify both image and external image location."
 msgstr "无法指定镜像和外部镜像的位置"
 
-#: dashboards/project/images/images/forms.py:179
+#: dashboards/project/images/images/forms.py:207
 #, python-format
 msgid "Your image %s has been queued for creation."
 msgstr "镜像%s创建排队中"
 
-#: dashboards/project/images/images/forms.py:183
+#: dashboards/project/images/images/forms.py:211
 msgid "Unable to create new image."
 msgstr "无法创建新镜像"
 
-#: dashboards/project/images/images/forms.py:192
+#: dashboards/project/images/images/forms.py:220
 msgid "Kernel ID"
 msgstr "内核ID"
 
-#: dashboards/project/images/images/forms.py:197
+#: dashboards/project/images/images/forms.py:225
 msgid "Ramdisk ID"
 msgstr "内存盘ID"
 
-#: dashboards/project/images/images/forms.py:221
+#: dashboards/project/images/images/forms.py:249
 #, python-format
 msgid "Unable to update image \"%s\"."
 msgstr "更新镜像 \"%s\"失败。"
 
-#: dashboards/project/images/images/forms.py:246
+#: dashboards/project/images/images/forms.py:274
 msgid "Image was successfully updated."
 msgstr "镜像更新成功。"
 
@@ -5835,7 +5876,7 @@ msgstr "在选定的可用域中没有足够的空间来匹配这个主机类型
 #: dashboards/project/instances/tables.py:589
 #, python-format
 msgid "Failed to launch instance \"%s\""
-msgstr "创建实例 \"%s\" 失败"
+msgstr "创建云主机 \"%s\" 失败"
 
 #: dashboards/project/instances/tables.py:610
 #: dashboards/project/networks/templates/networks/subnets/_detail_overview.html:24
@@ -5908,11 +5949,11 @@ msgstr "无法获得云主机 \"%s\" 的日志。"
 
 #: dashboards/project/instances/utils.py:31
 msgid "Unable to retrieve instance flavors."
-msgstr "无法检索云主机类型。"
+msgstr "无法检索模板。"
 
 #: dashboards/project/instances/utils.py:62
 msgid "Unable to sort instance flavors."
-msgstr "无法对云主机类型排序."
+msgstr "无法对模板排序."
 
 #: dashboards/project/instances/views.py:69
 msgid "Unable to retrieve instances."
@@ -5945,7 +5986,7 @@ msgstr "无法从Neutron获取云主机 \"%s\" 的IP地址。"
 
 #: dashboards/project/instances/views.py:326
 msgid "Unable to retrieve flavors."
-msgstr "无法获取云主机类型列表。"
+msgstr "无法获取模板列表。"
 
 #: dashboards/project/instances/templates/instances/_decryptpassword.html:10
 #: dashboards/project/instances/templates/instances/decryptpassword.html:6
@@ -6494,31 +6535,31 @@ msgstr "无法为概要(标识符为%s)创建端口"
 
 #: dashboards/project/instances/workflows/resize_instance.py:37
 msgid "Old Flavor"
-msgstr "旧的云主机类型"
+msgstr "旧的模板"
 
 #: dashboards/project/instances/workflows/resize_instance.py:42
 msgid "New Flavor"
-msgstr "新的云主机类型"
+msgstr "新的模板"
 
 #: dashboards/project/instances/workflows/resize_instance.py:44
 msgid "Choose the flavor to launch."
-msgstr "选择用于启动的云主机类型"
+msgstr "选择用于启动的模板"
 
 #: dashboards/project/instances/workflows/resize_instance.py:47
 msgid "Flavor Choice"
-msgstr "云主机类型选择"
+msgstr "模板选择"
 
 #: dashboards/project/instances/workflows/resize_instance.py:57
 msgid "Please  choose a new flavor that can not be same as the old one."
-msgstr "请选择一个新的云主机类型，该类型不能与旧的云主机类型相同。"
+msgstr "请选择一个新的模板，该类型不能与旧的模板相同。"
 
 #: dashboards/project/instances/workflows/resize_instance.py:66
 msgid "Select a New Flavor"
-msgstr "选择一个新的云主机类型"
+msgstr "选择一个新的模板"
 
 #: dashboards/project/instances/workflows/resize_instance.py:68
 msgid "No flavors available"
-msgstr "没有可用的云主机类型。"
+msgstr "没有可用的模板。"
 
 #: dashboards/project/instances/workflows/resize_instance.py:94
 msgid "Resize"
@@ -6527,7 +6568,7 @@ msgstr "调整大小"
 #: dashboards/project/instances/workflows/resize_instance.py:95
 #, python-format
 msgid "Scheduled resize of instance \"%s\"."
-msgstr "定期调整实例\"%s\"."
+msgstr "定期调整云主机\"%s\"."
 
 #: dashboards/project/instances/workflows/resize_instance.py:96
 #, python-format
@@ -7081,7 +7122,7 @@ msgstr "无法获取云主机列表"
 msgid ""
 "No servers available. To add a member, you need at least one running "
 "instance."
-msgstr "没有可有的服务器。要增加一个成员，你至少要运行一个实例"
+msgstr "没有可有的服务器。要增加一个成员，你至少要运行一个云主机"
 
 #: dashboards/project/loadbalancers/workflows.py:360
 msgid "Add New Member"
@@ -8659,7 +8700,7 @@ msgstr "选择要连接到的云主机。"
 
 #: dashboards/project/volumes/volumes/forms.py:370
 msgid "Actual device name may differ due to hypervisor settings."
-msgstr "设备真实名字可能由于虚拟机管理器的设置而不一样"
+msgstr "设备真实名字可能由于主机的设置而不一样"
 
 #: dashboards/project/volumes/volumes/forms.py:413
 msgid "Unknown instance (None)"
@@ -8761,7 +8802,7 @@ msgstr "无法获取云硬盘信息"
 msgid ""
 "This volume is currently attached to an instance. In some cases, creating a "
 "snapshot from an attached volume can result in a corrupted snapshot."
-msgstr "这个卷已经被挂载到一个实例了。从某种程度上来说，从一个已挂载的卷上创建快照可能会导致快照失败"
+msgstr "这个卷已经被挂载到一个云主机了。从某种程度上来说，从一个已挂载的卷上创建快照可能会导致快照失败"
 
 #: dashboards/project/volumes/volumes/views.py:161
 msgid "Unable to retrieve volume."

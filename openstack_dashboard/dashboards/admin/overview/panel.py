@@ -26,7 +26,7 @@ from openstack_dashboard.dashboards.admin import dashboard
 
 
 class Overview(horizon.Panel):
-    name = _("Overview")
+    name = _("System Overview")
     slug = 'overview'
     permissions = ('openstack.roles.admin',)
 
