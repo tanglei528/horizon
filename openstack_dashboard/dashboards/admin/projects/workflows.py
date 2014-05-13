@@ -502,8 +502,6 @@ class UpdateProject(workflows.Workflow):
                      UpdateProjectMembers,
                      UpdateProjectQuota)
 
-    wizard = True
-
     def __init__(self, request=None, context_seed=None, entry_point=None,
                  *args, **kwargs):
         if PROJECT_GROUP_ENABLED:
