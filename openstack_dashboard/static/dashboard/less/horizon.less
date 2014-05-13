@@ -43,6 +43,7 @@ dt {
   #gradient > .vertical(#FFFFFF, #d8d8d8);
   border-bottom: 1px solid #cccccc;
   padding: 10px 0px 15px 0px;
+  height: 25px;
 }
 
 .topbar .switcher_bar {
@@ -249,69 +250,66 @@ a.current_item:hover h3, a.current_item:hover h4 {
     .border-radius(4px)
 }
 
+.sidebar .context-box {
+    line-height: 38px;
+    margin-left: 6px;
+}
+
 .sidebar .switcher_bar {
-    width: 190px;
-    height: 38px;
-    padding: 5px 0;
-    margin-left: 14px;
-    margin-bottom: 15px;
-}
-
-.sidebar .switcher_bar a.dropdown-toggle {
-  display: block;
-  padding: 5px 0;
-  background-image: url(/static/dashboard/img/drop_arrow.png);
-  border: 1px solid #c0d9e4;
-  background-color: #e9f5fa;
-  background-repeat: no-repeat;
-  background-position: 167px 23px;
-}
-
-.sidebar .switcher_bar a.dropdown-toggle:hover {
-  text-decoration: none;
-  background-color: #cde8f4;
-}
-
-.sidebar .switcher_bar:focus {
-  outline: none;
-}
-
-.sidebar .switcher_bar h3 {
-    color: #4790ae;
-    font-size: 16px;
-    margin: -6px 0 0 14px;
+    display: inline-block;
+    height: auto;
+    width: 102px;
+    background-position: 82px center;
+    margin-bottom: 0;
+    margin-right: 6px;
     padding: 0;
-    overflow: hidden;
-    text-overflow:ellipsis;
-    white-space: nowrap;
-    &:hover {
-      white-space: normal;
-      overflow: visible;
-      text-overflow: none;
-      padding-right: 1em;
-      word-wrap: break-word;
+    background-image: url(/static/dashboard/img/drop_arrow.png);
+    background-color: #eee;
+    background-repeat: no-repeat;
+    border: 1px solid #ccc;
+    border-bottom-color: #bbb;
+    .border-radius(13px);
+    .box-shadow(e('inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)'));
+}
+
+.sidebar div.fill {
+    width: 97%;
+    background-position: 95% center;
+
+    ul {
+        width: 100%;
     }
 }
 
-.sidebar .switcher_bar h4 {
-    color: #6fabc4;
-    font-size: 10px;
-    text-transform: uppercase;
-    font-weight: normal;
-    padding: 0;
+.sidebar .switcher_bar a {
+    margin-left: 0;
+    display: block;
+}
+
+.sidebar .switcher_bar h3 {
+    padding: 2px 10px 1px;
+    font-size: 13px !important;
+    line-height: 20px;
+    color: #6e6e6e;
+    text-decoration: none;
+}
+
+.sidebar .switcher_bar div {
+    padding: 2px 10px 1px;
+    font-size: 11px !important;
+    line-height: 20px;
+    color: #6e6e6e;
+    text-decoration: none;
+    overflow: hidden;
+    padding-right: 32px;
+    text-overflow: ellipsis;
 }
 
 
 .sidebar .switcher_bar ul {
-    border: 1px solid #c0d9e4;
-    margin-left: -1px;
-    width: 190px;
+    min-width: 100px;
+    width: 100px;
 }
-
-.sidebar .switcher_bar li a:hover{
-  background: #92d6f1;
-}
-
 
 #usage {
     margin-bottom: 25px;
