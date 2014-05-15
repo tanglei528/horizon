@@ -22,9 +22,7 @@ import horizon
 class SystemPanels(horizon.PanelGroup):
     slug = "admin"
     name = _("System Panel")
-    panels = ('overview', 'metering', 'hypervisors', 'aggregates',
-              'instances', 'volumes', 'flavors', 'images',
-              'networks', 'routers', 'info')
+    panels = ('overview', 'metering', 'info')
 
 
 class IdentityPanels(horizon.PanelGroup):
@@ -33,10 +31,29 @@ class IdentityPanels(horizon.PanelGroup):
     panels = ('domains', 'projects', 'users', 'groups', 'roles')
 
 
+class ComputePanels(horizon.PanelGroup):
+    slug = "compute"
+    name = _("Compute")
+    panels = ('hypervisors', 'aggregates', 'instances', 'flavors', 'images')
+
+
+class StoragePanels(horizon.PanelGroup):
+    slug = "storage"
+    name = _("Storage")
+    panels = ('volumes',)
+
+
+class NetworkPanels(horizon.PanelGroup):
+    slug = "network"
+    name = _("Network Panel")
+    panels = ('networks', 'routers')
+
+
 class Admin(horizon.Dashboard):
     name = _("Admin")
     slug = "admin"
-    panels = (SystemPanels, IdentityPanels)
+    panels = (SystemPanels, ComputePanels, StoragePanels,
+              NetworkPanels, IdentityPanels)
     default_panel = 'overview'
     permissions = ('openstack.roles.admin',)
 

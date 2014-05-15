@@ -22,16 +22,13 @@ import horizon
 class BasePanels(horizon.PanelGroup):
     slug = "compute"
     name = _("Compute")
-    panels = ('overview',
-              'instances',
-              'volumes',
-              'images',
-              'access_and_security',)
+    panels = ('instances',
+              'images',)
 
 
 class NetworkPanels(horizon.PanelGroup):
     slug = "network"
-    name = _("Network")
+    name = _("Network Panel")
     panels = ('network_topology',
               'networks',
               'routers',
@@ -59,12 +56,33 @@ class DatabasePanels(horizon.PanelGroup):
               'database_backups',)
 
 
+class StoragePanels(horizon.PanelGroup):
+    slug = "storage"
+    name = _("Storage")
+    panels = ('volumes',)
+
+
+class SummaryPanels(horizon.PanelGroup):
+    slug = "summary"
+    name = _("Summary")
+    panels = ('overview',)
+
+
+class SecurityPanels(horizon.PanelGroup):
+    slug = "security"
+    name = _("Security")
+    panels = ('access_and_security',)
+
+
 class Project(horizon.Dashboard):
     name = _("Project")
     slug = "project"
     panels = (
+        SummaryPanels,
         BasePanels,
+        StoragePanels,
         NetworkPanels,
+        SecurityPanels,
         ObjectStorePanels,
         OrchestrationPanels,
         DatabasePanels,)

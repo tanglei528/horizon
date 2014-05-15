@@ -26,7 +26,7 @@ from openstack_dashboard.dashboards.project import dashboard
 
 
 class Overview(horizon.Panel):
-    name = _("Overview")
+    name = _("Project Overview")
     slug = 'overview'
 
 

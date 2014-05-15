@@ -291,9 +291,11 @@ horizon.datatables.set_table_sorting = function (parent) {
       });
       $table.tablesorter({
         headers: header_options,
+        theme: 'blue',
+        widthFixed: true,
         widgets: ['zebra'],
         selectorHeaders: "thead th[class!='table_header']",
-        cancelSelection: false
+        cancelSelection: true
       });
     }
   });

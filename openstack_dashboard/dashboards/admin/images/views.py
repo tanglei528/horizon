@@ -56,6 +56,7 @@ class IndexView(tables.DataTableView):
         return images
 
 
+
 class CreateView(views.CreateView):
     template_name = 'admin/images/create.html'
     form_class = forms.AdminCreateImageForm
