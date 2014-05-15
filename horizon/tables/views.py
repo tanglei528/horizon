@@ -147,6 +147,8 @@ class MultiTableMixin(object):
         self._tables[name].data = data[table._meta.name]
         self._tables[name]._meta.has_more_data = self.has_more_data(table)
         self._tables[name]._meta.current_page = self.current_page(table)
+        self._tables[name]._meta.has_previous_data = \
+            self.has_previous_data(table)
         handled = self._tables[name].maybe_handle()
         return handled
 
