@@ -924,6 +924,8 @@ class DataTableOptions(object):
 
         self.has_previous_data = False
 
+        self.current_page = 0
+
         # Set mixed data type table attr
         self.mixed_data_type = getattr(options, 'mixed_data_type', False)
         self.data_types = getattr(options, 'data_types', [])
@@ -1520,6 +1522,9 @@ class DataTable(object):
 
     def has_previous_data(self):
         return self._meta.has_previous_data
+
+    def current_page(self):
+        return self._meta.current_page
 
     def get_marker(self):
         """Returns the identifier for the last object in the current data set

@@ -55,22 +55,18 @@ class IndexView(tables.DataTableView):
             exceptions.handle(self.request, msg)
         return images
 
-    def has_previous_data(self, table):
-        marker = self.request.GET.get(
-            project_tables.AdminImagesTable._meta.pagination_param, None)
-        if marker is not None:
-            return True
-        return False
 
 class CreateView(views.CreateView):
     template_name = 'admin/images/create.html'
     form_class = forms.AdminCreateImageForm
     success_url = reverse_lazy('horizon:admin:images:index')
 
+
 class UpdateView(views.UpdateView):
     template_name = 'admin/images/update.html'
     form_class = forms.AdminUpdateImageForm
     success_url = reverse_lazy('horizon:admin:images:index')
+
 
 class DetailView(views.DetailView):
     """Admin placeholder for image detail view."""

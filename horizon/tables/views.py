@@ -114,7 +114,29 @@ class MultiTableMixin(object):
         return False
 
     def has_previous_data(self, table):
+        marker = self.request.GET.get(
+            table._meta.pagination_param, None)
+        if marker is not None:
+            return True
         return False
+
+    def current_page(self, table):
+        marker = self.request.GET.get(
+            table._meta.pagination_param, None)
+        if marker is None:
+            self.request.session["current_page"] = 1
+            self.request.session["pagination_id"] = None
+        else:
+            if self.request.session["pagination_id"] is None:
+                self.request.session["pagination_id"] = [marker, ]
+                self.request.session['current_page'] = self.request.session['current_page'] + 1
+            elif marker in self.request.session["pagination_id"]:
+                self.request.session['current_page'] = self.request.session['current_page'] - 1
+                self.request.session["pagination_id"].pop()
+            else:
+                self.request.session["pagination_id"].append(marker)
+                self.request.session['current_page'] = self.request.session['current_page'] + 1
+        return self.request.session['current_page']
 
     def handle_table(self, table):
         name = table.name
@@ -122,6 +144,7 @@ class MultiTableMixin(object):
         self._tables[name].data = data[table._meta.name]
         self._tables[name]._meta.has_more_data = self.has_more_data(table)
         self._tables[name]._meta.has_previous_data = self.has_previous_data(table)
+        self._tables[name]._meta.current_page = self.current_page(table)
         handled = self._tables[name].maybe_handle()
         return handled
 
