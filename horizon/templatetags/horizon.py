@@ -60,7 +60,7 @@ def horizon_nav(context):
                 elif not callable(panel.nav) and panel.nav:
                     allowed_panels.append(panel)
             if allowed_panels:
-                non_empty_groups.append((group.name, allowed_panels))
+                non_empty_groups.append((group, allowed_panels))
         if callable(dash.nav) and dash.nav(context):
             dashboards.append((dash, SortedDict(non_empty_groups)))
         elif not callable(dash.nav) and dash.nav:

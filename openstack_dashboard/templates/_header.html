@@ -10,6 +10,7 @@
     <ul id="editor_list" class="dropdown-menu">
       <li class='divider'></li>
       <li><a href="{% url 'horizon:settings:user:index' %}">{% trans "Settings" %}</a></li>
+      <li><a href="{% url 'horizon:admin:overview:index' %}">{% trans "Admin" %}</a></li>
       {% if HORIZON_CONFIG.help_url %}
         <li><a href="{{ HORIZON_CONFIG.help_url }}" target="_new">{% trans "Help" %}</a></li>
       {% endif %}
