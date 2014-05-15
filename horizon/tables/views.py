@@ -129,13 +129,16 @@ class MultiTableMixin(object):
         else:
             if self.request.session["pagination_id"] is None:
                 self.request.session["pagination_id"] = [marker, ]
-                self.request.session['current_page'] = self.request.session['current_page'] + 1
+                self.request.session['current_page'] = \
+                    self.request.session['current_page'] + 1
             elif marker in self.request.session["pagination_id"]:
-                self.request.session['current_page'] = self.request.session['current_page'] - 1
+                self.request.session['current_page'] = \
+                    self.request.session['current_page'] - 1
                 self.request.session["pagination_id"].pop()
             else:
                 self.request.session["pagination_id"].append(marker)
-                self.request.session['current_page'] = self.request.session['current_page'] + 1
+                self.request.session['current_page'] = \
+                    self.request.session['current_page'] + 1
         return self.request.session['current_page']
 
     def handle_table(self, table):
