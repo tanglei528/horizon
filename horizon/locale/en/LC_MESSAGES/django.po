@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-12 06:50+0000\n"
+"POT-Creation-Date: 2014-05-19 10:55+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -131,6 +131,10 @@ msgstr ""
 
 #: tables/base.py:1330
 msgid "Please select a row before taking that action."
+msgstr ""
+
+#: templates/_footer.html:2
+msgid "Beijing Venusource Tech. Co., Ltd."
 msgstr ""
 
 #: templates/_header.html:5

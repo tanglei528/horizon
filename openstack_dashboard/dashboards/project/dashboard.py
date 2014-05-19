@@ -64,7 +64,8 @@ class StoragePanels(horizon.PanelGroup):
 
 class SummaryPanels(horizon.PanelGroup):
     slug = "summary"
-    name = _("Summary")
+    # No need to show this group in navigation.
+    #name = _("Summary")
     panels = ('overview',)
 
 

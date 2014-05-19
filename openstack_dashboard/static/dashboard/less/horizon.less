@@ -1,6 +1,12 @@
 @import "../../bootstrap/less/bootstrap.less";
 @import "../../bootstrap/less/datepicker.less";
-@import "accordion_nav.less";
+/*@import "accordion_nav.less";*/
+@import "vs_nav.less";
+
+@tableRowHoverBGColor: #f5f9fc;
+#availability_zones tbody tr td li {
+    list-style: none;
+}
 
 /* new clearfix */
 .clearfix:after {
@@ -39,10 +45,12 @@ dt {
 }
 
 .topbar {
-  background: #f2f2f2;
-  #gradient > .vertical(#FFFFFF, #d8d8d8);
-  border-bottom: 1px solid #cccccc;
+  /*background: #f2f2f2;
+  #gradient > .vertical(#FFFFFF, #d8d8d8);*/
+  background: #2b65a4;
+  border-bottom: 6px solid #eaeff2;
   padding: 10px 0px 15px 0px;
+  height: 25px;
 }
 
 .topbar .switcher_bar {
@@ -54,12 +62,17 @@ dt {
   margin-right: 10px;
   padding: 0;
   background-image: url(/static/dashboard/img/drop_arrow.png);
+/*
   background-color: #eee;
+*/
+  background-color: #1d4e85;
   background-repeat: no-repeat;
+/*
   border: 1px solid #ccc;
   border-bottom-color: #bbb;
   .border-radius(4px);
   .box-shadow(e('inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)'));
+*/
 }
 
 .topbar .switcher_bar a {
@@ -97,25 +110,50 @@ dt {
 #profile_editor_switcher {
   width:auto;
   max-width: 200px;
+  min-width: 62px;
   vertical-align: top;
   white-space: nowrap;
+/*
   background-image: url(/static/dashboard/img/profile_drop.png);
+*/
+  background-image: url(/static/dashboard/img/profile_drop_white.png);
   background-repeat: no-repeat;
   background-position: right center;
 }
 
 #user_info {
+/*
   color: #888;
-  margin: auto 10px;
+*/
+  color: #ccc;
+  margin: auto 25px;
+/*
   padding-bottom: 15px;
   padding-right: 25px;
+*/
+  padding: 5px 10px;
+  background-color: #1d4e85;
+  .border-radius(3px);
 }
 
 #user_info > a {
+/*
   color: #6e6e6e;
   margin-left: 15px;
   line-height: 20px;
+*/
+  color: #ccc;
+  padding-left: 25px;
+  display: inline-block;
+  margin-top: 3px;
+  background-image: url(/static/dashboard/img/exit.png);
+  background-repeat: no-repeat;
+  background-position: left center;
   font-size: 13px !important;
+}
+
+#user_info a.dropdown-toggle div {
+  color: #ccc;
 }
 
 .page-header {
@@ -124,7 +162,6 @@ dt {
   border-bottom: 2px solid #e5e5e5;
   font-family: anivers;
   height: auto;
-  width: 100%;
 }
 
 h2 {
@@ -135,6 +172,7 @@ h2 {
 
 body {
   background-color: #fff;
+  /*background-color: #eaeff2;*/
   min-width: 890px;
 }
 
@@ -195,10 +233,12 @@ body {
 }
 
 .sidebar {
+/*
     background-color: #f9f9f9;
     border-right: 5px solid #e5e5e5;
     border-bottom: 5px solid #e5e5e5;
     .border-radius(0 0 5px 0);
+*/
     float: left;
     min-width: 231px;
 }
@@ -225,10 +265,13 @@ h1.brand a {
     background: url(/static/dashboard/img/logo.png) top left no-repeat;
     display: block;
     float: left;
-    width: 216px;
+    width: 700px;
     height: 35px;
-    text-indent: -9999px;
+    text-indent: 180px;
     margin-left: 16px;
+    color: #eee;
+    text-decoration: none;
+    font-size: 20px;
 }
 
 
@@ -249,69 +292,66 @@ a.current_item:hover h3, a.current_item:hover h4 {
     .border-radius(4px)
 }
 
+.sidebar .context-box {
+    line-height: 38px;
+    margin-left: 6px;
+}
+
 .sidebar .switcher_bar {
-    width: 190px;
-    height: 38px;
-    padding: 5px 0;
-    margin-left: 14px;
-    margin-bottom: 15px;
-}
-
-.sidebar .switcher_bar a.dropdown-toggle {
-  display: block;
-  padding: 5px 0;
-  background-image: url(/static/dashboard/img/drop_arrow.png);
-  border: 1px solid #c0d9e4;
-  background-color: #e9f5fa;
-  background-repeat: no-repeat;
-  background-position: 167px 23px;
-}
-
-.sidebar .switcher_bar a.dropdown-toggle:hover {
-  text-decoration: none;
-  background-color: #cde8f4;
-}
-
-.sidebar .switcher_bar:focus {
-  outline: none;
-}
-
-.sidebar .switcher_bar h3 {
-    color: #4790ae;
-    font-size: 16px;
-    margin: -6px 0 0 14px;
+    display: inline-block;
+    height: auto;
+    width: 102px;
+    background-position: 82px center;
+    margin-bottom: 0;
+    margin-right: 6px;
     padding: 0;
-    overflow: hidden;
-    text-overflow:ellipsis;
-    white-space: nowrap;
-    &:hover {
-      white-space: normal;
-      overflow: visible;
-      text-overflow: none;
-      padding-right: 1em;
-      word-wrap: break-word;
+    background-image: url(/static/dashboard/img/drop_arrow.png);
+    background-color: #eee;
+    background-repeat: no-repeat;
+    border: 1px solid #ccc;
+    border-bottom-color: #bbb;
+    .border-radius(13px);
+    .box-shadow(e('inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)'));
+}
+
+.sidebar div.fill {
+    width: 97%;
+    background-position: 95% center;
+
+    ul {
+        width: 100%;
     }
 }
 
-.sidebar .switcher_bar h4 {
-    color: #6fabc4;
-    font-size: 10px;
-    text-transform: uppercase;
-    font-weight: normal;
-    padding: 0;
+.sidebar .switcher_bar a {
+    margin-left: 0;
+    display: block;
+}
+
+.sidebar .switcher_bar h3 {
+    padding: 2px 10px 1px;
+    font-size: 13px !important;
+    line-height: 20px;
+    color: #6e6e6e;
+    text-decoration: none;
+}
+
+.sidebar .switcher_bar div {
+    padding: 2px 10px 1px;
+    font-size: 11px !important;
+    line-height: 20px;
+    color: #6e6e6e;
+    text-decoration: none;
+    overflow: hidden;
+    padding-right: 32px;
+    text-overflow: ellipsis;
 }
 
 
 .sidebar .switcher_bar ul {
-    border: 1px solid #c0d9e4;
-    margin-left: -1px;
-    width: 190px;
+    min-width: 100px;
+    width: 100px;
 }
-
-.sidebar .switcher_bar li a:hover{
-  background: #92d6f1;
-}
-
 
 #usage {
     margin-bottom: 25px;
@@ -459,7 +499,10 @@ a.current_item:hover h3, a.current_item:hover h4 {
 }
 
 th {
+/*
   background: #f1f1f1;
+*/
+  background: #edf2f5;
 }
 td.anchor {
   padding: 0;
@@ -567,7 +610,7 @@ table form {
 
 .table tfoot tr td {
   border-top: 1px solid #DDD;
-  background-color: #F1F1F1;
+  background-color: #f0f4f6;
   font-size: 11px;
   line-height: 14px;
 }
@@ -884,7 +927,10 @@ div.table_cell_wrapper {
   tr.odd:hover td,
   tr.even:hover td,
   tr:hover th {
+/*
     background-color: #f5f5f5;
+*/
+    background-color: @tableRowHoverBGColor;
   }
 }
 
@@ -2472,4 +2518,19 @@ label.log-length {
 .tablesorter-blue .sorter-false {
 	background-image:none;
 	cursor: auto;
+}
+
+#container {
+  min-height: 575px;
+}
+
+#footer {
+  margin-top: 25px;
+}
+
+#footer > p {
+  text-align: center;
+  background-color: #d5e1e7;
+  margin: 0;
+  padding: 5px 0;
 }

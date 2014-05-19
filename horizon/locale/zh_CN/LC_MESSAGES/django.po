@@ -135,6 +135,10 @@ msgstr "id \"%s\" 没有匹配的返回顶"
 msgid "Please select a row before taking that action."
 msgstr "请在执行前选择一行。"
 
+#: templates/_footer.html:2
+msgid "Beijing Venusource Tech. Co., Ltd."
+msgstr "北京天诚星源信息技术有限公司"
+
 #: templates/_header.html:5
 #, python-format
 msgid "Logged in as: %(username)s"

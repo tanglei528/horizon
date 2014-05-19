@@ -1,0 +1,204 @@
+@accordionBorderColor: #f0f4f6;
+@accordionBackgroundColor: #fefefe;
+.outline(@outline) {
+  outline: @outline;
+  -moz-outline-style: @outline;
+}
+
+.nav_accordion {
+  background-color: @accordionBackgroundColor;
+  color: #6e6e6e;
+  margin: 0;
+  border: 2px solid #d5e1e7;
+  .border-radius(5px 5px 5px 5px);
+
+  dt, dd {
+    padding: 10px 0 10px 0;
+    line-height: 18px;
+
+    h4 {
+      border: 1px solid #BBBBBB;
+      border-right: 0;
+      border-bottom: 0;
+      background-color: @accordionBackgroundColor;
+      background-repeat: no-repeat;
+      background-position: 96% center;
+      background-image: url(/static/dashboard/img/right_droparrow_l2.png);
+
+      padding: 10px 0 10px 10px;
+      line-height: 16px;
+      margin: 0;
+
+      color: #6e6e6e;
+      font-weight: bold;
+      text-rendering: optimizelegibility;
+      max-width: 205px;
+      padding-right: 16px;
+      cursor: pointer;
+
+      div {
+        color: #2b65a4;
+        font-size: 14px;
+        margin: 0 0 0 14px;
+        display: block;
+        font-weight: bold;
+        .outline(none);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 177px;
+      }
+    }
+
+    h4.active {
+      border-bottom: 1px solid #BBBBBB;
+      background-image: url(/static/dashboard/img/drop_arrow_l2.png);
+    }
+
+    a {
+      color: #2b65a4;
+      font-size: 16px;
+      margin: 0 0 0 14px;
+      padding: 0;
+      display: block;
+      font-weight: bold;
+      .outline(none);
+      text-decoration: none;
+    }
+
+    ul {
+      list-style: none outside none;
+      margin: 5px 0;
+    }
+
+    li {
+      a {
+        padding: 5px 10px 5px 40px;
+        display: block;
+        line-height: 18px;
+        margin-left: 4px;
+        font-weight: normal;
+        font-size: 12px;
+        background-image: url(/static/dashboard/img/right_droparrow.png);
+        background-position: 30px center;
+        background-repeat: no-repeat;
+      }
+
+      a.active {
+        color: #070707;
+        background-color: @accordionBorderColor;
+        border-top: 2px solid @accordionBorderColor;
+        border-left: 4px solid #385E8D;
+        border-bottom: 2px solid @accordionBorderColor;
+        margin-left: 0;
+        .border-radius(5px 0 0 5px);
+      }
+
+    }
+  }
+
+  dd {
+    margin-left: 6px;
+    padding: 0;
+    font-size: 12px;
+
+    h4 > div {
+      padding: 2px 0px 1px 20px;
+    }
+
+    div.summary {
+      background-image: url(/static/dashboard/img/summary.png);
+      background-repeat: no-repeat;
+      background-position: 0 center;
+    }
+
+    div.compute {
+      background-image: url(/static/dashboard/img/compute.png);
+      background-repeat: no-repeat;
+      background-position: 0 center;
+    }
+
+    div.storage {
+      background-image: url(/static/dashboard/img/storage.png);
+      background-repeat: no-repeat;
+      background-position: 0 center;
+    }
+
+    div.network {
+      background-image: url(/static/dashboard/img/network.png);
+      background-repeat: no-repeat;
+      background-position: 0 center;
+    }
+
+    div.security {
+      background-image: url(/static/dashboard/img/security.png);
+      background-repeat: no-repeat;
+      background-position: 0 center;
+    }
+
+    div.admin {
+      background-image: url(/static/dashboard/img/summary.png);
+      background-repeat: no-repeat;
+      background-position: 0 center;
+    }
+
+    div.identity {
+      background-image: url(/static/dashboard/img/identity.png);
+      background-repeat: no-repeat;
+      background-position: 0 center;
+    }
+  }
+
+  dt {
+    border-top: 1px solid #BBBBBB;
+    background-color: @accordionBorderColor;
+    background-repeat: no-repeat;
+    background-position: 96% center;
+    background-image: url(/static/dashboard/img/right_droparrow_l1.png);
+    padding-right: 16px;
+    max-width: 215px;
+    cursor: pointer;
+
+    div {
+      color: #5a6e7d;
+      font-size: 16px;
+      margin: 0 0 0 14px;
+      padding: 6px 0 5px 40px;
+      font-weight: bold;
+      .outline(none);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 201px;
+      vertical-align: middle;
+    }
+
+    div.project {
+      background-image: url(/static/dashboard/img/project.png);
+      background-repeat: no-repeat;
+      background-position: 0 center;
+    }
+
+    div.admin {
+      background-image: url(/static/dashboard/img/admin.png);
+      background-repeat: no-repeat;
+      background-position: 0 center;
+    }
+
+    div.settings {
+      background-image: url(/static/dashboard/img/settings.png);
+      background-repeat: no-repeat;
+      background-position: 0 center;
+    }
+  }
+
+  dt.active {
+    background-image: url(/static/dashboard/img/drop_arrow_l1.png);
+  }
+
+  dt:first-child {
+    border-top: 0;
+  }
+
+  dt a {
+    text-decoration: none;
+  }
+}
