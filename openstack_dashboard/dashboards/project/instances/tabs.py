@@ -120,8 +120,25 @@ class ConsoleTab(tabs.Tab):
 
         return {'console_url': console_url, 'instance_id': instance.id}
 
+class CeilometerTab(tabs.Tab):
+    name = _("Ceilometer")
+    slug = "ceilometer"
+    template_name = "project/instances/_detail_ceilometer.html"
+    preload = False
+
+    def get_context_data(self, request):
+        instance = self.tab_group.kwargs['instance']
+#         try:
+#             data = api.ceilometer.meter_list(request, query=None)
+#             print data +"----------------------------------------"
+#         except Exception:
+# #             data = _('Unable to get log for instance "%s".') % instance.id
+#             exceptions.handle(request, ignore=True)
+#         return {"instance": None,
+#                 "console_log": data}
+        return {"instance":instance}
 
 class InstanceDetailTabs(tabs.TabGroup):
     slug = "instance_details"
-    tabs = (OverviewTab, LogTab, ConsoleTab)
+    tabs = (OverviewTab, LogTab, ConsoleTab,CeilometerTab)
     sticky = True
