@@ -1,5 +1,5 @@
 
-horizon.d3_line_chart_testing = {
+horizon.d3_line_chart_ceilometer = {
   /**
    * A class representing the line chart
    * @param chart_module A context of horizon.d3_line_chart module.
@@ -433,6 +433,10 @@ horizon.d3_line_chart_testing = {
       this.charts.add_or_update(chart)
     */
     chart.refresh();
+    setTimeout(function(){inner_fun()},60000);
+    function inner_fun(){
+    	horizon.d3_line_chart_ceilometer.refresh(html_element,settings);
+    }
   },
 
   /**
@@ -530,5 +534,5 @@ horizon.d3_line_chart_testing = {
 
 /* Init the graphs */
 horizon.addInitFunction(function () {
-  horizon.d3_line_chart_testing.init('div[data-chart-type="line_chart"]', {'auto_resize': true});
+  horizon.d3_line_chart_ceilometer.init('div[data-chart-type="line_chart"]', {'auto_resize': true});
 });

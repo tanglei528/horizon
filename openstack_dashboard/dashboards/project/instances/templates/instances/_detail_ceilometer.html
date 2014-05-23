@@ -22,11 +22,37 @@
   <div class="span12">
     <h4>{% trans "cpu" %}</h4>
     <hr class="header_rule" />
-    <div class="info row-fluid detail">
+    <div class="info row-fluid detail" style="background=red">
       <div class="span9 chart_container">
           <div class="chart"
                data-chart-type="line_chart"
                data-url="{% url 'horizon:admin:metering:samples'%}?meter=cpu&group_by=project&date_options=null&resource_id={{ instance.id }}"
+               data-form-selector='#linechart_general_form'
+               data-legend-selector="#legend"
+               data-smoother-selector="#smoother"
+               data-slider-selector="#slider">
+          </div>
+          <div id="slider"></div>
+        </div>
+        <div class="span3 legend_container">
+          <div id="smoother" title="Smoothing"></div>
+          <div id="legend"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>
+<!--
+<div class="info row-fluid detail">
+  <div class="span12">
+    <h4>{% trans "cpu_util" %}</h4>
+    <hr class="header_rule" />
+    <div class="info row-fluid detail">
+      <div class="span9 chart_container">
+          <div class="chart"
+               data-chart-type="line_chart"
+               data-url="{% url 'horizon:admin:metering:samples'%}?meter=cpu_util&group_by=project&date_options=null&resource_id={{ instance.id }}"
                data-form-selector='#linechart_general_form'
                data-legend-selector="#legend"
                data-smoother-selector="#smoother"
@@ -52,6 +78,31 @@
           <div class="chart"
                data-chart-type="line_chart"
                data-url="{% url 'horizon:admin:metering:samples'%}?meter=memory&group_by=project&date_options=null&resource_id={{ instance.id }}"
+               data-form-selector='#linechart_general_form'
+               data-legend-selector="#legend"
+               data-smoother-selector="#smoother"
+               data-slider-selector="#slider">
+          </div>
+          <div id="slider"></div>
+        </div>
+        <div class="span3 legend_container">
+          <div id="smoother" title="Smoothing"></div>
+          <div id="legend"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="info row-fluid detail">
+  <div class="span12">
+    <h4>{% trans "memory.usage" %}</h4>
+    <hr class="header_rule" />
+    <div class="info row-fluid detail">
+      <div class="span9 chart_container">
+          <div class="chart"
+               data-chart-type="line_chart"
+               data-url="{% url 'horizon:admin:metering:samples'%}?meter=memory.usage&group_by=project&date_options=null&resource_id={{ instance.id }}"
                data-form-selector='#linechart_general_form'
                data-legend-selector="#legend"
                data-smoother-selector="#smoother"
@@ -117,10 +168,10 @@
     </div>
   </div>
 </div>
-
+-->
 <script type="text/javascript">
   if (typeof horizon.d3_line_chart !== 'undefined') {
-    horizon.d3_line_chart_testing.init("div[data-chart-type='line_chart']",
+    horizon.d3_line_chart_ceilometer.init("div[data-chart-type='line_chart']",
       {'auto_resize': true});
   }
  </script>
