@@ -1,0 +1,126 @@
+{% load i18n %}
+{% load url from future %}
+
+<!--
+<div id="samples_url" url="{% url "horizon:admin:metering:samples" %}"></div>
+<div id="ceilometer-stats">
+  <form class="form-horizontal"
+        id="linechart_general_form">
+{{ instance.full_flavor.vcpus }}
+    <div class="control-group">
+      <label for="meter" class="control-label">{% trans "Metric" %}:&nbsp;</label>
+      <div class="controls line_chart_time_picker">
+        
+      </div>
+    </div>
+
+  </form>
+</div>
+-->
+
+<div class="info row-fluid detail">
+  <div class="span12">
+    <h4>{% trans "cpu" %}</h4>
+    <hr class="header_rule" />
+    <div class="info row-fluid detail">
+      <div class="span9 chart_container">
+          <div class="chart"
+               data-chart-type="line_chart"
+               data-url="{% url 'horizon:admin:metering:samples'%}?meter=cpu&group_by=project&date_options=null&resource_id={{ instance.id }}"
+               data-form-selector='#linechart_general_form'
+               data-legend-selector="#legend"
+               data-smoother-selector="#smoother"
+               data-slider-selector="#slider">
+          </div>
+          <div id="slider"></div>
+        </div>
+        <div class="span3 legend_container">
+          <div id="smoother" title="Smoothing"></div>
+          <div id="legend"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="info row-fluid detail">
+  <div class="span12">
+    <h4>{% trans "memory" %}</h4>
+    <hr class="header_rule" />
+    <div class="info row-fluid detail">
+      <div class="span9 chart_container">
+          <div class="chart"
+               data-chart-type="line_chart"
+               data-url="{% url 'horizon:admin:metering:samples'%}?meter=memory&group_by=project&date_options=null&resource_id={{ instance.id }}"
+               data-form-selector='#linechart_general_form'
+               data-legend-selector="#legend"
+               data-smoother-selector="#smoother"
+               data-slider-selector="#slider">
+          </div>
+          <div id="slider"></div>
+        </div>
+        <div class="span3 legend_container">
+          <div id="smoother" title="Smoothing"></div>
+          <div id="legend"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="info row-fluid detail">
+  <div class="span12">
+    <h4>{% trans "network.bytes" %}</h4>
+    <hr class="header_rule" />
+    <div class="info row-fluid detail">
+      <div class="span9 chart_container">
+          <div class="chart"
+               data-chart-type="line_chart"
+               data-url="{% url 'horizon:admin:metering:samples'%}?meter=network.ingoing.bytes-network.outgoing.bytes&group_by=project&date_options=null&resource_id={{ instance.id }}"
+               data-form-selector='#linechart_general_form'
+               data-legend-selector="#legend"
+               data-smoother-selector="#smoother"
+               data-slider-selector="#slider">
+          </div>
+          <div id="slider"></div>
+        </div>
+        <div class="span3 legend_container">
+          <div id="smoother" title="Smoothing"></div>
+          <div id="legend"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="info row-fluid detail">
+  <div class="span12">
+    <h4>{% trans "network.packets" %}</h4>
+    <hr class="header_rule" />
+    <div class="info row-fluid detail">
+      <div class="span9 chart_container">
+          <div class="chart"
+               data-chart-type="line_chart"
+               data-url="{% url 'horizon:admin:metering:samples'%}?meter=network.ingoing.packets-network.outgoing.packets&group_by=project&date_options=null&resource_id={{ instance.id }}"
+               data-form-selector='#linechart_general_form'
+               data-legend-selector="#legend"
+               data-smoother-selector="#smoother"
+               data-slider-selector="#slider">
+          </div>
+          <div id="slider"></div>
+        </div>
+        <div class="span3 legend_container">
+          <div id="smoother" title="Smoothing"></div>
+          <div id="legend"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  if (typeof horizon.d3_line_chart !== 'undefined') {
+    horizon.d3_line_chart_testing.init("div[data-chart-type='line_chart']",
+      {'auto_resize': true});
+  }
+ </script>
