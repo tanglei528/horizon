@@ -61,8 +61,6 @@ class SamplesView(TemplateView):
                     value = float(getattr(statistic, stats_name))
                     point['data'].append({'x': date, 'y': value})
                 series.append(point)
-        print "-----------------------------------------------------------"
-        print series
         return series
 
     def get(self, request, *args, **kwargs):

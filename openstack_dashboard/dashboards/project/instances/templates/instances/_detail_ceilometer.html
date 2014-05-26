@@ -17,13 +17,22 @@
   </form>
 </div>
 -->
+<style>
+.meter_image{
+	background-color: #F0F4F6;
+	background-image: url(/static/dashboard/img/drop_arrow_l2.png);
+	background-position: 99% 50%;
+	background-repeat: no-repeat;
+	height:30px;
+}
+</style>
 
 <div class="info row-fluid detail">
   <div class="span12">
-    <h4>{% trans "cpu" %}</h4>
+    <h4 class="meter_image" id="cpu_title_image"><span style="line-height:2.5">{% trans "cpu" %}</span><span style="margin-left:39.5%">{% trans "cpu.util" %}</span><span style="margin-left:50%;cursor:pointer" onClick="showCPU();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
     <hr class="header_rule" />
-    <div class="info row-fluid detail" style="background=red">
-      <div class="span9 chart_container">
+    <div id="cpu_cup_util" class="info row-fluid detail">
+      <div class="span9 chart_container" style="width: 400px;">
           <div class="chart"
                data-chart-type="line_chart"
                data-url="{% url 'horizon:admin:metering:samples'%}?meter=cpu&group_by=project&date_options=null&resource_id={{ instance.id }}"
@@ -34,22 +43,9 @@
           </div>
           <div id="slider"></div>
         </div>
+        <!--
         <div class="span3 legend_container">
-          <div id="smoother" title="Smoothing"></div>
-          <div id="legend"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-</div>
-<!--
-<div class="info row-fluid detail">
-  <div class="span12">
-    <h4>{% trans "cpu_util" %}</h4>
-    <hr class="header_rule" />
-    <div class="info row-fluid detail">
-      <div class="span9 chart_container">
+          <div class="span9 chart_container" style="width: 400px;">
           <div class="chart"
                data-chart-type="line_chart"
                data-url="{% url 'horizon:admin:metering:samples'%}?meter=cpu_util&group_by=project&date_options=null&resource_id={{ instance.id }}"
@@ -60,21 +56,21 @@
           </div>
           <div id="slider"></div>
         </div>
-        <div class="span3 legend_container">
-          <div id="smoother" title="Smoothing"></div>
-          <div id="legend"></div>
+        
+        </div>
+        -->
         </div>
       </div>
     </div>
   </div>
 </div>
-
+<!--
 <div class="info row-fluid detail">
   <div class="span12">
-    <h4>{% trans "memory" %}</h4>
+    <h4 class="meter_image" id="memory_title_image">{% trans "memory" %}<span style="margin-left:37%;line-height:2.5">{% trans "memory.usage" %}</span><span style="margin-left:45%;cursor:pointer" onClick="showMemory();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
     <hr class="header_rule" />
-    <div class="info row-fluid detail">
-      <div class="span9 chart_container">
+    <div id="memory_memory_usage" class="info row-fluid detail">
+      <div class="span9 chart_container" style="width: 400px;">
           <div class="chart"
                data-chart-type="line_chart"
                data-url="{% url 'horizon:admin:metering:samples'%}?meter=memory&group_by=project&date_options=null&resource_id={{ instance.id }}"
@@ -86,20 +82,7 @@
           <div id="slider"></div>
         </div>
         <div class="span3 legend_container">
-          <div id="smoother" title="Smoothing"></div>
-          <div id="legend"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="info row-fluid detail">
-  <div class="span12">
-    <h4>{% trans "memory.usage" %}</h4>
-    <hr class="header_rule" />
-    <div class="info row-fluid detail">
-      <div class="span9 chart_container">
+          <div class="span9 chart_container" style="width: 400px;">
           <div class="chart"
                data-chart-type="line_chart"
                data-url="{% url 'horizon:admin:metering:samples'%}?meter=memory.usage&group_by=project&date_options=null&resource_id={{ instance.id }}"
@@ -110,9 +93,7 @@
           </div>
           <div id="slider"></div>
         </div>
-        <div class="span3 legend_container">
-          <div id="smoother" title="Smoothing"></div>
-          <div id="legend"></div>
+        
         </div>
       </div>
     </div>
@@ -121,9 +102,9 @@
 
 <div class="info row-fluid detail">
   <div class="span12">
-    <h4>{% trans "network.bytes" %}</h4>
+    <h4 class="meter_image" id="network_bytes_image"><span style="line-height:2.5">{% trans "network.bytes" %}</span><span style="margin-left:87.5%;cursor:pointer" onClick="showNetworkBytes();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
     <hr class="header_rule" />
-    <div class="info row-fluid detail">
+    <div id="network_bytes" class="info row-fluid detail">
       <div class="span9 chart_container">
           <div class="chart"
                data-chart-type="line_chart"
@@ -135,10 +116,7 @@
           </div>
           <div id="slider"></div>
         </div>
-        <div class="span3 legend_container">
-          <div id="smoother" title="Smoothing"></div>
-          <div id="legend"></div>
-        </div>
+        
       </div>
     </div>
   </div>
@@ -146,9 +124,10 @@
 
 <div class="info row-fluid detail">
   <div class="span12">
-    <h4>{% trans "network.packets" %}</h4>
+  
+    <h4 class="meter_image" id="network_packets_image"><span style="line-height:2.5">{% trans "network.packets" %}</span><span style="margin-left:86%;cursor:pointer" onClick="showNetworkPackets();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
     <hr class="header_rule" />
-    <div class="info row-fluid detail">
+    <div id="network_packets" class="info row-fluid detail">
       <div class="span9 chart_container">
           <div class="chart"
                data-chart-type="line_chart"
@@ -160,10 +139,7 @@
           </div>
           <div id="slider"></div>
         </div>
-        <div class="span3 legend_container">
-          <div id="smoother" title="Smoothing"></div>
-          <div id="legend"></div>
-        </div>
+       
       </div>
     </div>
   </div>
@@ -173,5 +149,44 @@
   if (typeof horizon.d3_line_chart !== 'undefined') {
     horizon.d3_line_chart_ceilometer.init("div[data-chart-type='line_chart']",
       {'auto_resize': true});
+  }
+  function timing_refresh(){
+    var self = this;
+  	var id = setInterval(function(){inner_fun()},10000);
+    function inner_fun(){
+    	horizon.d3_line_chart_ceilometer.refresh(this,{'auto_resize': true});
+    }
+  }
+  function clear_refresh(id){
+  	setInterval(id);
+  }
+  function showCPU(){
+     var obj = document.getElementById('cpu_cup_util');
+     var bgimage = document.getElementById('cpu_title_image');
+  	 switchImage(obj,bgimage);
+  }
+  function showMemory(){
+     var obj = document.getElementById('memory_memory_usage');
+     var bgimage = document.getElementById('memory_title_image');
+  	 switchImage(obj,bgimage);
+  }
+  function showNetworkBytes(){
+     var obj = document.getElementById('network_bytes');
+     var bgimage = document.getElementById('network_bytes_image');
+  	 switchImage(obj,bgimage);
+  }
+  function showNetworkPackets(){
+     var obj = document.getElementById('network_packets');
+     var bgimage = document.getElementById('network_packets_image');
+  	 switchImage(obj,bgimage);
+  }
+  function switchImage(obj,bgimage){
+  	if(obj.style.display=="none"){
+  		obj.style.display = "block";
+  		bgimage.style.backgroundImage = "url(/static/dashboard/img/drop_arrow_l2.png)";
+  	}else{
+  		obj.style.display = "none";
+  		bgimage.style.backgroundImage = "url(/static/dashboard/img/right_droparrow_l2.png)";
+  	}
   }
  </script>

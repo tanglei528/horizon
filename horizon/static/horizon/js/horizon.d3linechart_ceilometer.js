@@ -147,6 +147,9 @@ horizon.d3_line_chart_ceilometer = {
 
       // Set either the minimal height defined by CSS.
       self.height = jquery_element.height();
+      
+      //alert(self.width);
+      //alert(self.height);
       /*
         Or stretch it to the remaining height of the window if there
         is a place. + some space on the bottom, lets say 30px.
@@ -433,10 +436,8 @@ horizon.d3_line_chart_ceilometer = {
       this.charts.add_or_update(chart)
     */
     chart.refresh();
-    setTimeout(function(){inner_fun()},60000);
-    function inner_fun(){
-    	horizon.d3_line_chart_ceilometer.refresh(html_element,settings);
-    }
+    //setTimeout(function(){inner_fun()},60000);
+    
   },
 
   /**
@@ -533,6 +534,8 @@ horizon.d3_line_chart_ceilometer = {
 };
 
 /* Init the graphs */
+/*
 horizon.addInitFunction(function () {
   horizon.d3_line_chart_ceilometer.init('div[data-chart-type="line_chart"]', {'auto_resize': true});
 });
+*/
