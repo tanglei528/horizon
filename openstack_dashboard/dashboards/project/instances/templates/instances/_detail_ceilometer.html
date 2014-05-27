@@ -26,7 +26,7 @@
 	height:30px;
 }
 </style>
-
+ 
 <div class="info row-fluid detail">
   <div class="span12">
     <h4 class="meter_image" id="cpu_title_image"><span style="line-height:2.5">{% trans "cpu" %}</span><span style="margin-left:39.5%">{% trans "cpu.util" %}</span><span style="margin-left:50%;cursor:pointer" onClick="showCPU();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
@@ -43,7 +43,7 @@
           </div>
           <div id="slider"></div>
         </div>
-        <!--
+        
         <div class="span3 legend_container">
           <div class="span9 chart_container" style="width: 400px;">
           <div class="chart"
@@ -58,7 +58,7 @@
         </div>
         
         </div>
-        -->
+        
         </div>
       </div>
     </div>
@@ -146,47 +146,92 @@
 </div>
 
 <script type="text/javascript">
+<!--
   if (typeof horizon.d3_line_chart !== 'undefined') {
     horizon.d3_line_chart_ceilometer.init("div[data-chart-type='line_chart']",
       {'auto_resize': true});
   }
-  function timing_refresh(){
-    var self = this;
-  	var id = setInterval(function(){inner_fun()},10000);
+  -->
+
+  function timing_refresh(mark){
+    //var self = this_val;
+    //var selector = settings_val;
+  	tid = setInterval(function(){inner_fun()},10000);
+    var current_val = null
     function inner_fun(){
-    	horizon.d3_line_chart_ceilometer.refresh(this,{'auto_resize': true});
+      console.log(1111111111)
+//      console.log(this_vals)
+      if (mark == 1) {
+        inner_run(this_vals[0]);
+        inner_run(this_vals[1]);
+      } else if (mark == 2) {
+        inner_run(this_vals[2]);
+        inner_run(this_vals[3]);
+      } else if (mark == 3) {
+        inner_run(this_vals[4]);
+      } else if (mark == 4) {
+        inner_run(this_vals[5]);
+      }
+    	//horizon.d3_line_chart_ceilometer.
+      //  refresh(this_vals, settings_val)
     }
+    function inner_run(val) {
+      console.log("run tid:" + tid)
+      horizon.d3_line_chart_ceilometer.
+        refresh(val, settings_val)
+    }
+    return tid;
   }
   function clear_refresh(id){
-  	setInterval(id);
+  	clearInterval(id);
   }
   function showCPU(){
+     mark = 1;
      var obj = document.getElementById('cpu_cup_util');
      var bgimage = document.getElementById('cpu_title_image');
-  	 switchImage(obj,bgimage);
+  	 cpu_status = switchImage(obj,bgimage,mark);    
   }
   function showMemory(){
+     mark = 2;
      var obj = document.getElementById('memory_memory_usage');
      var bgimage = document.getElementById('memory_title_image');
-  	 switchImage(obj,bgimage);
+  	 memory_status = switchImage(obj,bgimage,mark);
   }
   function showNetworkBytes(){
+     mark = 3;
      var obj = document.getElementById('network_bytes');
      var bgimage = document.getElementById('network_bytes_image');
-  	 switchImage(obj,bgimage);
+  	 network_bytes_status = switchImage(obj,bgimage,mark);
   }
   function showNetworkPackets(){
+     mark = 4;
      var obj = document.getElementById('network_packets');
      var bgimage = document.getElementById('network_packets_image');
-  	 switchImage(obj,bgimage);
+  	 network_packets = switchImage(obj,bgimage,mark);
   }
-  function switchImage(obj,bgimage){
+  function switchImage(obj,bgimage,mark){
   	if(obj.style.display=="none"){
   		obj.style.display = "block";
   		bgimage.style.backgroundImage = "url(/static/dashboard/img/drop_arrow_l2.png)";
-  	}else{
+      return timing_refresh(mark);
+  	} else {
+      clearInterval(all_refresh_id)
   		obj.style.display = "none";
   		bgimage.style.backgroundImage = "url(/static/dashboard/img/right_droparrow_l2.png)";
+      if (mark == 1) { 
+        tid = cpu_status;
+        clear_refresh(cpu_status);
+      } else if (mark == 2) {
+        tid = memory_status;
+        clear_refresh(memory_status);
+      } else if (mark == 3) {
+        tid = network_bytes_status
+        clear_refresh(network_bytes_status);
+      } else if (mark == 4) {
+        tid = network_packets;
+        clear_refresh(network_packets);
+      }
+      //clear_refresh(tid);
   	}
   }
  </script>
