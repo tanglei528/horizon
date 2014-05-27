@@ -1,12 +1,4 @@
-var this_vals = new Array();
-var serlector_val = null;
-var all_refresh_id = null;
-  var tid = null;
-  var mark = null;
-  var cpu_status = null;
-  var memory_status = null;
-  var network_bytes_status = null;
-  var network_packets = null;
+
 horizon.d3_line_chart_ceilometer = {
   /**
    * A class representing the line chart
@@ -190,7 +182,6 @@ horizon.d3_line_chart_ceilometer = {
      */
     self.refresh = function (){
       var self = this;
-      var jsondata = {};
 	  if(jquery_element.attr('data-display')=='false'){
 	  	return false;
 	  }
@@ -390,18 +381,9 @@ horizon.d3_line_chart_ceilometer = {
    */
   init: function(selector, settings) {
     var self = this;
-    settings_val = settings;
-    //this_vals = $(selector).first()
-    all_refresh_id = setInterval(function(){inner_fun()},20000)
-    function inner_fun() {
-      console.log(111111111)
-      console.log(all_refresh_id)
-      this_vals = new Array();
-      $(selector).each(function() {
-        this_vals.push(this);
+    $(selector).each(function() {
         self.refresh(this, settings);    
       });
-    }
     if (settings !== undefined && settings.auto_resize) {
 
       /*
