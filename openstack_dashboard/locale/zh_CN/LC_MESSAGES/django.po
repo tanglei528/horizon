@@ -5807,7 +5807,7 @@ msgstr "控制台"
 
 #: dashboards/project/instances/tabs.py:124
 msgid "Ceilometer"
-msgstr "事实监控"
+msgstr "实时监控"
 
 #: dashboards/project/instances/tables.py:333
 msgid "View Log"
