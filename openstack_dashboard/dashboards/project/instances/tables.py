@@ -721,38 +721,45 @@ class InstancesTable(tables.DataTable):
     )
     name = tables.Column("name",
                          link=("horizon:project:instances:detail"),
-                         verbose_name=_("Instance Name"))
+                         verbose_name=_("Name"),
+                         attrs={'data-width': '9.0%'})
     image_name = tables.Column("image_name",
-                               verbose_name=_("Image Name"))
+                               verbose_name=_("Image Name"),
+                               attrs={'data-width': '8.0%'})
     ip = tables.Column(get_ips,
                        verbose_name=_("IP Address"),
-                       attrs={'data-type': "ip"})
+                       attrs={'data-type': "ip", 'data-width': '10.0%'})
     size = tables.Column(get_size,
                          verbose_name=_("Size"),
-                         attrs={'data-type': 'size'})
-    keypair = tables.Column(get_keyname, verbose_name=_("Key Pair"))
+                         attrs={'data-type': 'size', 'data-width': '12.0%'})
+    keypair = tables.Column(get_keyname, verbose_name=_("Key Pair"),
+                            attrs={'data-width': '5%'})
     status = tables.Column("status",
                            filters=(title, filters.replace_underscores),
                            verbose_name=_("Status"),
                            status=True,
                            status_choices=STATUS_CHOICES,
-                           display_choices=STATUS_DISPLAY_CHOICES)
+                           display_choices=STATUS_DISPLAY_CHOICES,
+                           attrs={'data-width': '5%'})
     az = tables.Column("availability_zone",
-                       verbose_name=_("Availability Zone"))
+                       verbose_name=_("Availability Zone"),
+                       attrs={'data-width': '8%'})
     task = tables.Column("OS-EXT-STS:task_state",
                          verbose_name=_("Task"),
                          filters=(title, filters.replace_underscores),
                          status=True,
                          status_choices=TASK_STATUS_CHOICES,
-                         display_choices=TASK_DISPLAY_CHOICES)
+                         display_choices=TASK_DISPLAY_CHOICES,
+                         attrs={'data-width': '5%'})
     state = tables.Column(get_power_state,
                           filters=(title, filters.replace_underscores),
-                          verbose_name=_("Power State"))
+                          verbose_name=_("Power State"),
+                          attrs={'data-width': '8%'})
     created = tables.Column("created",
                             verbose_name=_("Uptime"),
                             filters=(filters.parse_isotime,
                                      filters.timesince_sortable),
-                            attrs={'data-type': 'timesince'})
+                            attrs={'data-type': 'timesince', 'data-width': '10%'})
 
     class Meta:
         name = "instances"

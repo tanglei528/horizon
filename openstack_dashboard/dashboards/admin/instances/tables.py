@@ -119,7 +119,8 @@ class AdminInstancesTable(tables.DataTable):
         ("paused", True),
         ("error", False),
     )
-    tenant = tables.Column("tenant_name", verbose_name=_("Project"))
+    tenant = tables.Column("tenant_name", verbose_name=_("Project"),
+                           attrs={'data-width': '5%'})
     # NOTE(gabriel): Commenting out the user column because all we have
     # is an ID, and correlating that at production scale using our current
     # techniques isn't practical. It can be added back in when we have names
@@ -127,40 +128,45 @@ class AdminInstancesTable(tables.DataTable):
     #user = tables.Column("user_id", verbose_name=_("User"))
     host = tables.Column("OS-EXT-SRV-ATTR:host",
                          verbose_name=_("Host"),
-                         classes=('nowrap-col',))
+                         classes=('nowrap-col',),
+                         attrs={'data-width': '8%'})
     name = tables.Column("name",
                          link=("horizon:admin:instances:detail"),
-                         verbose_name=_("Name"))
+                         verbose_name=_("Name"),
+                         attrs={'data-width': '5%'})
     image_name = tables.Column("image_name",
-                               verbose_name=_("Image Name"))
+                               verbose_name=_("Image Name"),
+                               attrs={'data-width': '8%'})
     ip = tables.Column(project_tables.get_ips,
                        verbose_name=_("IP Address"),
-                       attrs={'data-type': "ip"})
+                       attrs={'data-type': "ip", 'data-width': '10%'})
     size = tables.Column(project_tables.get_size,
                          verbose_name=_("Size"),
-                         classes=('nowrap-col',),
-                         attrs={'data-type': 'size'})
+                         attrs={'data-type': 'size', 'data-width': '12%'})
     status = tables.Column("status",
                            filters=(title, filters.replace_underscores),
                            verbose_name=_("Status"),
                            status=True,
                            status_choices=STATUS_CHOICES,
                            display_choices=
-                               project_tables.STATUS_DISPLAY_CHOICES)
+                               project_tables.STATUS_DISPLAY_CHOICES,
+                           attrs={'data-width': '5%'})
     task = tables.Column("OS-EXT-STS:task_state",
                          verbose_name=_("Task"),
                          filters=(title, filters.replace_underscores),
                          status=True,
                          status_choices=TASK_STATUS_CHOICES,
-                         display_choices=project_tables.TASK_DISPLAY_CHOICES)
+                         display_choices=project_tables.TASK_DISPLAY_CHOICES,
+                         attrs={'data-width': '5%'})
     state = tables.Column(project_tables.get_power_state,
                           filters=(title, filters.replace_underscores),
-                          verbose_name=_("Power State"))
+                          verbose_name=_("Power State"),
+                          attrs={'data-width': '8%'})
     created = tables.Column("created",
                             verbose_name=_("Uptime"),
                             filters=(filters.parse_isotime,
                                      filters.timesince_sortable),
-                            attrs={'data-type': 'timesince'})
+                            attrs={'data-type': 'timesince','data-width':'10%'})
 
     class Meta:
         name = "instances"
