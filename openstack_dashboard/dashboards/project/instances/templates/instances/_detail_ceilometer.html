@@ -137,31 +137,6 @@
   </div>
 </div>
 
-<!--
-<div class="info row-fluid detail">
-  <div class="span12">
-  
-    <h4 class="meter_image" id="network_packets_image"><span style="line-height:2.5">{% trans "network.packets" %}</span><span style="margin-left:86%;cursor:pointer" onClick="showNetworkPackets();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
-    <hr class="header_rule" />
-    <div id="network_packets" class="info row-fluid detail">
-    <div style="line-height:2"><div style="margin-left:2%;float:left">cup使用量</div><div style="clear:both"/></div>
-      <div class="span9 chart_container">
-          <div class="chart"
-               data-chart-type="line_chart"
-               data-url="{% url 'horizon:admin:metering:samples'%}?meter=network.ingoing.packets-network.outgoing.packets&group_by=project&date_options=null&resource_id={{ instance.id }}"
-               data-form-selector='#linechart_general_form'
-               data-legend-selector="#legend"
-               data-smoother-selector="#smoother"
-               data-slider-selector="#slider">
-          </div>
-          <div id="slider"></div>
-        </div>
-       
-      </div>
-    </div>
-  </div>
-</div>
--->
 <script type="text/javascript">
   if (typeof horizon.d3_line_chart !== 'undefined') {
     horizon.d3_line_chart_ceilometer.init("div[data-chart-type='line_chart']",
