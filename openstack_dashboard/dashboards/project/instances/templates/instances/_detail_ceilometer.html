@@ -1,22 +1,5 @@
 {% load i18n %}
 {% load url from future %}
-
-<!--
-<div id="samples_url" url="{% url "horizon:admin:metering:samples" %}"></div>
-<div id="ceilometer-stats">
-  <form class="form-horizontal"
-        id="linechart_general_form">
-{{ instance.full_flavor.vcpus }}
-    <div class="control-group">
-      <label for="meter" class="control-label">{% trans "Metric" %}:&nbsp;</label>
-      <div class="controls line_chart_time_picker">
-        
-      </div>
-    </div>
-
-  </form>
-</div>
--->
 <style>
 .meter_image{
 	background-color: #F0F4F6;
@@ -25,13 +8,28 @@
 	background-repeat: no-repeat;
 	height:30px;
 }
+.chart_title_name{
+	line-height:2;
+}
+.chart_title_name_left{
+	margin-left:2%;
+	float:left;
+}
+.chart_title_name_right{
+	margin-right:49.5%;
+	float:right;
+}
+.chart_title_name_clear{
+	clear:both;
+}
 </style>
 
 <div class="info row-fluid detail">
   <div class="span12">
-    <h4 class="meter_image" id="cpu_title_image"><span style="line-height:2.5">{% trans "cpu" %}</span><span style="margin-left:39.5%">{% trans "cpu.util" %}</span><span style="margin-left:50%;cursor:pointer" onClick="showCPU();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
+    <h4 class="meter_image" id="cpu_title_image"><span style="line-height:2.5">{% trans "cpu" %}</span><span style="margin-left:94.5%;cursor:pointer" onClick="horizon.d3_line_chart_ceilometer.showCPU();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
     <hr class="header_rule" />
     <div id="cpu_cup_util" class="info row-fluid detail">
+     <div class="chart_title_name"><div class="chart_title_name_left">{% trans "VM CPU Usage" %}</div><div class="chart_title_name_right">{% trans "VM CPU Usage Rate" %}</div><div class="chart_title_name_clear"/></div>
       <div class="span9 chart_container" style="width: 400px;">
           <div class="chart"
                data-chart-type="line_chart"
@@ -39,11 +37,12 @@
                data-form-selector='#linechart_general_form'
                data-legend-selector="#legend"
                data-smoother-selector="#smoother"
+               data-display="true"
                data-slider-selector="#slider">
           </div>
           <div id="slider"></div>
         </div>
-        <!--
+
         <div class="span3 legend_container">
           <div class="span9 chart_container" style="width: 400px;">
           <div class="chart"
@@ -52,13 +51,14 @@
                data-form-selector='#linechart_general_form'
                data-legend-selector="#legend"
                data-smoother-selector="#smoother"
+               data-display="true"
                data-slider-selector="#slider">
           </div>
           <div id="slider"></div>
         </div>
         
         </div>
-        -->
+
         </div>
       </div>
     </div>
@@ -67,9 +67,10 @@
 
 <div class="info row-fluid detail">
   <div class="span12">
-    <h4 class="meter_image" id="memory_title_image">{% trans "memory" %}<span style="margin-left:37%;line-height:2.5">{% trans "memory.usage" %}</span><span style="margin-left:45%;cursor:pointer" onClick="showMemory();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
+    <h4 class="meter_image" id="memory_title_image"><span style="line-height:2.5">{% trans "memory" %}</span><span style="margin-left:92%;cursor:pointer" onClick="horizon.d3_line_chart_ceilometer.showMemory();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
     <hr class="header_rule" />
     <div id="memory_memory_usage" class="info row-fluid detail">
+      <div class="chart_title_name"><div class="chart_title_name_left">{% trans "VM Memory Usage" %}</div><div class="chart_title_name_right">{% trans "VM Memory Usage Rate" %}</div><div class="chart_title_name_clear"/></div>
       <div class="span9 chart_container" style="width: 400px;">
           <div class="chart"
                data-chart-type="line_chart"
@@ -102,13 +103,27 @@
 
 <div class="info row-fluid detail">
   <div class="span12">
-    <h4 class="meter_image" id="network_bytes_image"><span style="line-height:2.5">{% trans "network.bytes" %}</span><span style="margin-left:87.5%;cursor:pointer" onClick="showNetworkBytes();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
+    <h4 class="meter_image" id="network_bytes_image"><span style="line-height:2.5">{% trans "network" %}</span><span style="margin-left:91.5%;cursor:pointer" onClick="horizon.d3_line_chart_ceilometer.showNetworkBytes();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
     <hr class="header_rule" />
     <div id="network_bytes" class="info row-fluid detail">
-      <div class="span9 chart_container">
+    <div class="chart_title_name"><div class="chart_title_name_left">{% trans "VM Network Outgong and Ingong Bytes" %}</div><div class="chart_title_name_right" style="margin-right:39.5%;">{% trans "VM Network Outgong and Ingong Packets" %}</div><div class="chart_title_name_clear"/></div>
+      <div class="span9 chart_container" style="width: 400px;">
           <div class="chart"
                data-chart-type="line_chart"
                data-url="{% url 'horizon:admin:metering:samples'%}?meter=network.ingoing.bytes-network.outgoing.bytes&group_by=project&date_options=null&resource_id={{ instance.id }}"
+               data-form-selector='#linechart_general_form'
+               data-legend-selector="#legend"
+               data-smoother-selector="#smoother"
+               data-slider-selector="#slider">
+          </div>
+          <div id="slider"></div>
+        </div>
+        
+        <div class="span3 legend_container">
+          <div class="span9 chart_container" style="width: 400px;">
+          <div class="chart"
+               data-chart-type="line_chart"
+               data-url="{% url 'horizon:admin:metering:samples'%}?meter=network.ingoing.packets-network.outgoing.packets&group_by=project&date_options=null&resource_id={{ instance.id }}"
                data-form-selector='#linechart_general_form'
                data-legend-selector="#legend"
                data-smoother-selector="#smoother"
@@ -122,12 +137,14 @@
   </div>
 </div>
 
+<!--
 <div class="info row-fluid detail">
   <div class="span12">
   
     <h4 class="meter_image" id="network_packets_image"><span style="line-height:2.5">{% trans "network.packets" %}</span><span style="margin-left:86%;cursor:pointer" onClick="showNetworkPackets();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
     <hr class="header_rule" />
     <div id="network_packets" class="info row-fluid detail">
+    <div style="line-height:2"><div style="margin-left:2%;float:left">cup使用量</div><div style="clear:both"/></div>
       <div class="span9 chart_container">
           <div class="chart"
                data-chart-type="line_chart"
@@ -144,49 +161,10 @@
     </div>
   </div>
 </div>
-
+-->
 <script type="text/javascript">
   if (typeof horizon.d3_line_chart !== 'undefined') {
     horizon.d3_line_chart_ceilometer.init("div[data-chart-type='line_chart']",
       {'auto_resize': true});
-  }
-  function timing_refresh(){
-    var self = this;
-  	var id = setInterval(function(){inner_fun()},10000);
-    function inner_fun(){
-    	horizon.d3_line_chart_ceilometer.refresh(this,{'auto_resize': true});
-    }
-  }
-  function clear_refresh(id){
-  	setInterval(id);
-  }
-  function showCPU(){
-     var obj = document.getElementById('cpu_cup_util');
-     var bgimage = document.getElementById('cpu_title_image');
-  	 switchImage(obj,bgimage);
-  }
-  function showMemory(){
-     var obj = document.getElementById('memory_memory_usage');
-     var bgimage = document.getElementById('memory_title_image');
-  	 switchImage(obj,bgimage);
-  }
-  function showNetworkBytes(){
-     var obj = document.getElementById('network_bytes');
-     var bgimage = document.getElementById('network_bytes_image');
-  	 switchImage(obj,bgimage);
-  }
-  function showNetworkPackets(){
-     var obj = document.getElementById('network_packets');
-     var bgimage = document.getElementById('network_packets_image');
-  	 switchImage(obj,bgimage);
-  }
-  function switchImage(obj,bgimage){
-  	if(obj.style.display=="none"){
-  		obj.style.display = "block";
-  		bgimage.style.backgroundImage = "url(/static/dashboard/img/drop_arrow_l2.png)";
-  	}else{
-  		obj.style.display = "none";
-  		bgimage.style.backgroundImage = "url(/static/dashboard/img/right_droparrow_l2.png)";
-  	}
   }
  </script>

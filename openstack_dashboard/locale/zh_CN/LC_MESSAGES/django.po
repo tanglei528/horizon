@@ -9817,3 +9817,24 @@ msgstr "磁盘GB小时数"
 #: usage/tables.py:54 usage/tables.py:83
 msgid "Usage"
 msgstr "用量"
+
+#: dashboards/project/instances/templates/instances/_detail_ceilometer.html:49
+msgid "VM CPU Usage"
+msgstr "CPU使用量"
+
+msgid "VM CPU Usage Rate"
+msgstr "CPU使用率"
+
+#: dashboards/project/instances/templates/instances/_detail_ceilometer.html:88
+msgid "VM Memory Usage"
+msgstr "内存使用量"
+
+msgid "VM Memory Usage Rate"
+msgstr "内存使用率"
+
+#: dashboards/project/instances/templates/instances/_detail_ceilometer.html:124
+msgid "VM Network Outgong and Ingong Bytes"
+msgstr "网络发送速率和网络接收速率"
+
+msgid "VM Network Outgong and Ingong Packets"
+msgstr "网络发送包数和网络接收包数"

@@ -9,7 +9,6 @@ horizon.d3_line_chart_ceilometer = {
   LineChart: function(chart_module, html_element, settings){
     var self = this;
     var jquery_element = $(html_element);
-
     self.chart_module = chart_module;
     self.html_element = html_element;
     self.jquery_element = jquery_element;
@@ -184,7 +183,9 @@ horizon.d3_line_chart_ceilometer = {
     self.refresh = function (){
       var self = this;
       var jsondata = {};
-
+	  if(jquery_element.attr('data-display')=='false'){
+	  	return false;
+	  }
       self.start_loading();
       horizon.ajax.queue({
         url: self.final_url,
@@ -194,11 +195,6 @@ horizon.d3_line_chart_ceilometer = {
           $(self.legend_element).html('');
 
           self.series = data.series;
-          //alert(JSON.stringify(self.series));
-          //var arrayData = '[{"data":[{"y":339400000000,"x":"2014-05-21T01:20:27"},{"y":777720000000,"x":"2014-05-21T01:30:26"},{"y":1189190000000,"x":"2014-05-21T01:40:28"},{"y":1564360000000,"x":"2014-05-21T01:50:26"},{"y":1980900000000,"x":"2014-05-21T02:00:26"},{"y":2392800000000,"x":"2014-05-21T02:10:26"},{"y":2798900000000,"x":"2014-05-21T02:20:26"},{"y":3179030000000,"x":"2014-05-21T02:30:26"},{"y":3599250000000,"x":"2014-05-21T02:40:26"},{"y":3960380000000,"x":"2014-05-21T02:50:26"},{"y":4308910000000,"x":"2014-05-21T03:00:26"},{"y":4721660000000,"x":"2014-05-21T03:10:26"},{"y":5131770000000,"x":"2014-05-21T03:20:26"},{"y":5516480000000,"x":"2014-05-21T03:30:33"},{"y":5892820000000,"x":"2014-05-21T03:40:26"},{"y":6326920000000,"x":"2014-05-21T03:50:26"},{"y":6764540000000,"x":"2014-05-21T04:00:26"},{"y":7195780000000,"x":"2014-05-21T04:10:26"},{"y":7638790000000,"x":"2014-05-21T04:20:26"},{"y":8091740000000,"x":"2014-05-21T04:30:26"},{"y":8543600000000,"x":"2014-05-21T04:40:26"},{"y":8975890000000,"x":"2014-05-21T04:50:26"},{"y":9358850000000,"x":"2014-05-21T05:00:26"},{"y":9756140000000,"x":"2014-05-21T05:10:26"},{"y":10105340000000,"x":"2014-05-21T05:20:26"},{"y":10539590000000,"x":"2014-05-21T05:30:26"},{"y":10974870000000,"x":"2014-05-21T05:40:26"},{"y":11397550000000,"x":"2014-05-21T05:50:26"},{"y":11817840000000,"x":"2014-05-21T06:00:26"},{"y":12232660000000,"x":"2014-05-21T06:10:26"},{"y":12654580000000,"x":"2014-05-21T06:20:26"},{"y":13033550000000,"x":"2014-05-21T06:30:26"},{"y":13421490000000,"x":"2014-05-21T06:40:26"},{"y":13858210000000,"x":"2014-05-21T06:50:26"},{"y":14076560000000,"x":"2014-05-21T06:55:32"},{"y":14220482500000,"x":"2014-05-21T07:00:35"},{"y":14375117500000,"x":"2014-05-21T07:04:35"},{"y":14517303333333.334,"x":"2014-05-21T07:07:36"},{"y":14663457500000,"x":"2014-05-21T07:11:35"},{"y":14792916666666.666,"x":"2014-05-21T07:14:36"},{"y":14928785000000,"x":"2014-05-21T07:18:35"},{"y":15096167500000,"x":"2014-05-21T07:22:35"},{"y":15248673333333.334,"x":"2014-05-21T07:25:35"},{"y":15400537500000,"x":"2014-05-21T07:29:35"},{"y":15550343333333.334,"x":"2014-05-21T07:32:35"},{"y":15687712500000,"x":"2014-05-21T07:36:35"},{"y":15846337500000,"x":"2014-05-21T07:40:35"}],"name":"admin","unit":"ns"},{"data":[{"y":339400000000,"x":"2014-05-21T01:20:27"},{"y":777720000000,"x":"2014-05-21T01:30:26"},{"y":1189190000000,"x":"2014-05-21T01:40:28"},{"y":1464360000000,"x":"2014-05-21T01:50:26"},{"y":1880900000000,"x":"2014-05-21T02:00:26"},{"y":1392800000000,"x":"2014-05-21T02:10:26"},{"y":1798900000000,"x":"2014-05-21T02:20:26"},{"y":2179030000000,"x":"2014-05-21T02:30:26"},{"y":2599250000000,"x":"2014-05-21T02:40:26"},{"y":2960380000000,"x":"2014-05-21T02:50:26"},{"y":3308910000000,"x":"2014-05-21T03:00:26"},{"y":3721660000000,"x":"2014-05-21T03:10:26"},{"y":4131770000000,"x":"2014-05-21T03:20:26"},{"y":4516480000000,"x":"2014-05-21T03:30:33"},{"y":4892820000000,"x":"2014-05-21T03:40:26"},{"y":5326920000000,"x":"2014-05-21T03:50:26"},{"y":5764540000000,"x":"2014-05-21T04:00:26"},{"y":6195780000000,"x":"2014-05-21T04:10:26"},{"y":6638790000000,"x":"2014-05-21T04:20:26"},{"y":7091740000000,"x":"2014-05-21T04:30:26"},{"y":7543600000000,"x":"2014-05-21T04:40:26"},{"y":7975890000000,"x":"2014-05-21T04:50:26"},{"y":8358850000000,"x":"2014-05-21T05:00:26"},{"y":8756140000000,"x":"2014-05-21T05:10:26"},{"y":10095340000000,"x":"2014-05-21T05:20:26"},{"y":10439590000000,"x":"2014-05-21T05:30:26"},{"y":10874870000000,"x":"2014-05-21T05:40:26"},{"y":12397550000000,"x":"2014-05-21T05:50:26"},{"y":12817840000000,"x":"2014-05-21T06:00:26"},{"y":13232660000000,"x":"2014-05-21T06:10:26"},{"y":13654580000000,"x":"2014-05-21T06:20:26"},{"y":14033550000000,"x":"2014-05-21T06:30:26"},{"y":14421490000000,"x":"2014-05-21T06:40:26"},{"y":14858210000000,"x":"2014-05-21T06:50:26"},{"y":15076560000000,"x":"2014-05-21T06:55:32"},{"y":15220482500000,"x":"2014-05-21T07:00:35"},{"y":15375117500000,"x":"2014-05-21T07:04:35"},{"y":15517303333333.334,"x":"2014-05-21T07:07:36"},{"y":15663457500000,"x":"2014-05-21T07:11:35"},{"y":15792916666666.666,"x":"2014-05-21T07:14:36"},{"y":15928785000000,"x":"2014-05-21T07:18:35"},{"y":16096167500000,"x":"2014-05-21T07:22:35"},{"y":16248673333333.334,"x":"2014-05-21T07:25:35"},{"y":16400537500000,"x":"2014-05-21T07:29:35"},{"y":16550343333333.334,"x":"2014-05-21T07:32:35"},{"y":16687712500000,"x":"2014-05-21T07:36:35"},{"y":16846337500000,"x":"2014-05-21T07:40:35"}]}]';
-          //alert(JSON.stringify(JSON.parse(arrayData)));
-          //self.series = JSON.parse(arrayData);
-          
           self.stats = data.stats;
           // The highest priority settings are sent with the data.
           self.apply_settings(data.settings);
@@ -418,9 +414,7 @@ horizon.d3_line_chart_ceilometer = {
       };
     }
 
-    self.bind_commands(selector, settings);
   },
-
   /**
    * Function for creating chart objects, saving them for later reuse
    * and calling their refresh method.
@@ -436,103 +430,49 @@ horizon.d3_line_chart_ceilometer = {
       this.charts.add_or_update(chart)
     */
     chart.refresh();
-    //setTimeout(function(){inner_fun()},60000);
-    
+    setInterval(function(){inner_fun()},60000);
+    function inner_fun(){
+    	horizon.d3_line_chart_ceilometer.refresh(html_element,settings);
+    }
   },
-
-  /**
-   * Function for binding controlling commands to the chart. Like changing
-   * timespan or various parameters we want to show in the chart. The
-   * charts will be refreshed immediately after the form element connected
-   * to them is changed.
-   * @param selector JQuery selector of charts we are initializing.
-   * @param settings An object containing settings of the chart.
-   */
-  bind_commands: function (selector, settings){
-    // connecting controls of the charts
-    var select_box_selector = 'select[data-line-chart-command="select_box_change"]';
-    var datepicker_selector = 'input[data-line-chart-command="date_picker_change"]';
-    var self = this;
-
-    /**
-     * Connecting forms to charts it controls. Each chart contains
-     * JQuery selector data-form-selector, which defines by which
-     * html Forms is a particular chart controlled. This information
-     * has to be projected to forms. So when form input is changed,
-     * all connected charts are refreshed.
-     */
-    connect_forms_to_charts = function(){
-      $(selector).each(function() {
-        var chart = $(this);
-        $(chart.data('form-selector')).each(function(){
-          var form = $(this);
-          // each form is building a jquery selector for all charts it affects
-          var chart_identifier = 'div[data-form-selector="' + chart.data('form-selector') + '"]';
-          if (!form.data('charts_selector')){
-            form.data('charts_selector', chart_identifier);
-          } else {
-            form.data('charts_selector', form.data('charts_selector') + ', ' + chart_identifier);
-          }
-        });
-      });
-    };
-
-    /**
-     * A helper function for delegating form events to charts, causing their
-     * refreshing.
-     * @param selector JQuery selector of charts we are initializing.
-     * @param event_name Event name we want to delegate.
-     * @param settings An object containing settings of the chart.
-     */
-    delegate_event_and_refresh_charts = function(selector, event_name, settings) {
-      $('form').delegate(selector, event_name, function() {
-        /*
-          Registering 'any event' on form element by delegating. This way it
-          can be easily overridden / enhanced when some special functionality
-          needs to be added. Like input element showing/hiding another element
-          on some condition will be defined directly on element and can block
-          this default behavior.
-        */
-        var invoker = $(this);
-        var form = invoker.parents('form').first();
-
-        $(form.data('charts_selector')).each(function(){
-          // refresh the chart connected to changed form
-          self.refresh(this, settings);
-        });
-      });
-    };
-
-    /**
-     * A helper function for catching change event of form selectboxes
-     * connected to charts.
-     */
-    bind_select_box_change = function(settings) {
-      delegate_event_and_refresh_charts(select_box_selector, 'change', settings);
-    };
-
-    /**
-     * A helper function for catching changeDate event of form datepickers
-     * connected to charts.
-     */
-    bind_datepicker_change = function(settings) {
-      var now = new Date();
-
-      $(datepicker_selector).each(function() {
-        var el = $(this);
-        el.datepicker({format: 'yyyy-mm-dd',
-          setDate: new Date(),
-          showButtonPanel: true});
-      });
-      delegate_event_and_refresh_charts(datepicker_selector, 'changeDate', settings);
-    };
-
-    connect_forms_to_charts();
-    bind_select_box_change(settings);
-    bind_datepicker_change(settings);
+  showCPU: function(){
+    var cupdiv = $('#cpu_cup_util');
+    var elem = $(cupdiv).find('.chart');
+    var bgimage = $('#cpu_title_image');
+    this.switchImage(cupdiv,bgimage,elem);
+  },
+  
+  showMemory: function(){
+  	var memorydiv = $('#memory_memory_usage');
+    var elem = $(memorydiv).find('.chart');
+    var bgimage = $('#memory_title_image');
+  	this.switchImage(memorydiv,bgimage,elem);
+  },
+  showNetworkBytes: function(){
+  	var networkBytediv = $('#network_bytes');
+    var elem = $(networkBytediv).find('.chart');
+    var bgimage = $('#network_bytes_image');
+  	this.switchImage(networkBytediv,bgimage,elem);
+  },
+  showNetworkPackets: function(){
+  	var networkPacketdiv = $('#network_packets');
+    var elem = $(showNetworkPackets).find('.chart');
+    var bgimage = $('#network_packets_image');
+  	this.switchImage(networkPacketdiv,bgimage,elem);
+  },
+  switchImage: function(obj,bgimage,elem){
+  	if(obj.css('display')=="none"){
+  		obj.css('display','block');
+  		elem.attr('data-display',true);
+  		bgimage.css("background-image","url(/static/dashboard/img/drop_arrow_l2.png)");
+  	}else{
+  		obj.css('display','none');
+  		elem.attr('data-display',false);
+  		bgimage.css("background-image","url(/static/dashboard/img/right_droparrow_l2.png)");
+  	}
   }
 };
-
+  
 /* Init the graphs */
 /*
 horizon.addInitFunction(function () {
