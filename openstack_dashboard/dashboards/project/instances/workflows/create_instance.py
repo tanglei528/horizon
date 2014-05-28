@@ -543,6 +543,7 @@ class CustomizeAction(workflows.Action):
                                                        "executed after the "
                                                        "instance has been "
                                                        "built (max 16kb)."))
+    customization_script.widget.attrs.update({'style': 'height: 160px'})
 
     class Meta:
         name = _("Post-Creation")
