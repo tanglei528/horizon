@@ -1,4 +1,5 @@
-
+var refresh_time = 60000;
+var interval_ids = '';
 horizon.d3_line_chart_ceilometer = {
   /**
    * A class representing the line chart
@@ -428,10 +429,19 @@ horizon.d3_line_chart_ceilometer = {
       this.charts.add_or_update(chart)
     */
     chart.refresh();
-    setInterval(function(){inner_fun()},60000);
+    interval_ids = interval_ids +','+ setInterval(function(){inner_fun()},refresh_time);
     function inner_fun(){
     	horizon.d3_line_chart_ceilometer.refresh(html_element,settings);
     }
+  },
+  switchTime: function(){
+  	var value = $('#stats_attr').val();
+  	refresh_time = value;
+  	var ids = interval_ids.split(',');
+  	for(var i = 1; i < ids.length; i++){
+  		clearInterval(ids[i].toString());
+  	}
+  	horizon.d3_line_chart_ceilometer.init('div[data-chart-type="line_chart"]', {'auto_resize': true});
   },
   showCPU: function(){
     var cupdiv = $('#cpu_cup_util');

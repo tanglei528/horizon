@@ -9838,3 +9838,35 @@ msgstr "网络发送速率和网络接收速率"
 
 msgid "VM Network Outgong and Ingong Packets"
 msgstr "网络发送包数和网络接收包数"
+
+#: dashboards/project/instances/templates/instances/_detail_ceilometer.html:29
+msgid "refresh cycle"
+msgstr "刷新周期"
+
+
+#: dashboards/project/instances/templates/instances/_detail_ceilometer.html:32
+msgid "1 min"
+msgstr "1分钟"
+
+
+#: dashboards/project/instances/templates/instances/_detail_ceilometer.html:33
+msgid "30 sec"
+msgstr "30秒"
+
+
+#: dashboards/project/instances/templates/instances/_detail_ceilometer.html:34
+msgid "5 min"
+msgstr "5分钟"
+
+
+#: dashboards/project/instances/templates/instances/_detail_ceilometer.html:35
+msgid "10 min"
+msgstr "10分钟"
+
+#: dashboards/project/instances/templates/instances/_detail_ceilometer.html:83
+msgid "memory"
+msgstr "内存"
+
+#: dashboards/project/instances/templates/instances/_detail_ceilometer.html:121
+msgid "network"
+msgstr "网络"
