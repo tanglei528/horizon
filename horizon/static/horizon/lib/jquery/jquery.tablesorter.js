@@ -511,8 +511,22 @@
 					var colgroup = $('<colgroup>'),
 						overallWidth = $(table).width();
 					// only add col for visible columns - fixes #371
-					$(table.tBodies[0]).find("tr:first").children("td:visible").each(function() {
-						colgroup.append($('<col>').css('width', parseInt(($(this).width()/overallWidth)*1000, 10)/10 + '%'));
+					//$(table.tBodies[0]).find("tr:first").children("td:visible").each(function() {
+					$(table.tHead).find("tr.tablesorter-headerRow").children("th:visible").each(function() {
+						var data_width = $(this).data('width');
+						var percent = '0%';
+						if ( data_width ) {
+							var index = data_width.indexOf('px');
+							if (index != -1) {
+								percent = parseInt((data_width.substring(0, index)/overallWidth)*100,10)/10 + '%';
+							} else {
+								percent = data_width;
+							}
+						} else {
+							percent = parseInt(($(this).width()/overallWidth)*1000, 10)/10 + '%';
+						}
+						//colgroup.append($('<col>').css('width', parseInt(($(this).width()/overallWidth)*1000, 10)/10 + '%'));
+						colgroup.append($('<col>').css('width', percent));
 					});
 					$(table).prepend(colgroup);
 				}

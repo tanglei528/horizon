@@ -903,6 +903,10 @@ class Meters(object):
                 'label': '',
                 'description': _("Volume of RAM in MB"),
             }),
+            ("memory.usage", {
+                'label': '',
+                'description': _("Volume of RAM in MB"),
+            }),
             ("cpu", {
                 'label': '',
                 'description': _("CPU time used"),

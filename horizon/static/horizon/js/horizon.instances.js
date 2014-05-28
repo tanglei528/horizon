@@ -150,6 +150,28 @@ horizon.instances = {
 };
 
 horizon.addInitFunction(function () {
+  $("#instance_details").children().on("click",function(){
+    var cur_href = $(this).children().attr("href");
+    var cup_group = $('#cpu_cup_util').find('.chart');
+    var memory_group = $('#memory_memory_usage').find('.chart');
+    var network_group = $('#network_bytes').find('.chart');
+    if (cur_href == "?tab=instance_details__overview" || cur_href == "?tab=instance_details__log" || cur_href == "?tab=instance_details__console") {
+      if (cup_group.attr('data-display') != undefined) {
+        cup_group.attr('data-display',false)
+      }
+      if (memory_group.attr('data-display') != undefined) {
+          memory_group.attr('data-display',false)
+      }
+      if (network_group.attr('data-display') != undefined) {
+          network_group.attr('data-display',false)        
+      }
+    }
+    if (cur_href == "?tab=instance_details__ceilometer") {
+      cup_group.attr('data-display',true)
+      memory_group.attr('data-display',true)
+      network_group.attr('data-display',true)
+    }
+  })
   $(document).on('submit', '#tail_length', function (evt) {
     horizon.instances.user_decided_length = true;
     horizon.instances.getConsoleLog(true);

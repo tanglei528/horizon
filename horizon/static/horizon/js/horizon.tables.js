@@ -275,8 +275,9 @@ horizon.datatables.set_table_sorting = function (parent) {
   $(parent).find("table.datatable").each(function () {
     var $table = $(this),
       header_options = {};
-    // Disable if not sortable or has <= 1 item
-    if ($table.find('tbody tr').not('.empty').length > 1){
+    // Disable if not sortable or has < 1 item
+    var items = $table.find('tbody tr').not('.empty').length;
+    if (items > 1){
       $table.find("thead th[class!='table_header']").each(function (i, val) {
         $th = $(this);
         if (!$th.hasClass('sortable')) {
@@ -289,15 +290,20 @@ horizon.datatables.set_table_sorting = function (parent) {
           header_options[i] = {sorter: 'timesinceSorter'};
         }
       });
-      $table.tablesorter({
-        headers: header_options,
-        theme: 'blue',
-        widthFixed: true,
-        widgets: ['zebra'],
-        selectorHeaders: "thead th[class!='table_header']",
-        cancelSelection: true
+    } else {
+      // [xg.song] disable sorter but set widthFixed to true
+      $table.find("thead th[class!='table_header']").each(function (i, val) {
+        header_options[i] = {sorter: false};
       });
     }
+    $table.tablesorter({
+      headers: header_options,
+      theme: 'blue',
+      widthFixed: true,
+      widgets: ['zebra'],
+      selectorHeaders: "thead th[class!='table_header']",
+      cancelSelection: true
+    });
   });
 };
 
