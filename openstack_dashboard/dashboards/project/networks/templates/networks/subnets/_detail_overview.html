@@ -25,7 +25,7 @@
       {% trans " - End" %} {{ pool.end   }}<br>
       {% endfor %}
     </dd>
-    <dt>{% trans "DHCP Enable" %}<dt>
+    <dt>{% trans "DHCP Enable" %}</dt>
     <dd>{{ subnet.enable_dhcp|yesno|capfirst }}</dd>
     <dt>{% trans "Gateway IP" %}</dt>
     <dd>{{ subnet.gateway_ip|default:"-" }}</dd>
