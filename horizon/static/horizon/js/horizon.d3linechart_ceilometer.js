@@ -215,7 +215,9 @@ horizon.d3_line_chart_ceilometer = {
           // bigger.
           $(self.legend_element).css('height', '');
           // FIXME add proper fail message
-          horizon.alert('error', gettext('An error occurred. Please try again later.'));
+          if (jqXHR.status != 0) {
+            horizon.alert('error', gettext('An error occurred. Please try again later.'));
+          }
         },
         complete: function (jqXHR, textStatus) {
           self.finish_loading();
