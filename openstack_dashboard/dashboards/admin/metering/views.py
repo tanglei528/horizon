@@ -75,20 +75,35 @@ class SamplesView(TemplateView):
         date_to = request.GET.get('date_to', None)
         stats_attr = request.GET.get('stats_attr', 'avg')
         group_by = request.GET.get('group_by', None)
-
-        resources, unit = query_data(request,
+        resource_name = 'id' if group_by == "project" else 'resource_id'
+        
+        meter_names = meter_name.split("-");
+        if len(meter_names) > 1:
+            series = []
+            for meter_na in meter_names:
+                resources, unit = query_data(request,
                                      date_from,
                                      date_to,
                                      date_options,
                                      group_by,
-                                     meter)
-        resource_name = 'id' if group_by == "project" else 'resource_id'
-        series = self._series_for_meter(resources,
+                                     meter_na)
+                series = series + self._series_for_meter(resources,
                                         resource_name,
-                                        meter_name,
+                                        meter_na,
                                         stats_attr,
                                         unit)
-
+        else:
+            resources, unit = query_data(request,
+                                         date_from,
+                                         date_to,
+                                         date_options,
+                                         group_by,
+                                         meter)
+            series = self._series_for_meter(resources,
+                                            resource_name,
+                                            meter_name,
+                                            stats_attr,
+                                            unit)
         ret = {}
         ret['series'] = series
         ret['settings'] = {}
@@ -224,6 +239,9 @@ def _calc_date_args(date_from, date_to, date_options):
         except Exception:
             raise ValueError("The dates haven't been "
                              "recognized")
+    elif(date_options == "null"):
+        date_from = datetime.utcnow() - timedelta(hours=8)
+        date_to = datetime.utcnow()
     else:
         try:
             date_from = datetime.now() - timedelta(days=int(date_options))
@@ -255,7 +273,9 @@ def query_data(request,
         additional_query += [{'field': 'timestamp',
                               'op': 'le',
                               'value': date_to}]
-
+    resource_id = request.GET.get('resource_id', None)
+    if resource_id:
+        additional_query += [{'field': 'resource_id','value': resource_id}]
     # TODO(lsmola) replace this by logic implemented in I1 in bugs
     # 1226479 and 1226482, this is just a quick fix for RC1
     try:
