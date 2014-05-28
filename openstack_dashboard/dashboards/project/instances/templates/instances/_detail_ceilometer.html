@@ -77,6 +77,7 @@
                data-form-selector='#linechart_general_form'
                data-legend-selector="#legend"
                data-smoother-selector="#smoother"
+               data-display="true"
                data-slider-selector="#slider">
           </div>
           <div id="slider"></div>
@@ -89,6 +90,7 @@
                data-form-selector='#linechart_general_form'
                data-legend-selector="#legend"
                data-smoother-selector="#smoother"
+               data-display="true"
                data-slider-selector="#slider">
           </div>
           <div id="slider"></div>
@@ -112,6 +114,7 @@
                data-url="{% url 'horizon:admin:metering:samples'%}?meter=network.ingoing.bytes-network.outgoing.bytes&group_by=project&date_options=null&resource_id={{ instance.id }}"
                data-form-selector='#linechart_general_form'
                data-legend-selector="#legend"
+               data-display="true"
                data-smoother-selector="#smoother"
                data-slider-selector="#slider">
           </div>
@@ -125,6 +128,7 @@
                data-url="{% url 'horizon:admin:metering:samples'%}?meter=network.ingoing.packets-network.outgoing.packets&group_by=project&date_options=null&resource_id={{ instance.id }}"
                data-form-selector='#linechart_general_form'
                data-legend-selector="#legend"
+               data-display="true"
                data-smoother-selector="#smoother"
                data-slider-selector="#slider">
           </div>
