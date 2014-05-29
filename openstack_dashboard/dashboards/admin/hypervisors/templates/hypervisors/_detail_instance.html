@@ -1,0 +1,133 @@
+{% load i18n %}
+{% load url from future %}
+
+<div class="control-group">
+  <div class="controls">
+    {% trans "refresh cycle" %}:&nbsp;<select data-line-chart-command="select_box_change" onChange="horizon.d3_line_chart_ceilometer.switchTime();"
+            id="stats_attr" name="stats_attr" class="span2">
+      <option selected="selected" value="60000">{% trans "1 min" %}</option>
+      <option value="30000">{% trans "30 sec" %}</option>
+      <option value="300000">{% trans "5 min" %}</option>
+      <option value="600000">{% trans "10 min" %}</option>
+    </select>
+  </div>
+</div>
+
+<div class="info row-fluid detail">
+  <div class="span12">
+    <h4 class="meter_image" id="cpu_title_image"><span style="line-height:2.5">{% trans "cpu" %}</span><span style="margin-left:94.5%;cursor:pointer" onClick="horizon.d3_line_chart_ceilometer.showCPU();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
+    <hr class="header_rule" />
+    <div id="cpu_cup_util" class="info row-fluid detail">
+     <div class="chart_title_name"><div class="chart_title_name_left">{% trans "VM CPU Usage" %}</div><div class="chart_title_name_right">{% trans "VM CPU Usage Rate" %}</div><div class="chart_title_name_clear"/></div>
+      <div class="span9 chart_container" style="width: 400px;">
+          <div class="chart"
+               data-chart-type="line_chart"
+               data-url="{% url 'horizon:admin:metering:samples'%}?meter=hardware_cpu_load_1min&group_by=project&date_options=null&resource_id={{ instance }}"
+               data-form-selector='#linechart_general_form'
+               data-legend-selector="#legend"
+               data-smoother-selector="#smoother"
+               data-display="true"
+               data-slider-selector="#slider">
+          </div>
+          <div id="slider"></div>
+        </div>
+        <div class="span3 legend_container">
+          <div class="span9 chart_container" style="width: 400px;">
+          <div class="chart"
+               data-chart-type="line_chart"
+               data-url="{% url 'horizon:admin:metering:samples'%}?meter=hardware.cpu.load.5min&group_by=project&date_options=null&resource_id={{ instance }}"
+               data-form-selector='#linechart_general_form'
+               data-legend-selector="#legend"
+               data-smoother-selector="#smoother"
+               data-display="true"
+               data-slider-selector="#slider">
+          </div>
+          <div id="slider"></div>
+        </div>
+        
+        </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="info row-fluid detail">
+  <div class="span12">
+    <h4 class="meter_image" id="memory_title_image"><span style="line-height:2.5">{% trans "memory" %}</span><span style="margin-left:92%;cursor:pointer" onClick="horizon.d3_line_chart_ceilometer.showMemory();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
+    <hr class="header_rule" />
+    <div id="memory_memory_usage" class="info row-fluid detail">
+      <div class="chart_title_name"><div class="chart_title_name_left">{% trans "VM Memory Usage" %}</div><div class="chart_title_name_right">{% trans "VM Memory Usage Rate" %}</div><div class="chart_title_name_clear"/></div>
+      <div class="span9 chart_container" style="width: 400px;">
+          <div class="chart"
+               data-chart-type="line_chart"
+               data-url="{% url 'horizon:admin:metering:samples'%}?meter=hardware.memory.total&group_by=project&date_options=null&resource_id={{ instance }}"
+               data-form-selector='#linechart_general_form'
+               data-legend-selector="#legend"
+               data-smoother-selector="#smoother"
+               data-display="true"
+               data-slider-selector="#slider">
+          </div>
+          <div id="slider"></div>
+        </div>
+        <div class="span3 legend_container">
+          <div class="span9 chart_container" style="width: 400px;">
+          <div class="chart"
+               data-chart-type="line_chart"
+               data-url="{% url 'horizon:admin:metering:samples'%}?meter=hardware.memory.used&group_by=project&date_options=null&resource_id={{ instance }}"
+               data-form-selector='#linechart_general_form'
+               data-legend-selector="#legend"
+               data-smoother-selector="#smoother"
+               data-display="true"
+               data-slider-selector="#slider">
+          </div>
+          <div id="slider"></div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="info row-fluid detail">
+  <div class="span12">
+    <h4 class="meter_image" id="network_bytes_image"><span style="line-height:2.5">{% trans "network" %}</span><span style="margin-left:91.5%;cursor:pointer" onClick="horizon.d3_line_chart_ceilometer.showNetworkBytes();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
+    <hr class="header_rule" />
+    <div id="network_bytes" class="info row-fluid detail">
+    <div class="chart_title_name"><div class="chart_title_name_left">{% trans "VM Network Outgong and Ingong Bytes" %}</div><div class="chart_title_name_right" style="margin-right:39.5%;">{% trans "VM Network Outgong and Ingong Packets" %}</div><div class="chart_title_name_clear"/></div>
+      <div class="span9 chart_container" style="width: 400px;">
+          <div class="chart"
+               data-chart-type="line_chart"
+               data-url="{% url 'horizon:admin:metering:samples'%}?meter=hardware.network.incoming.bytes-hardware.network.outgoing.bytes&group_by=project&date_options=null&resource_id={{ instance }}"
+               data-form-selector='#linechart_general_form'
+               data-legend-selector="#legend"
+               data-display="true"
+               data-smoother-selector="#smoother"
+               data-slider-selector="#slider">
+          </div>
+          <div id="slider"></div>
+        </div>
+        <div class="span3 legend_container">
+          <div class="span9 chart_container" style="width: 400px;">
+          <div class="chart"
+               data-chart-type="line_chart"
+               data-url="{% url 'horizon:admin:metering:samples'%}?meter=hardware.network.incoming.bytes-hardware.network.outgoing.bytes&group_by=project&date_options=null&resource_id={{ instance }}"
+               data-form-selector='#linechart_general_form'
+               data-legend-selector="#legend"
+               data-display="true"
+               data-smoother-selector="#smoother"
+               data-slider-selector="#slider">
+          </div>
+          <div id="slider"></div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  if (typeof horizon.d3_line_chart !== 'undefined') {
+    horizon.d3_line_chart_ceilometer.init("div[data-chart-type='line_chart']",
+      {'auto_resize': true});
+  }
+ </script>
