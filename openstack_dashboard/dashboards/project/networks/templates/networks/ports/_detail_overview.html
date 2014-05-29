@@ -39,7 +39,7 @@
 		<dd class="whole-row"><span><b>{% trans "Device Owner" %}</b>: {{ port.device_owner|default:_("None") }}</span>
     <span><b>{% trans "Device ID" %}</b>: {{ port.device_id|default:"-" }}</span>
     {% else %}
-    <dd>No attached device</dd>
+    <dd>{% trans "No attached device" %}</dd>
     {% endif %}
   </dl>
 </div>
