@@ -101,7 +101,7 @@
       <div class="span9 chart_container" style="width: 400px;">
           <div class="chart"
                data-chart-type="line_chart"
-               data-url="{% url 'horizon:admin:metering:samples'%}?meter=network.incoming.bytes-network.outgoing.bytes&group_by=project&date_options=null&resource_id={{ instance.id }}"
+               data-url="{% url 'horizon:admin:metering:samples'%}?meter=network.incoming.bytes-network.outgoing.bytes&group_by=project&date_options=null"
                data-form-selector='#linechart_general_form'
                data-legend-selector="#legend"
                data-display="true"
@@ -115,7 +115,7 @@
           <div class="span9 chart_container" style="width: 400px;">
           <div class="chart"
                data-chart-type="line_chart"
-               data-url="{% url 'horizon:admin:metering:samples'%}?meter=network.incoming.packets-network.outgoing.packets&group_by=project&date_options=null&resource_id={{ instance.id }}"
+               data-url="{% url 'horizon:admin:metering:samples'%}?meter=network.incoming.packets-network.outgoing.packets&group_by=project&date_options=null"
                data-form-selector='#linechart_general_form'
                data-legend-selector="#legend"
                data-display="true"

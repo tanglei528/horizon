@@ -81,12 +81,13 @@ class SamplesView(TemplateView):
         if len(meter_names) > 1:
             series = []
             for meter_na in meter_names:
+                meter_n = meter_na.replace("_", ".")
                 resources, unit = query_data(request,
                                      date_from,
                                      date_to,
                                      date_options,
                                      group_by,
-                                     meter_na)
+                                     meter_n)
                 series = series + self._series_for_meter(resources,
                                         resource_name,
                                         meter_na,
