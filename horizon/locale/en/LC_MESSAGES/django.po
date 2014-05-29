@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-19 10:55+0800\n"
+"POT-Creation-Date: 2014-05-29 07:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 
 #: base.py:431
 msgid "Other"
@@ -76,7 +76,7 @@ msgctxt "present"
 msgid "%(action)s %(data_type)s"
 msgstr ""
 
-#: tables/actions.py:641 tables/base.py:1410
+#: tables/actions.py:641 tables/base.py:1412
 msgid "N/A"
 msgstr ""
 
@@ -120,16 +120,16 @@ msgstr ""
 msgid "No items to display."
 msgstr ""
 
-#: tables/base.py:998
+#: tables/base.py:1000
 msgid "Actions"
 msgstr ""
 
-#: tables/base.py:1204
+#: tables/base.py:1206
 #, python-format
 msgid "No match returned for the id \"%s\"."
 msgstr ""
 
-#: tables/base.py:1330
+#: tables/base.py:1332
 msgid "Please select a row before taking that action."
 msgstr ""
 
@@ -199,11 +199,19 @@ msgid_plural "Displaying %(counter)s items"
 msgstr[0] ""
 msgstr[1] ""
 
+#: templates/horizon/common/_data_table.html:64
+msgid "page-current"
+msgstr ""
+
 #: templates/horizon/common/_data_table.html:66
+msgid "page-index"
+msgstr ""
+
+#: templates/horizon/common/_data_table.html:68
 msgid "page-previous"
 msgstr ""
 
-#: templates/horizon/common/_data_table.html:72
+#: templates/horizon/common/_data_table.html:74
 msgid "page-next"
 msgstr ""
 
