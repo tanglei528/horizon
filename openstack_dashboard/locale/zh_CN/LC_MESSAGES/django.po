@@ -9886,3 +9886,32 @@ msgstr "否"
 #: openstack_dashboard/dashboards/project/networks/templates/networks/ports/_detail_overview.html
 msgid "No attached device"
 msgstr "未连接设备"
+
+
+#: hypervisor/tabs.py
+msgid "Hypervisor Instances Monitor"
+msgstr "物理机监控"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html
+msgid "CPU Load 1 min"
+msgstr "CPU 每分钟的数据"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html
+msgid "CPU Load 5 min"
+msgstr "CPU 每5分钟的数据"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html
+msgid "Memory Total"
+msgstr "内存总量"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html
+msgid "Memory Used"
+msgstr "内存使用量"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html
+msgid "Network Incoming and Outgoing Bytes"
+msgstr "网络发送速率和网络接收速率"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html
+msgid "Network Bandwidth Bytes"
+msgstr "网络带宽速率"
