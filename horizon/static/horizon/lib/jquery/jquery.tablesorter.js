@@ -496,7 +496,9 @@
 									f.eq(j).addClass(css[list[i][1]]);
 									// add sorted class to footer, if it exists
 									if ($t.length) {
-										$t.filter('[data-column="' + list[i][0] + '"]').eq(j).addClass(css[list[i][1]]);
+										$t.filter('[data-column="' + list[i][0] + '"]')
+										  .filter('[colspan="1"]')
+										  .eq(j).addClass(css[list[i][1]]);
 									}
 								}
 							}
