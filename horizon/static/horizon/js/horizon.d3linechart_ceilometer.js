@@ -196,6 +196,7 @@ horizon.d3_line_chart_ceilometer = {
 
           self.series = data.series;
           self.stats = data.stats;
+	
           // The highest priority settings are sent with the data.
           self.apply_settings(data.settings);
 
@@ -232,9 +233,13 @@ horizon.d3_line_chart_ceilometer = {
     self.render = function(){
       var self = this;
       var last_point = undefined, last_point_color = undefined;
-
+	  var count = 0;
       $.map(self.series, function (serie) {
+      	count ++;
         serie.color = last_point_color = self.color(serie.name);
+        if(count ==2){
+        	serie.color = last_point_color = "#30c020";
+        }
         $.map(serie.data, function (statistic) {
           // need to parse each date
           statistic.x = d3.time.format('%Y-%m-%dT%H:%M:%S').parse(statistic.x);
