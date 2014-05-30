@@ -18,19 +18,25 @@ from django.utils.translation import ugettext_lazy as _
 
 from horizon import exceptions
 from horizon import tables
+from horizon.utils import functions as utils
 from openstack_dashboard import api
 from openstack_dashboard.dashboards.admin.hypervisors \
     import tables as project_tables
 
+from horizon import tabs
+
+from openstack_dashboard.dashboards.admin.hypervisors import constants
+from openstack_dashboard.dashboards.admin.hypervisors import tabs as project_tabs
 
 class AdminIndexView(tables.DataTableView):
     table_class = project_tables.AdminHypervisorsTable
-    template_name = 'admin/hypervisors/index.html'
+    template_name = constants.INSTANCE_TEMPLATE_NAME
 
     def get_data(self):
         hypervisors = []
         try:
             hypervisors = api.nova.hypervisor_list(self.request)
+#             hypervisors.sort(key=utils.natural_sort('hypervisor_hostname'))
         except Exception:
             exceptions.handle(self.request,
                 _('Unable to retrieve hypervisor information.'))
@@ -48,21 +54,6 @@ class AdminIndexView(tables.DataTableView):
         return context
 
 
-class AdminDetailView(tables.DataTableView):
-    table_class = project_tables.AdminHypervisorInstancesTable
-    template_name = 'admin/hypervisors/detail.html'
-
-    def get_data(self):
-        instances = []
-        try:
-            result = api.nova.hypervisor_search(self.request,
-                                                self.kwargs['hypervisor'])
-            for hypervisor in result:
-                try:
-                    instances += hypervisor.servers
-                except AttributeError:
-                    pass
-        except Exception:
-            exceptions.handle(self.request,
-                _('Unable to retrieve hypervisor instances list.'))
-        return instances
+class AdminDetailView(tabs.TabbedTableView):
+    tab_group_class = project_tabs.InstanceInfoTabs
+    template_name = constants.INSTANCE_DETAIL_TEMPLATE_NAME

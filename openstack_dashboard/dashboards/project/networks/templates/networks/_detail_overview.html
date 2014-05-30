@@ -15,14 +15,28 @@
     <dt>{% trans "Admin State" %}</dt>
     <dd>{{ network.admin_state|default:_("Unknown") }}</dd>
     <dt>{% trans "Shared" %}</dt>
-    <dd>{{ network.shared|yesno|capfirst }}</dd>
+    <dd>
+      {% ifequal network.shared|yesno:"true,false" "true" %}
+          {% trans "True"%}
+      {% else %}
+          {% trans "False" %}
+      {% endifequal %}
+    </dd>
     <dt>{% trans "External Network" %}</dt>
-    <dd>{{ network.router__external|yesno|capfirst }}</dd>
+    <dd>
+      {% ifequal network.router__external|yesno:"true,false" "true" %}
+          {% trans "True"%}
+      {% else %}
+          {% trans "False" %}
+      {% endifequal %}
+    </dd>
     {% if network.provider__network_type %}
     <dt>{% trans "Provider Network" %}</dt>
-    <dd>{% trans "Network Type" %}: {{ network.provider__network_type|default:_("Unknown") }}</dd>
-    <dd>{% trans "Physical Network" %}: {{ network.provider__physical_network|default:"-" }}</dd>
-    <dd>{% trans "Segmentation ID" %}: {{ network.provider__segmentation_id|default:"-" }}</dd>
+		<dd>
+			<span>{% trans "Network Type" %}: {{ network.provider__network_type|default:_("Unknown") }}</span>
+			<span>{% trans "Physical Network" %}: {{ network.provider__physical_network|default:"-" }}</span>
+			<span>{% trans "Segmentation ID" %}: {{ network.provider__segmentation_id|default:"-" }}</span>
+	  </dd>
     {% endif %}
   </dl>
 </div>

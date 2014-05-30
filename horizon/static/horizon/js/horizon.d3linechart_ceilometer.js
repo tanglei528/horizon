@@ -1,4 +1,5 @@
-
+var refresh_time = 60000;
+var interval_ids = '';
 horizon.d3_line_chart_ceilometer = {
   /**
    * A class representing the line chart
@@ -195,6 +196,7 @@ horizon.d3_line_chart_ceilometer = {
 
           self.series = data.series;
           self.stats = data.stats;
+	
           // The highest priority settings are sent with the data.
           self.apply_settings(data.settings);
 
@@ -231,9 +233,13 @@ horizon.d3_line_chart_ceilometer = {
     self.render = function(){
       var self = this;
       var last_point = undefined, last_point_color = undefined;
-
+	  var count = 0;
       $.map(self.series, function (serie) {
+      	count ++;
         serie.color = last_point_color = self.color(serie.name);
+        if(count ==2){
+        	serie.color = last_point_color = "#30c020";
+        }
         $.map(serie.data, function (statistic) {
           // need to parse each date
           statistic.x = d3.time.format('%Y-%m-%dT%H:%M:%S').parse(statistic.x);
@@ -430,10 +436,19 @@ horizon.d3_line_chart_ceilometer = {
       this.charts.add_or_update(chart)
     */
     chart.refresh();
-    setInterval(function(){inner_fun()},60000);
+    interval_ids = interval_ids +','+ setInterval(function(){inner_fun()},refresh_time);
     function inner_fun(){
     	horizon.d3_line_chart_ceilometer.refresh(html_element,settings);
     }
+  },
+  switchTime: function(){
+  	var value = $('#stats_attr').val();
+  	refresh_time = value;
+  	var ids = interval_ids.split(',');
+  	for(var i = 1; i < ids.length; i++){
+  		clearInterval(ids[i].toString());
+  	}
+  	horizon.d3_line_chart_ceilometer.init('div[data-chart-type="line_chart"]', {'auto_resize': true});
   },
   showCPU: function(){
     var cupdiv = $('#cpu_cup_util');

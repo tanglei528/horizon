@@ -13,17 +13,16 @@
   </div>
 </div>
 
-
 <div class="info row-fluid detail">
   <div class="span12">
     <h4 class="meter_image" id="cpu_title_image"><span style="line-height:2.5">{% trans "cpu" %}</span><span class="ceil_span_image" onClick="horizon.d3_line_chart_ceilometer.showCPU();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
     <hr class="header_rule" />
     <div id="cpu_cup_util" class="info row-fluid detail">
-     <div class="chart_title_name"><div class="chart_title_name_left">{% trans "VM CPU Usage" %}</div><div class="chart_title_name_right">{% trans "VM CPU Usage Rate" %}</div><div class="chart_title_name_clear"/></div>
+     <div class="chart_title_name"><div class="chart_title_name_left">{% trans "CPU Load 1 min" %}</div><div class="chart_title_name_right">{% trans "CPU Load 5 min" %}</div><div class="chart_title_name_clear"/></div>
       <div class="span9 chart_container" style="width: 400px;">
           <div class="chart"
                data-chart-type="line_chart"
-               data-url="{% url 'horizon:admin:metering:samples'%}?meter=cpu&group_by=project&date_options=null&resource_id={{ instance.id }}"
+               data-url="{% url 'horizon:admin:metering:samples'%}?meter=hardware.cpu.load.1min&date_options=null&resource_id={{ instance }}"
                data-form-selector='#linechart_general_form'
                data-legend-selector="#legend"
                data-smoother-selector="#smoother"
@@ -36,7 +35,7 @@
           <div class="span9 chart_container" style="width: 400px;">
           <div class="chart"
                data-chart-type="line_chart"
-               data-url="{% url 'horizon:admin:metering:samples'%}?meter=cpu_util&group_by=project&date_options=null&resource_id={{ instance.id }}"
+               data-url="{% url 'horizon:admin:metering:samples'%}?meter=hardware.cpu.load.5min&date_options=null&resource_id={{ instance }}"
                data-form-selector='#linechart_general_form'
                data-legend-selector="#legend"
                data-smoother-selector="#smoother"
@@ -53,17 +52,16 @@
     </div>
   </div>
 </div>
-
 <div class="info row-fluid detail">
   <div class="span12">
     <h4 class="meter_image" id="memory_title_image"><span style="line-height:2.5">{% trans "memory" %}</span><span class="ceil_span_image" onClick="horizon.d3_line_chart_ceilometer.showMemory();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
     <hr class="header_rule" />
     <div id="memory_memory_usage" class="info row-fluid detail">
-      <div class="chart_title_name"><div class="chart_title_name_left">{% trans "VM Memory Usage" %}</div><div class="chart_title_name_right">{% trans "VM Memory Usage Rate" %}</div><div class="chart_title_name_clear"/></div>
+      <div class="chart_title_name"><div class="chart_title_name_left">{% trans "Memory Total" %}</div><div class="chart_title_name_right">{% trans "Memory Used" %}</div><div class="chart_title_name_clear"/></div>
       <div class="span9 chart_container" style="width: 400px;">
           <div class="chart"
                data-chart-type="line_chart"
-               data-url="{% url 'horizon:admin:metering:samples'%}?meter=memory&group_by=project&date_options=null&resource_id={{ instance.id }}"
+               data-url="{% url 'horizon:admin:metering:samples'%}?meter=hardware.memory.total&date_options=null&resource_id={{ instance }}"
                data-form-selector='#linechart_general_form'
                data-legend-selector="#legend"
                data-smoother-selector="#smoother"
@@ -76,7 +74,7 @@
           <div class="span9 chart_container" style="width: 400px;">
           <div class="chart"
                data-chart-type="line_chart"
-               data-url="{% url 'horizon:admin:metering:samples'%}?meter=memory.usage&group_by=project&date_options=null&resource_id={{ instance.id }}"
+               data-url="{% url 'horizon:admin:metering:samples'%}?meter=hardware.memory.used&date_options=null&resource_id={{ instance }}"
                data-form-selector='#linechart_general_form'
                data-legend-selector="#legend"
                data-smoother-selector="#smoother"
@@ -85,23 +83,21 @@
           </div>
           <div id="slider"></div>
         </div>
-        
         </div>
       </div>
     </div>
   </div>
 </div>
-
 <div class="info row-fluid detail">
   <div class="span12">
     <h4 class="meter_image" id="network_bytes_image"><span style="line-height:2.5">{% trans "network" %}</span><span class="ceil_span_image" onClick="horizon.d3_line_chart_ceilometer.showNetworkBytes();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
     <hr class="header_rule" />
     <div id="network_bytes" class="info row-fluid detail">
-    <div class="chart_title_name"><div class="chart_title_name_left">{% trans "VM Network Outgong and Ingong Bytes" %}</div><div class="chart_title_name_right" style="margin-right:39.5%;">{% trans "VM Network Outgong and Ingong Packets" %}</div><div class="chart_title_name_clear"/></div>
+    <div class="chart_title_name"><div class="chart_title_name_left">{% trans "Network Incoming and Outgoing Bytes" %}</div><div class="chart_title_name_right" style="margin-right:39.5%;">{% trans "Network Bandwidth Bytes" %}</div><div class="chart_title_name_clear"/></div>
       <div class="span9 chart_container" style="width: 400px;">
           <div class="chart"
                data-chart-type="line_chart"
-               data-url="{% url 'horizon:admin:metering:samples'%}?meter=network.incoming.bytes-network.outgoing.bytes&group_by=project&date_options=null"
+               data-url="{% url 'horizon:admin:metering:samples'%}?meter=hardware.network.incoming.bytes-hardware.network.outgoing.bytes&date_options=null&resource_id={{ instance }}"
                data-form-selector='#linechart_general_form'
                data-legend-selector="#legend"
                data-display="true"
@@ -110,12 +106,11 @@
           </div>
           <div id="slider"></div>
         </div>
-        
         <div class="span3 legend_container">
           <div class="span9 chart_container" style="width: 400px;">
           <div class="chart"
                data-chart-type="line_chart"
-               data-url="{% url 'horizon:admin:metering:samples'%}?meter=network.incoming.packets-network.outgoing.packets&group_by=project&date_options=null"
+               data-url="{% url 'horizon:admin:metering:samples'%}?meter=hardware.network.bandwidth.bytes&date_options=null&resource_id={{ instance }}"
                data-form-selector='#linechart_general_form'
                data-legend-selector="#legend"
                data-display="true"

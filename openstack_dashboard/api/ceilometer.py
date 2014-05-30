@@ -963,7 +963,44 @@ class Meters(object):
                 'label': '',
                 'description': _("Number of outgoing "
                                  "packets for a VM interface"),
+            }),
+
+            ("hardware.cpu.load.1min", {
+                'label': '',
+                'description': _("Number of incoming "
+                                 "packets for a VM interface"),
+            }),
+            ("hardware.cpu.load.5min", {
+                'label': '',
+                'description': _("Number of outgoing "
+                                 "packets for a VM interface"),
+            }),
+            ("hardware.network.bandwidth.bytes", {
+                'label': '',
+                'description': _("Number of incoming "
+                                 "packets for a VM interface"),
+            }),
+            ("hardware.network.incoming.bytes", {
+                'label': '',
+                'description': _("Number of outgoing "
+                                 "packets for a VM interface"),
+            }),
+            ("hardware.network.outgoing.bytes", {
+                'label': '',
+                'description': _("Number of incoming "
+                                 "packets for a VM interface"),
+            }),
+            ("hardware.memory.total", {
+                'label': '',
+                'description': _("Number of outgoing "
+                                 "packets for a VM interface"),
+            }),
+            ("hardware.memory.used", {
+                'label': '',
+                'description': _("Number of outgoing "
+                                 "packets for a VM interface"),
             })
+
         ])
         # Adding flavor based meters into meters_info dict
         # TODO(lsmola) this kind of meter will be probably deprecated

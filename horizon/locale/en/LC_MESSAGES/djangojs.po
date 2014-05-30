@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-12 06:50+0000\n"
+"POT-Creation-Date: 2014-05-29 07:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 
 #: static/horizon/js/horizon.accordion_nav.js:83
 #: static/horizon/js/horizon.modals.js:280
@@ -23,12 +23,26 @@ msgstr ""
 msgid "Loading"
 msgstr ""
 
+#: static/horizon/js/horizon.autoupdate.js:39
+#: static/horizon/js/horizon.tables.js:39
+#: static/horizon/js/horizon.tables.js:256
+msgid "No items to display."
+msgstr ""
+
+#: static/horizon/js/horizon.autoupdate.js:50
+#: static/horizon/js/horizon.tables.js:50
+msgid "An error occurred while updating."
+msgstr ""
+
 #: static/horizon/js/horizon.d3linechart.js:386
 #: static/horizon/js/horizon.d3linechart.js:396
+#: static/horizon/js/horizon.d3linechart_ceilometer.js:203
+#: static/horizon/js/horizon.d3linechart_ceilometer.js:213
 msgid "No data available."
 msgstr ""
 
 #: static/horizon/js/horizon.d3linechart.js:402
+#: static/horizon/js/horizon.d3linechart_ceilometer.js:220
 #: static/horizon/js/horizon.modals.js:299
 #: static/horizon/js/horizon.tables_inline_edit.js:94
 #: static/horizon/js/horizon.tables_inline_edit.js:175
@@ -44,12 +58,12 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: static/horizon/js/horizon.instances.js:232
+#: static/horizon/js/horizon.instances.js:254
 msgid "Could not read the file"
 msgstr ""
 
-#: static/horizon/js/horizon.instances.js:238
-#: static/horizon/js/horizon.instances.js:265
+#: static/horizon/js/horizon.instances.js:260
+#: static/horizon/js/horizon.instances.js:287
 msgid "Could not decrypt the password"
 msgstr ""
 
@@ -117,15 +131,6 @@ msgstr ""
 #: static/horizon/js/horizon.networktopology.js:540
 #, c-format
 msgid "view %s details"
-msgstr ""
-
-#: static/horizon/js/horizon.tables.js:39
-#: static/horizon/js/horizon.tables.js:256
-msgid "No items to display."
-msgstr ""
-
-#: static/horizon/js/horizon.tables.js:50
-msgid "An error occurred while updating."
 msgstr ""
 
 #: static/horizon/js/horizon.tables.js:155

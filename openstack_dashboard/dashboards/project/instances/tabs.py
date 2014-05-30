@@ -128,15 +128,12 @@ class CeilometerTab(tabs.Tab):
 
     def get_context_data(self, request):
         instance = self.tab_group.kwargs['instance']
-#         try:
-#             data = api.ceilometer.meter_list(request, query=None)
-#             print data +"----------------------------------------"
-#         except Exception:
-# #             data = _('Unable to get log for instance "%s".') % instance.id
-#             exceptions.handle(request, ignore=True)
-#         return {"instance": None,
-#                 "console_log": data}
-        return {"instance":instance}
+        print "-----------------------------------------"
+        instance_name = getattr(instance, 'OS-EXT-SRV-ATTR:instance_name', None)+"-"+instance.id
+        print instance_name
+#         inspector.inspect_vnics(instance_name)
+        print "-------------------------------------------"
+        return {"instance":instance,"nw_resource_id":instance_name}
 
 class InstanceDetailTabs(tabs.TabGroup):
     slug = "instance_details"

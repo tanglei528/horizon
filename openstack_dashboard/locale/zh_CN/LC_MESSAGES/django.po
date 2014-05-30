@@ -1556,7 +1556,7 @@ msgstr "组管理："
 #: dashboards/admin/hypervisors/tables.py:65
 #: dashboards/admin/hypervisors/templates/hypervisors/index.html:4
 msgid "Hypervisors"
-msgstr "主机"
+msgstr "物理主机"
 
 #: dashboards/admin/hypervisors/tables.py:26
 msgid "Hostname"
@@ -1702,6 +1702,10 @@ msgstr "镜像"
 #: dashboards/project/instances/workflows/create_instance.py:107
 msgid "Image Name"
 msgstr "镜像名称"
+
+#: dashboards/project/instances/tables.py:50
+msgid "RUNNING"
+msgstr "运行"
 
 #: dashboards/admin/images/views.py:54
 msgid "Unable to retrieve image list."
@@ -5617,12 +5621,12 @@ msgstr "校验和"
 #: dashboards/project/volumes/templates/volumes/snapshots/_detail_overview.html:39
 #: dashboards/project/volumes/templates/volumes/volumes/_detail_overview.html:29
 msgid "Created"
-msgstr "已创建"
+msgstr "创建于"
 
 #: dashboards/project/images/templates/images/images/_detail_overview.html:31
 #: dashboards/project/stacks/tables.py:95
 msgid "Updated"
-msgstr "已更新"
+msgstr "更新于"
 
 #: dashboards/project/images/templates/images/images/_detail_overview.html:35
 msgid "Never updated"
@@ -9838,3 +9842,76 @@ msgstr "网络发送速率和网络接收速率"
 
 msgid "VM Network Outgong and Ingong Packets"
 msgstr "网络发送包数和网络接收包数"
+
+#: dashboards/project/instances/templates/instances/_detail_ceilometer.html:29
+msgid "refresh cycle"
+msgstr "刷新周期"
+
+
+#: dashboards/project/instances/templates/instances/_detail_ceilometer.html:32
+msgid "1 min"
+msgstr "1分钟"
+
+
+#: dashboards/project/instances/templates/instances/_detail_ceilometer.html:33
+msgid "30 sec"
+msgstr "30秒"
+
+
+#: dashboards/project/instances/templates/instances/_detail_ceilometer.html:34
+msgid "5 min"
+msgstr "5分钟"
+
+
+#: dashboards/project/instances/templates/instances/_detail_ceilometer.html:35
+msgid "10 min"
+msgstr "10分钟"
+
+#: dashboards/project/instances/templates/instances/_detail_ceilometer.html:83
+msgid "memory"
+msgstr "内存"
+
+#: dashboards/project/instances/templates/instances/_detail_ceilometer.html:121
+msgid "network"
+msgstr "网络"
+
+#: openstack_dashboard/dashboards/project/networks/templates/networks/subnets/_detail_overview.html
+msgid "True"
+msgstr "是"
+
+#: openstack_dashboard/dashboards/project/networks/templates/networks/subnets/_detail_overview.html
+msgid "False"
+msgstr "否"
+
+#: openstack_dashboard/dashboards/project/networks/templates/networks/ports/_detail_overview.html
+msgid "No attached device"
+msgstr "未连接设备"
+
+
+#: hypervisor/tabs.py
+msgid "Hypervisor Instances Monitor"
+msgstr "物理机监控"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html
+msgid "CPU Load 1 min"
+msgstr "CPU 每分钟的数据"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html
+msgid "CPU Load 5 min"
+msgstr "CPU 每5分钟的数据"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html
+msgid "Memory Total"
+msgstr "内存总量"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html
+msgid "Memory Used"
+msgstr "内存使用量"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html
+msgid "Network Incoming and Outgoing Bytes"
+msgstr "网络发送速率和网络接收速率"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html
+msgid "Network Bandwidth Bytes"
+msgstr "网络带宽速率"
