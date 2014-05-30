@@ -36,7 +36,7 @@ class AdminIndexView(tables.DataTableView):
         hypervisors = []
         try:
             hypervisors = api.nova.hypervisor_list(self.request)
-            hypervisors.sort(key=utils.natural_sort('hypervisor_hostname'))
+#             hypervisors.sort(key=utils.natural_sort('hypervisor_hostname'))
         except Exception:
             exceptions.handle(self.request,
                 _('Unable to retrieve hypervisor information.'))
