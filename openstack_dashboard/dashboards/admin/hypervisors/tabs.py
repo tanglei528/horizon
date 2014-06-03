@@ -61,6 +61,6 @@ class CurrentDetailTab(tabs.Tab):
         return {"instance":instance}
          
 class InstanceInfoTabs(tabs.TabGroup):
-    slug = "instance_info"
+    slug = "instance_details"
     tabs = (InstanceTab,CurrentDetailTab)
     sticky = True
