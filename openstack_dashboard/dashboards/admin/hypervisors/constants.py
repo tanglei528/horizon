@@ -15,5 +15,5 @@
 
 INSTANCE_TEMPLATE_NAME = 'admin/hypervisors/index.html'
 INSTANCE_DETAIL_TEMPLATE_NAME = 'admin/hypervisors/detail.html'
-INSTANCE_DETAIL_MONITOR_TEMPLATE_NAME = 'admin/hypervisors/_detail_instance.html'
+INSTANCE_MONITOR_TEMPLATE_NAME = 'admin/hypervisors/_detail_instance.html'
 INSTANCE_DETAIL_TABLE_TEMPLATE_NAME = 'horizon/common/_detail_table.html'
