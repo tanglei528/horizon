@@ -232,12 +232,30 @@ horizon.d3_line_chart_ceilometer = {
       var self = this;
       var last_point = undefined, last_point_color = undefined;
 	  var count = 0;
+	  
       var ymax = 0;
+      
+      var total = 0;
+      var num = 0;
+      var flag_unit = false;
+      
       $.map(self.series, function (serie) {
       	count ++;
         serie.color = last_point_color = self.color(serie.name);
         if(count ==2){
         	serie.color = last_point_color = "#30c020";
+        } 
+        if(jquery_element.attr('data-unit-conver')=='true'){
+	        $.map(serie.data, function (statistic) {
+	        	num ++;
+	        	total = total + statistic.y;
+	        });
+	        if (total / num > 1024) {
+	        	flag_unit = true;
+	        }
+        }
+        if (flag_unit) {
+        	serie.unit = 'KB';
         }
         $.map(serie.data, function (statistic) {
           // need to parse each date
@@ -245,6 +263,9 @@ horizon.d3_line_chart_ceilometer = {
           statistic.x = statistic.x.getTime() / 1000;
           last_point = statistic;
           last_point.color = serie.color;
+          if (flag_unit) {
+        	  statistic.y = statistic.y / 1024;
+          }
           if (statistic.y > ymax) {
         	  ymax = statistic.y;
           }
