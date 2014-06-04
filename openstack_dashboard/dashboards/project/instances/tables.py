@@ -759,7 +759,8 @@ class InstancesTable(tables.DataTable):
                             verbose_name=_("Uptime"),
                             filters=(filters.parse_isotime,
                                      filters.timesince_sortable),
-                            attrs={'data-type': 'timesince', 'data-width': '10%'})
+                            attrs={'data-type': 'timesince',
+                                    'data-width': '10%'})
 
     class Meta:
         name = "instances"
