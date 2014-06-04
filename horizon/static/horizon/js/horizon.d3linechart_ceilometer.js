@@ -148,8 +148,6 @@ horizon.d3_line_chart_ceilometer = {
       // Set either the minimal height defined by CSS.
       self.height = jquery_element.height();
       
-      //alert(self.width);
-      //alert(self.height);
       /*
         Or stretch it to the remaining height of the window if there
         is a place. + some space on the bottom, lets say 30px.
@@ -232,7 +230,7 @@ horizon.d3_line_chart_ceilometer = {
     self.render = function(){
       var self = this;
       var last_point = undefined, last_point_color = undefined;
-
+      var ymax = 0;
       $.map(self.series, function (serie) {
         serie.color = last_point_color = self.color(serie.name);
         $.map(serie.data, function (statistic) {
@@ -241,7 +239,12 @@ horizon.d3_line_chart_ceilometer = {
           statistic.x = statistic.x.getTime() / 1000;
           last_point = statistic;
           last_point.color = serie.color;
+          if (statistic.y > ymax) {
+        	  ymax = statistic.y;
+          }
         });
+        ymax = ymax * 100 / 70;
+        self.apply_settings({'yMax': ymax});
       });
 
       var renderer = self.settings.renderer;
@@ -256,11 +259,10 @@ horizon.d3_line_chart_ceilometer = {
         height: self.height,
         renderer: renderer,
         series: self.series,
-        yMin: self.settings.yMin,
-        yMax: self.settings.yMax,
+        min: self.settings.yMin,
+        max: self.settings.yMax,
         interpolation: self.settings.interpolation,
       });
-
       /*
         TODO(lsmola) add JQuery UI slider to make this work
         if (self.slider_element) {
