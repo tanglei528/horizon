@@ -196,7 +196,7 @@ horizon.d3_line_chart_ceilometer = {
 
           self.series = data.series;
           self.stats = data.stats;
-	
+
           // The highest priority settings are sent with the data.
           self.apply_settings(data.settings);
 
@@ -436,18 +436,17 @@ horizon.d3_line_chart_ceilometer = {
       this.charts.add_or_update(chart)
     */
     chart.refresh();
-    interval_ids = interval_ids +','+ setInterval(function(){inner_fun()},refresh_time);
+
+    interval_ids = setInterval(function(){inner_fun()},refresh_time);
     function inner_fun(){
     	horizon.d3_line_chart_ceilometer.refresh(html_element,settings);
+      clearInterval(interval_ids);
     }
   },
   switchTime: function(){
   	var value = $('#stats_attr').val();
   	refresh_time = value;
-  	var ids = interval_ids.split(',');
-  	for(var i = 1; i < ids.length; i++){
-  		clearInterval(ids[i].toString());
-  	}
+
   	horizon.d3_line_chart_ceilometer.init('div[data-chart-type="line_chart"]', {'auto_resize': true});
   },
   showCPU: function(){
