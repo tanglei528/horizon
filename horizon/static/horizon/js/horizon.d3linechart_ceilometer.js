@@ -233,11 +233,12 @@ horizon.d3_line_chart_ceilometer = {
       var last_point = undefined, last_point_color = undefined;
 	  var count = 0;
 	  
-      var ymax = 0;
+      var ymax = 0; //The maximum value of y axis
       
-      var total = 0;
-      var num = 0;
-      var flag_unit = false;
+      var total = 0; //total of value of y axis
+      var num = 0; //total of x axis
+      var flag_unit = false; // unit conver flag
+      var n = 0; // conver number
       
       $.map(self.series, function (serie) {
       	count ++;
@@ -250,12 +251,19 @@ horizon.d3_line_chart_ceilometer = {
 	        	num ++;
 	        	total = total + statistic.y;
 	        });
-	        if (total / num > 1024) {
+	        var avg = total / num;
+	        var unit = jquery_element.attr('data-unit');
+	        n = mi(avg, unit, n);
+	        var afterNum = after(serie.unit);
+	        if (n > afterNum) {
+	        	n = afterNum;
+	        }
+	        if (n > 0) {
 	        	flag_unit = true;
 	        }
         }
         if (flag_unit) {
-        	serie.unit = 'KB';
+        	serie.unit = converUnit(serie.unit, n);
         }
         $.map(serie.data, function (statistic) {
           // need to parse each date
@@ -264,7 +272,9 @@ horizon.d3_line_chart_ceilometer = {
           last_point = statistic;
           last_point.color = serie.color;
           if (flag_unit) {
-        	  statistic.y = statistic.y / 1024;
+        	  for (var i=0; i<n; i++) {
+        		  statistic.y = statistic.y / unit;
+        	  }
           }
           if (statistic.y > ymax) {
         	  ymax = statistic.y;
@@ -511,7 +521,95 @@ horizon.d3_line_chart_ceilometer = {
     
   }
 };
-  
+var timeUnit = ['ns','us','ms','s'];
+var bitUnit = ['B','KB','MB','GB','TB','PB','EB','ZB','YB','NB','DB'];
+var packUnit = ['packet','K packet'];
+var proUnit = ['process','K process'];
+/**
+ * the unit when 'unit' convert 'n' times 
+ */
+function converUnit(unit, n) {
+	var unitRes = unit;
+	var tIndex = contains(timeUnit, unit);
+	if (tIndex != 0) {
+		if (tIndex + n < timeUnit.length) {
+			unitRes = timeUnit[tIndex + n];
+		}
+	}
+	var bIndex = contains(bitUnit, unit);
+	if (bIndex != 0) {
+		if (bIndex + n < bitUnit.length) {
+			unitRes = bitUnit[bIndex + n];
+		}
+	}
+	var paIndex = contains(packUnit, unit);
+	if (paIndex != 0) {
+		if (paIndex + n < packUnit.length) {
+			unitRes = packUnit[paIndex + n];
+		}
+	}
+	var prIndex = contains(proUnit, unit);
+	if (prIndex != 0) {
+		if (prIndex + n < prIndex.length) {
+			unitRes = proUnit[prIndex + n];
+		}
+	}
+	return unitRes;
+}
+/**
+ * how many object after 'unit' in array
+ */
+function after(unit) {
+	var n = 0;
+	var tIndex = contains(timeUnit, unit);
+	if (tIndex != 0) {
+		n = timeUnit.length - 1 - tIndex;
+	}
+	var bIndex = contains(bitUnit, unit);
+	if (bIndex != 0) {
+		n = bitUnit.length - 1 - bIndex;
+	}
+	var paIndex = contains(packUnit, unit);
+	if (paIndex != 0) {
+		n = packUnit.length - 1 - paIndex;
+	}
+	var prIndex = contains(proUnit, unit);
+	if (prIndex != 0) {
+		n = proUnit.length - 1 - prIndex;
+	}
+	return n;
+}
+/**
+ * if array containing object, return index
+ * else return 0.
+ */
+function contains(arr, obj) { 
+	var num = 0;
+	for (var i=0 ;i<arr.length;i++) {     
+		if (arr[i] === obj) { 
+			num = i;
+			break;     
+		}   
+	} 
+	return num;
+}
+/**
+ * Recursive function 
+ * for example: 
+ * num 789 unit 1024 n 0 return n 0
+ * num 123456 unit 1000 n 0 return 1
+ * num 12345678 unit 1000 n 0 return 2
+ */
+function mi(num, unit, n) {
+	if (num > unit) {
+			n = n+1;
+	    if (num/unit > unit) {
+	       return mi(num/unit, unit, n);
+	    }
+	} else {
+		return n;
+	}
+}
 /* Init the graphs */
 /*
 horizon.addInitFunction(function () {
