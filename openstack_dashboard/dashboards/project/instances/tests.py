@@ -2706,8 +2706,13 @@ class InstanceTests(test.TestCase):
 
         res = self.client.get(INDEX_URL)
         self.assertTemplateUsed(res, 'project/instances/index.html')
+        table = res.context['instances_table']
         # get first page with 2 items
-        self.assertEqual(len(res.context['instances_table'].data), page_size)
+        self.assertEqual(len(table.data), page_size)
+        # current page number should be 1
+        self.assertEqual(1, table.current_page())
+        # should have more data
+        self.assertTrue(table.has_more_data())
 
         # update INDEX_URL with marker object
         next_page_url = "?".join([reverse('horizon:project:instances:index'),
@@ -2716,8 +2721,15 @@ class InstanceTests(test.TestCase):
         form_action = 'action="%s"' % next_page_url
 
         res = self.client.get(next_page_url)
+        table = res.context['instances_table']
         # get next page with remaining items (item 3)
-        self.assertEqual(len(res.context['instances_table'].data), 1)
+        self.assertEqual(len(table.data), 1)
+        # current page number should be 2
+        self.assertEqual(2, table.current_page())
+        # should have previous page
+        self.assertTrue(table.has_previous_data())
+        # should not have more data
+        self.assertFalse(table.has_more_data())
         # ensure that marker object exists in form action
         self.assertContains(res, form_action, count=1)
 

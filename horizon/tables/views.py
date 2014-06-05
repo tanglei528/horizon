@@ -123,22 +123,24 @@ class MultiTableMixin(object):
     def current_page(self, table):
         marker = self.request.GET.get(
             table._meta.pagination_param, None)
+        current_page = self.request.session.get("current_page", 1)
+        pagination_id = self.request.session.get("pagination_id", None)
         if marker is None:
             self.request.session["current_page"] = 1
             self.request.session["pagination_id"] = None
         else:
-            if self.request.session["pagination_id"] is None:
+            if pagination_id is None:
                 self.request.session["pagination_id"] = [marker, ]
                 self.request.session['current_page'] = \
-                    self.request.session['current_page'] + 1
-            elif marker in self.request.session["pagination_id"]:
+                    current_page + 1
+            elif marker in pagination_id:
                 self.request.session['current_page'] = \
-                    self.request.session['current_page'] - 1
+                    current_page - 1
                 self.request.session["pagination_id"].pop()
             else:
                 self.request.session["pagination_id"].append(marker)
                 self.request.session['current_page'] = \
-                    self.request.session['current_page'] + 1
+                    current_page + 1
         return self.request.session['current_page']
 
     def handle_table(self, table):

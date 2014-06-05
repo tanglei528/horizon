@@ -6,6 +6,12 @@ LOG_MESSAGE="Details in ${LOG_FILE}"
 echo 'Starting packaging...'
 [ -f '$LOG_FILE' ] && rm -f ${LOG_FILE}
 
+echo 'Prepare production local setting'
+if [ -f openstack_dashboard/local/local_settings.py ] ; then
+  mv -f openstack_dashboard/local/local_settings.py openstack_dashboard/local/local_settings.py.backup
+fi
+cp openstack_dashboard/local/local_settings.py.production openstack_dashboard/local/local_settings.py
+
 echo 'Clean old compressed data...'
 [ -d static/dashboard/ ] && rm -rf static/dashboard/
 if [ -d openstack_dashboard/static/dashboard/css ] ; then
@@ -24,13 +30,8 @@ cp -f static/dashboard/manifest.json openstack_dashboard/static/dashboard/manife
 cp -rf static/dashboard/css/ openstack_dashboard/static/dashboard/
 cp -rf static/dashboard/js/ openstack_dashboard/static/dashboard/
 
-echo 'Prepare production local setting'
-if [ -f openstack_dashboard/local/local_settings.py ] ; then
-  mv -f openstack_dashboard/local/local_settings.py openstack_dashboard/local/local_settings.py.backup
-fi
-cp openstack_dashboard/local/local_settings.py.production openstack_dashboard/local/local_settings.py
-
 echo 'Pack horizon...'
+mv -f setup.cfg setup.cfg.bak
 echo 'Prepare setup.cfg'
 cp -f setup-vscloud-horizon.cfg setup.cfg
 echo 'Build rpm package...'
@@ -51,5 +52,10 @@ if [ $? -ne 0 ]; then
 fi
 
 echo 'Pack successfully, rpm packages are in dist/ directory'
+mv -f setup.cfg.bak setup.cfg
 mv -f openstack_dashboard/local/local_settings.py.backup openstack_dashboard/local/local_settings.py
+rm -f openstack_dashboard/static/dashboard/manifest.json
+rm -rf openstack_dashboard/static/dashboard/css
+rm -rf openstack_dashboard/static/dashboard/js
+
 exit 0

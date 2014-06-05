@@ -76,8 +76,8 @@ class SamplesView(TemplateView):
         stats_attr = request.GET.get('stats_attr', 'avg')
         group_by = request.GET.get('group_by', None)
         resource_name = 'id' if group_by == "project" else 'resource_id'
-        
-        meter_names = meter_name.split("-");
+
+        meter_names = meter_name.split("-")
         if len(meter_names) > 1:
             series = []
             for meter_na in meter_names:
@@ -276,7 +276,7 @@ def query_data(request,
                               'value': date_to}]
     resource_id = request.GET.get('resource_id', None)
     if resource_id:
-        additional_query += [{'field': 'resource_id','value': resource_id}]
+        additional_query += [{'field': 'resource_id', 'value': resource_id}]
     # TODO(lsmola) replace this by logic implemented in I1 in bugs
     # 1226479 and 1226482, this is just a quick fix for RC1
     try:
