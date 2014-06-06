@@ -916,6 +916,40 @@ class InstanceTests(test.TestCase):
 
         self.assertRedirectsNoFollow(res, INDEX_URL)
 
+    @test.create_stubs({api.nova: ("server_get",
+                                   "instance_volumes_list",
+                                   "flavor_get"),
+                        api.network: ("server_security_groups",
+                                      "servers_update_addresses")})
+    def test_instance_detail_ceilometer_tab(self):
+        server = self.servers.first()
+        volumes = [self.volumes.list()[1]]
+
+        api.nova.server_get(IsA(http.HttpRequest), server.id).AndReturn(server)
+        api.network.servers_update_addresses(IsA(http.HttpRequest),
+                                             IgnoreArg())
+        api.nova.instance_volumes_list(IsA(http.HttpRequest),
+                                       server.id).AndReturn(volumes)
+        api.nova.flavor_get(IsA(http.HttpRequest), server.flavor['id']) \
+                .AndReturn(self.flavors.first())
+        api.network.server_security_groups(IsA(http.HttpRequest), server.id) \
+                .AndReturn(self.security_groups.first())
+
+        self.mox.ReplayAll()
+
+        url = reverse('horizon:project:instances:detail',
+                      args=[server.id]) + "?tab=instance_details__ceilometer"
+        res = self.client.get(url)
+        self.assertTemplateUsed(res, 'project/instances/detail.html')
+        self.assertTemplateUsed(
+            res,
+            'project/instances/_detail_ceilometer.html'
+        )
+        self.assertEqual(server, res.context['instance'])
+        instance_name = getattr(server, 'OS-EXT-SRV-ATTR:instance_name')
+        new_name = instance_name + '-' + server.id
+        self.assertEqual(new_name, res.context['nw_resource_id'])
+
     @test.create_stubs({api.nova: ('server_get',
                                    'snapshot_create',
                                    'server_list',
