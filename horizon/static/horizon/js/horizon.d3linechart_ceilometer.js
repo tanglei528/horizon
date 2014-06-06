@@ -245,14 +245,14 @@ horizon.d3_line_chart_ceilometer = {
         serie.color = last_point_color = self.color(serie.name);
         if(count ==2){
         	serie.color = last_point_color = "#30c020";
-        } 
+        }
         if(jquery_element.attr('data-unit-conver')=='true'){
 	        $.map(serie.data, function (statistic) {
 	        	num ++;
 	        	total = total + statistic.y;
 	        });
 	        var avg = total / num;
-	        var unit = jquery_element.attr('data-unit');
+	        var unit = getValue(serie.unit);
 	        n = mi(avg, unit, n);
 	        var afterNum = after(serie.unit);
 	        if (n > afterNum) {
@@ -421,10 +421,10 @@ horizon.d3_line_chart_ceilometer = {
    * @param selector JQuery selector of charts we want to initialize.
    * @param settings An object containing settings of the chart.
    */
-  init: function(selector, settings) {
+  init: function(selector, settings, autoRefresh) {
     var self = this;
     $(selector).each(function() {
-        self.refresh(this, settings);    
+        self.refresh(this, settings, autoRefresh);    
       });
     if (settings !== undefined && settings.auto_resize) {
 
@@ -461,7 +461,7 @@ horizon.d3_line_chart_ceilometer = {
    * @param html_element HTML element where the chart will be rendered.
    * @param settings An object containing settings of the chart.
    */
-  refresh: function(html_element, settings){
+  refresh: function(html_element, settings, autoRefresh){
     var chart = new this.LineChart(this, html_element, settings);
     /*
       FIXME save chart objects somewhere so I can use them again when
@@ -470,18 +470,19 @@ horizon.d3_line_chart_ceilometer = {
       this.charts.add_or_update(chart)
     */
     chart.refresh();
-
-    interval_ids = setInterval(function(){inner_fun()},refresh_time);
+    if (autoRefresh) {
+    	interval_ids = setInterval(function(){inner_fun()},refresh_time);
+    }
     function inner_fun(){
     	horizon.d3_line_chart_ceilometer.refresh(html_element,settings);
-      clearInterval(interval_ids);
+        clearInterval(interval_ids);
     }
   },
   switchTime: function(){
   	var value = $('#stats_attr').val();
   	refresh_time = value;
 
-  	horizon.d3_line_chart_ceilometer.init('div[data-chart-type="line_chart"]', {'auto_resize': true});
+  	horizon.d3_line_chart_ceilometer.init('div[data-chart-type="line_chart"]', {'auto_resize': true}, true);
   },
   showCPU: function(){
     var cupdiv = $('#cpu_cup_util');
@@ -529,29 +530,38 @@ var proUnit = ['process','K process'];
  * the unit when 'unit' convert 'n' times 
  */
 function converUnit(unit, n) {
+	n = parseInt(n);
 	var unitRes = unit;
 	var tIndex = contains(timeUnit, unit);
-	if (tIndex != 0) {
+	tIndex = parseInt(tIndex);
+	if (tIndex != -1) {
 		if (tIndex + n < timeUnit.length) {
 			unitRes = timeUnit[tIndex + n];
+			return unitRes;
 		}
 	}
 	var bIndex = contains(bitUnit, unit);
-	if (bIndex != 0) {
+	bIndex = parseInt(bIndex);
+	if (bIndex != -1) {
 		if (bIndex + n < bitUnit.length) {
 			unitRes = bitUnit[bIndex + n];
+			return unitRes;
 		}
 	}
 	var paIndex = contains(packUnit, unit);
-	if (paIndex != 0) {
+	paIndex = parseInt(paIndex);
+	if (paIndex != -1) {
 		if (paIndex + n < packUnit.length) {
 			unitRes = packUnit[paIndex + n];
+			return unitRes;
 		}
 	}
 	var prIndex = contains(proUnit, unit);
-	if (prIndex != 0) {
+	prIndex = parseInt(prIndex);
+	if (prIndex != -1) {
 		if (prIndex + n < prIndex.length) {
 			unitRes = proUnit[prIndex + n];
+			return unitRes;
 		}
 	}
 	return unitRes;
@@ -562,34 +572,38 @@ function converUnit(unit, n) {
 function after(unit) {
 	var n = 0;
 	var tIndex = contains(timeUnit, unit);
-	if (tIndex != 0) {
+	if (tIndex != -1) {
 		n = timeUnit.length - 1 - tIndex;
+		return n;
 	}
 	var bIndex = contains(bitUnit, unit);
-	if (bIndex != 0) {
+	if (bIndex != -1) {
 		n = bitUnit.length - 1 - bIndex;
+		return n;
 	}
 	var paIndex = contains(packUnit, unit);
-	if (paIndex != 0) {
+	if (paIndex != -1) {
 		n = packUnit.length - 1 - paIndex;
+		return n;
 	}
 	var prIndex = contains(proUnit, unit);
-	if (prIndex != 0) {
+	if (prIndex != -1) {
 		n = proUnit.length - 1 - prIndex;
+		return n;
 	}
 	return n;
 }
 /**
  * if array containing object, return index
- * else return 0.
+ * else return -1.
  */
 function contains(arr, obj) { 
-	var num = 0;
-	for (var i=0 ;i<arr.length;i++) {     
-		if (arr[i] === obj) { 
+	var num = -1;
+	for (var i=0 ;i<arr.length;i++) {  
+		if (arr[i] == obj) {
 			num = i;
 			break;     
-		}   
+		} 
 	} 
 	return num;
 }
@@ -601,14 +615,30 @@ function contains(arr, obj) {
  * num 12345678 unit 1000 n 0 return 2
  */
 function mi(num, unit, n) {
+	if (unit == 1) { 
+		return n;
+	}
 	if (num > unit) {
-			n = n+1;
+		n = n+1;
 	    if (num/unit > unit) {
 	       return mi(num/unit, unit, n);
+	    } else {
+	    	return n;
 	    }
 	} else {
 		return n;
 	}
+}
+function getValue(unit) {
+	var val;
+	if (unit == 'ns' || unit == 'packet' || unit == 'process') {
+		val = 1000;
+	} else if (unit == 'B' || unit == 'MB') {
+		val = 1024;
+	} else {
+		val = 1;
+	}
+	return val;
 }
 /* Init the graphs */
 /*

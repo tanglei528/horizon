@@ -75,6 +75,7 @@ class SamplesView(TemplateView):
         date_to = request.GET.get('date_to', None)
         stats_attr = request.GET.get('stats_attr', 'avg')
         group_by = request.GET.get('group_by', None)
+        period = request.GET.get('period', None)
         resource_name = 'id' if group_by == "project" else 'resource_id'
 
         meter_names = meter_name.split("-")
@@ -87,7 +88,8 @@ class SamplesView(TemplateView):
                                      date_to,
                                      date_options,
                                      group_by,
-                                     meter_n)
+                                     meter_n,
+                                     period)
                 series = series + self._series_for_meter(resources,
                                         resource_name,
                                         meter_na,
@@ -99,7 +101,8 @@ class SamplesView(TemplateView):
                                          date_to,
                                          date_options,
                                          group_by,
-                                         meter)
+                                         meter,
+                                         period)
             series = self._series_for_meter(resources,
                                             resource_name,
                                             meter_name,
@@ -259,7 +262,7 @@ def query_data(request,
                date_options,
                group_by,
                meter,
-               period=None):
+               period):
     date_from, date_to = _calc_date_args(date_from,
                                          date_to,
                                          date_options)
