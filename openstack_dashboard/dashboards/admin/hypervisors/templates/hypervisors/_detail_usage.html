@@ -1,0 +1,167 @@
+{% load i18n %}
+{% load url from future %}
+
+<div id="samples_url" url="{% url "horizon:admin:metering:samples" %}"></div>
+<div id="ceilometer-stats">
+  <form class="form-horizontal"
+        id="linechart_general_form">
+    <input id="resource_id" name="resource_id" value="{{ instance }}" type="hidden"/>
+    <div class="control-group">
+      <label for="meter" class="control-label">{% trans "Metric" %}:&nbsp;</label>
+      <div class="controls line_chart_time_picker">
+        <select data-line-chart-command="select_box_change" onChange="horizon.d3_line_chart_ceilometer.switchTime();"
+                name="meter" id="meter" class="span2 example">
+                <option title="{% trans "CPU Load 1 min" %}" value="hardware.cpu.load.1min" data-unit="process">
+                	hardware.cpu.load.1min
+                </option>
+                <option title="{% trans "CPU Load 5 min" %}" value="hardware.cpu.load.5min" data-unit="process">
+                	hardware.cpu.load.5min
+                </option>
+                <option title="{% trans "CPU Load 15 min" %}" value="hardware.cpu.load.15min" data-unit="process">
+                	hardware.cpu.load.15min
+                </option>
+                <option title="{% trans "Memory Used" %}" value="hardware.memory.used" data-unit="B">
+                	hardware.memory.used
+                </option>
+                <option title="{% trans "Memory Total" %}" value="hardware.memory.total" data-unit="B">
+                	hardware.memory.total
+                </option>
+                <option title="{% trans "Network Bandwidth Bytes" %}" value="hardware.network.bandwidth.bytes" data-unit="B">
+                	hardware.network.bandwidth.bytes
+                </option>
+                <option title="{% trans "Network Outgoing Bytes" %}" value="hardware.network.outgoing.bytes" data-unit="B">
+                	hardware.network.outgoing.bytes
+                </option>
+                <option title="{% trans "Network Incoming Bytes" %}" value="hardware.network.incoming.bytes" data-unit="B">
+                	hardware.network.incoming.bytes
+                </option>
+                <option title="{% trans "Harware Disk Size Total" %}" value="hardware.disk.size.total" data-unit="B">
+                	hardware.disk.size.total
+                </option>
+                <option title="{% trans "Harware Disk Size Usage" %}" value="hardware.disk.size.used" data-unit="B">
+                	hardware.disk.size.used
+                </option>
+        </select>
+      </div>
+    </div>
+    <div class="control-group">
+    <label for="date_options" class="control-label">{% trans "Statistics Interval" %}:&nbsp;</label>
+    <div class="controls">
+      <select data-line-chart-command="select_box_change" onChange="horizon.d3_line_chart_ceilometer.switchTime();"
+              id="period" name="period" class="span2">
+        <option value="60" selected="selected">{% trans "1 min" %}</option>
+        <option value="300">{% trans "5 min" %}</option>
+        <option value="600">{% trans "10 min" %}</option>
+        <option value="1800">{% trans "30 min" %}</option>
+        <option value="3600">{% trans "1 hour" %}</option>
+        <option value="86400">{% trans "1 day" %}</option>
+        <option value="604800">{% trans "1 week" %}</option>
+        <option value="2073600">{% trans "1 month" %}</option>
+      </select>
+    </div>
+  </div>
+    <div class="control-group">
+      <label for="stats_attr" class="control-label">{% trans "Statistics Method" %}:&nbsp;</label>
+      <div class="controls">
+        <select data-line-chart-command="select_box_change" onChange="horizon.d3_line_chart_ceilometer.switchTime();"
+                id="stats_attr" name="stats_attr" class="span2">
+
+          <option selected="selected" value="avg">{% trans "Avg." %}</option>
+          <option value="min">{% trans "Min." %}</option>
+          <option value="max">{% trans "Max." %}</option>
+          <option value="sum">{% trans "Sum." %}</option>
+        </select>
+      </div>
+    </div>
+    <div class="control-group">
+      <label for="date_options" class="control-label">{% trans "Statistics Period" %}:&nbsp;</label>
+      <div class="controls">
+        <select data-line-chart-command="select_box_change" onChange="horizon.d3_line_chart_ceilometer.switchTime();"
+                id="date_options" name="date_options" class="span2">
+          <option value="1">{% trans "Last day" %}</option>
+          <option value="7" selected="selected">{% trans "Last week" %}</option>
+          <option value="{% now 'j' %}">{% trans "Month to date" %}</option>
+          <option value="15">{% trans "Last 15 days" %}</option>
+          <option value="30">{% trans "Last 30 days" %}</option>
+          <option value="365">{% trans "Last year" %}</option>
+          <option value="other">{% trans "Other" %}</option>
+        </select>
+      </div>
+    </div>
+    <div class="control-group" id="date_from">
+      <label for="date_from" class="control-label">{% trans "From" %}:&nbsp;</label>
+      <div class="controls">
+        <input data-line-chart-command="date_picker_change"
+               type="text" id="date_from" name="date_from" class="span2 example"/>
+      </div>
+    </div>
+    <div class="control-group" id="date_to">
+      <label for="date_to" class="control-label">{% trans "To" %}:&nbsp;</label>
+      <div class="controls">
+        <input data-line-chart-command="date_picker_change"
+               type="text" name="date_to" class="span2 example"/>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<div class="info row-fluid detail">
+  <div class="span12">
+    <h4>{% trans "Statistics of all resources" %}</h4>
+    <hr class="header_rule" />
+    <div class="info row-fluid detail">
+      <div class="span9 chart_container" style="width: 500px;">
+          <div class="chart"
+               data-chart-type="line_chart"
+               data-url="{% url 'horizon:admin:metering:samples'%}"
+               data-form-selector='#linechart_general_form'
+               data-legend-selector="#legend"
+               data-smoother-selector="#smoother" 
+               data-display="true"
+               data-unit-conver="true"
+               data-slider-selector="#slider">
+          </div>
+          <div id="slider"></div>
+        </div>
+        <div class="span3 legend_container">
+          <div id="smoother" title="Smoothing"></div>
+          <div id="legend"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  if (typeof horizon.d3_line_chart !== 'undefined') {
+    horizon.d3_line_chart_ceilometer.init("div[data-chart-type='line_chart']",
+      {'auto_resize': true}, false);
+  }
+
+  if (typeof $ !== 'undefined') {
+    show_hide_datepickers();
+  } else {
+    addHorizonLoadEvent(function() {
+      show_hide_datepickers();
+    });
+  }
+
+  function show_hide_datepickers() {
+    $("#date_options").change(function(evt) {
+        // Enhancing behaviour of selectbox, on 'other' value selected, I don't
+        // want to refresh, but show hide the date fields
+        if ($(this).find("option:selected").val() == "other"){
+          evt.stopPropagation();
+          $("#date_from .controls input, #date_to .controls input").val('');
+          $("#date_from, #date_to").show();
+        } else {
+          $("#date_from, #date_to").hide();
+        }
+    });
+    if ($("#date_options").find("option:selected").val() == "other"){
+      $("#date_from, #date_to").show();
+    } else {
+      $("#date_from, #date_to").hide();
+    }
+  }
+</script>
