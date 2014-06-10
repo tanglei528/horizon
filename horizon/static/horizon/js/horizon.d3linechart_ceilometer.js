@@ -640,6 +640,29 @@ function getValue(unit) {
 	}
 	return val;
 }
+function csv() {
+	var resource_id = $("#resource_id").val();
+	var meter =  $("#meter").find("option:selected").val();
+	var period = $("#period").find("option:selected").val();
+	var stats_attr = $("#stats_attr").find("option:selected").val();
+	var date_options = $("#date_options").find("option:selected").val();
+
+	var url = "csv?format=csv";
+	url += "&resource_id=" + resource_id;
+	url += "&meter=" + meter;
+	url += "&period=" + period;
+	url += "&stats_attr=" + stats_attr;
+	if ($("#date_options").find("option:selected").val() == "other"){
+		var date_from = $("#date_from").val();
+		var date_to = $("#date_to").val();
+		url += "&date_options=" + date_options;
+		url += "&date_from=" + date_from;
+		url += "&date_to=" + date_to;
+   } else {
+	   url += "&date_options=" + date_options;
+   } 
+	window.location.href = window.location + url;
+}
 /* Init the graphs */
 /*
 horizon.addInitFunction(function () {
