@@ -231,7 +231,6 @@ horizon.d3_line_chart_ceilometer = {
           	}
           }
           self.series = data.series;
-          alert(JSON.stringify(data.series));
           self.stats = data.stats;
 
           // The highest priority settings are sent with the data.
