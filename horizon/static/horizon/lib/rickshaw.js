@@ -1557,7 +1557,7 @@ Rickshaw.Graph.Axis.Y = Rickshaw.Class.create( {
 
         this.graph = args.graph;
         this.orientation = args.orientation || 'right';
-
+		this.lable = args.lable;
         this.pixelsPerTick = args.pixelsPerTick || 75;
         if (args.ticks) this.staticTicks = args.ticks;
         if (args.tickValues) this.tickValues = args.tickValues;
@@ -1650,9 +1650,13 @@ Rickshaw.Graph.Axis.Y = Rickshaw.Class.create( {
             .append("svg:g")
             .attr("class", ["y_ticks", this.ticksTreatment].join(" "))
             .attr("transform", transform)
-            .call(axis.ticks(this.ticks).tickSubdivide(0).tickSize(this.tickSize));
-
-        return axis;
+            .call(axis.ticks(this.ticks).tickSubdivide(0).tickSize(this.tickSize)).append("text")
+      		.attr("transform", "rotate(0)")
+      		.attr("x", 10)
+	  		.attr("y", 20)
+      		.style("text-anchor", "inherit")
+      		.text(this.lable);
+       return axis;
     },
 
     _drawGrid: function(axis) {

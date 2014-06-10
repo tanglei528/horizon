@@ -9915,3 +9915,11 @@ msgstr "网络发送速率和网络接收速率"
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html
 msgid "Network Bandwidth Bytes"
 msgstr "网络带宽速率"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html 74
+msgid "Network Bandwidth"
+msgstr "网络带宽速率"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html 89
+msgid "Network Packege(Units/Amount)"
+msgstr "网络数据包（单位/个数）"

@@ -214,7 +214,7 @@ def _calc_period(date_from, date_to):
     return period
 
 
-def _calc_date_args(date_from, date_to, date_options):
+def _calc_date_args(date_from, date_to, date_options,interval_time):
     # TODO(lsmola) all timestamps should probably work with
     # current timezone. And also show the current timezone in chart.
     if (date_options == "other"):
@@ -241,8 +241,12 @@ def _calc_date_args(date_from, date_to, date_options):
             raise ValueError("The dates haven't been "
                              "recognized")
     elif(date_options == "null"):
-        date_from = datetime.utcnow() - timedelta(hours=8)
-        date_to = datetime.utcnow()
+        if interval_time:
+            date_from = datetime.utcnow() - timedelta(seconds=int(interval_time))
+            date_to = datetime.utcnow()
+        else:
+            date_from = datetime.utcnow() - timedelta(hours=8)
+            date_to = datetime.utcnow()
     else:
         try:
             date_from = datetime.now() - timedelta(days=int(date_options))
@@ -260,9 +264,11 @@ def query_data(request,
                group_by,
                meter,
                period=None):
+    interval_time = request.GET.get('interval_time', None)
     date_from, date_to = _calc_date_args(date_from,
                                          date_to,
-                                         date_options)
+                                         date_options,
+                                         interval_time)
     if not period:
         period = _calc_period(date_from, date_to)
     additional_query = []
@@ -279,6 +285,7 @@ def query_data(request,
         additional_query += [{'field': 'resource_id','value': resource_id}]
     # TODO(lsmola) replace this by logic implemented in I1 in bugs
     # 1226479 and 1226482, this is just a quick fix for RC1
+    
     try:
         meter_list = [m for m in ceilometer.meter_list(request)
                       if m.name == meter]
