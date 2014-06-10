@@ -275,8 +275,11 @@ def query_data(request,
                               'op': 'le',
                               'value': date_to}]
     resource_id = request.GET.get('resource_id', None)
+    resource_id_op = request.GET.get('resource_id_op', 'eq')
     if resource_id:
-        additional_query += [{'field': 'resource_id', 'value': resource_id}]
+        additional_query += [{'field': 'resource_id',
+                              'op': resource_id_op,
+                              'value': resource_id}]
     # TODO(lsmola) replace this by logic implemented in I1 in bugs
     # 1226479 and 1226482, this is just a quick fix for RC1
     try:
