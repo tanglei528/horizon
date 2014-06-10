@@ -11,14 +11,11 @@
       <div class="controls line_chart_time_picker">
         <select data-line-chart-command="select_box_change" onChange="horizon.d3_line_chart_ceilometer.switchTime();"
                 name="meter" id="meter" class="span2 example">
-                <option title="{% trans "CPU Load 1 min" %}" value="hardware.cpu.load.1min" data-unit="process">
-                	hardware.cpu.load.1min
+                <option title="{% trans "CPU Load 1 min" %}" value="compute.node.cpu.user.time" data-unit="ns">
+                	compute.node.cpu.user.time
                 </option>
-                <option title="{% trans "CPU Load 5 min" %}" value="hardware.cpu.load.5min" data-unit="process">
-                	hardware.cpu.load.5min
-                </option>
-                <option title="{% trans "CPU Load 15 min" %}" value="hardware.cpu.load.15min" data-unit="process">
-                	hardware.cpu.load.15min
+                <option title="{% trans "CPU Load 5 min" %}" value="compute.node.cpu.user.percent" data-unit="%">
+                	compute.node.cpu.user.percent
                 </option>
                 <option title="{% trans "Memory Used" %}" value="hardware.memory.used" data-unit="B">
                 	hardware.memory.used
@@ -26,14 +23,17 @@
                 <option title="{% trans "Memory Total" %}" value="hardware.memory.total" data-unit="B">
                 	hardware.memory.total
                 </option>
-                <option title="{% trans "Network Bandwidth Bytes" %}" value="hardware.network.bandwidth.bytes" data-unit="B">
-                	hardware.network.bandwidth.bytes
+                <option title="{% trans "Network Outgoing Bytes" %}" value="network.outgoing.bytes.rate" data-unit="B/s">
+                	network.outgoing.bytes.rate
                 </option>
-                <option title="{% trans "Network Outgoing Bytes" %}" value="hardware.network.outgoing.bytes" data-unit="B">
-                	hardware.network.outgoing.bytes
+                <option title="{% trans "Network Incoming Bytes" %}" value="network.incoming.bytes.rate" data-unit="B/s">
+                	network.incoming.bytes.rate
                 </option>
-                <option title="{% trans "Network Incoming Bytes" %}" value="hardware.network.incoming.bytes" data-unit="B">
-                	hardware.network.incoming.bytes
+                <option title="{% trans "Network Outgoing Bytes" %}" value="network.outgoing.packets" data-unit="packet">
+                	network.outgoing.packets
+                </option>
+                <option title="{% trans "Network Incoming Bytes" %}" value="network.incoming.packets" data-unit="packet">
+                	network.incoming.packets
                 </option>
                 <option title="{% trans "Harware Disk Size Total" %}" value="hardware.disk.size.total" data-unit="B">
                 	hardware.disk.size.total
@@ -88,18 +88,18 @@
         </select>
       </div>
     </div>
-    <div class="control-group" id="date_from">
+    <div class="control-group" id="usage_date_from">
       <label for="date_from" class="control-label">{% trans "From" %}:&nbsp;</label>
       <div class="controls">
         <input data-line-chart-command="date_picker_change"
                type="text" id="date_from" name="date_from" class="span2 example"/>
       </div>
     </div>
-    <div class="control-group" id="date_to">
+    <div class="control-group" id="usage_date_to">
       <label for="date_to" class="control-label">{% trans "To" %}:&nbsp;</label>
       <div class="controls">
         <input data-line-chart-command="date_picker_change"
-               type="text" name="date_to" class="span2 example"/>
+               type="text" id="date_to" name="date_to" class="span2 example"/>
       </div>
     </div>
 
@@ -125,6 +125,8 @@
           <div id="slider"></div>
         </div>
         <div class="span3 legend_container">
+          <a href="javascript:void(0);" onClick="csv();" title="Download CSV Summary" 
+        	  class="btn btn-small btn-download" id="project_usage__action_csv_summary">Download CSV Summary</a>
           <div id="smoother" title="Smoothing"></div>
           <div id="legend"></div>
         </div>
@@ -152,16 +154,16 @@
         // want to refresh, but show hide the date fields
         if ($(this).find("option:selected").val() == "other"){
           evt.stopPropagation();
-          $("#date_from .controls input, #date_to .controls input").val('');
-          $("#date_from, #date_to").show();
+          $("#usage_date_from .controls input, #usage_date_to .controls input").val('');
+          $("#usage_date_from, #usage_date_to").show();
         } else {
-          $("#date_from, #date_to").hide();
+          $("#usage_date_from, #usage_date_to").hide();
         }
     });
     if ($("#date_options").find("option:selected").val() == "other"){
-      $("#date_from, #date_to").show();
+      $("#usage_date_from, #usage_date_to").show();
     } else {
-      $("#date_from, #date_to").hide();
+      $("#usage_date_from, #usage_date_to").hide();
     }
   }
 </script>
