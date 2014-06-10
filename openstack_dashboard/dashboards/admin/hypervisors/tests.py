@@ -48,4 +48,24 @@ class HypervisorDetailViewTest(test.BaseAdminViewTests):
         url = reverse('horizon:admin:hypervisors:detail', args=[hypervisor])
         res = self.client.get(url)
         self.assertTemplateUsed(res, 'admin/hypervisors/detail.html')
+        self.assertTemplateUsed(res, 'horizon/common/_detail_table.html')
         self.assertItemsEqual(res.context['table'].data, [])
+
+    @test.create_stubs({api.nova: ('hypervisor_search',)})
+    def test_detail_monitor_tab(self):
+        hypervisor = self.hypervisors.list().pop()
+        hostname = hypervisor.hypervisor_hostname
+        api.nova.hypervisor_search(
+            IsA(http.HttpRequest),
+            hostname).AndReturn([hypervisor])
+        self.mox.ReplayAll()
+
+        url = reverse('horizon:admin:hypervisors:detail',
+                args=[hostname]) + \
+            '?tab=instance_details__hypervisor_instances_monitor'
+        res = self.client.get(url)
+        self.assertTemplateUsed(res, 'admin/hypervisors/detail.html')
+        self.assertTemplateUsed(
+            res,
+            'admin/hypervisors/_detail_instance.html')
+        self.assertEqual(hostname, res.context['instance'])

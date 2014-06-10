@@ -9888,9 +9888,9 @@ msgid "No attached device"
 msgstr "未连接设备"
 
 
-#: hypervisor/tabs.py
+#: hypervisor/tabs.py:51
 msgid "Hypervisor Instances Monitor"
-msgstr "物理机监控"
+msgstr "实时监控"
 
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html
 msgid "CPU Load 1 min"
@@ -9912,14 +9912,66 @@ msgstr "内存使用量"
 msgid "Network Incoming and Outgoing Bytes"
 msgstr "网络发送速率和网络接收速率"
 
+msgid "Network Outgoing Bytes"
+msgstr "网络发送字节"
+
+msgid "Network Incoming Bytes"
+msgstr "网络接收字节"
+
+msgid "Harware Disk Size Total"
+msgstr "磁盘总量"
+
+msgid "Harware Disk Size Usage"
+msgstr "磁盘使用量"
+
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html
 msgid "Network Bandwidth Bytes"
 msgstr "网络带宽速率"
 
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html 74
-msgid "Network Bandwidth"
-msgstr "网络带宽速率"
+msgid "Network Bandwidth(Units/"
+msgstr "网络带宽速率(单位/"
 
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html 89
 msgid "Network Packege(Units/Amount)"
 msgstr "网络数据包（单位/个数）"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html:57
+msgid "30 min"
+msgstr "30分钟"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html:58
+msgid "1 hour" 
+msgstr "1小时"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html:59
+msgid "1 day" 
+msgstr "1天"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html:60
+msgid "1 week" 
+msgstr "1周"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html:61
+msgid "1 month" 
+msgstr "1个月"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html:10
+msgid "Metric " 
+msgstr "指标"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html:48
+msgid "Statistics Interval" 
+msgstr "统计周期"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html:64
+msgid "Statistics Method" 
+msgstr "统计方法"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html:77
+msgid "Statistics Period" 
+msgstr "统计区间"
+
+#: hypervisor/tabs.py:61
+msgid "Resources Usage"
+msgstr "监控报表"

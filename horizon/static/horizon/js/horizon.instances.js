@@ -155,7 +155,7 @@ horizon.addInitFunction(function () {
     var cup_group = $('#cpu_cup_util').find('.chart');
     var memory_group = $('#memory_memory_usage').find('.chart');
     var network_group = $('#network_bytes').find('.chart');
-    if (cur_href == "?tab=instance_details__overview" || cur_href == "?tab=instance_details__log" || cur_href == "?tab=instance_details__console" || cur_href == "?tab=instance_details__hypervisor_instances") {
+    if (cur_href == "?tab=instance_details__overview" || cur_href == "?tab=instance_details__log" || cur_href == "?tab=instance_details__console" || cur_href == "?tab=instance_details__hypervisor_instances" || cur_href == "?tab=instance_details__resources_usage") {
       if (cup_group.attr('data-display') != undefined) {
         cup_group.attr('data-display',false)
       }

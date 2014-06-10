@@ -1,6 +1,5 @@
 {% load i18n %}
 {% load url from future %}
-
 <div class="control-group">
   <div class="controls">
     {% trans "refresh cycle" %}:&nbsp;<select data-line-chart-command="select_box_change" onChange="horizon.d3_line_chart_ceilometer.switchTime();"
@@ -12,10 +11,10 @@
     </select>
   </div>
 </div>
-<!--
+
 <div class="info row-fluid detail">
   <div class="span12">
-    <h4 class="meter_image" id="cpu_title_image"><span style="line-height:2.5">{% trans "cpu" %}</span><span class="ceil_span_image" onClick="horizon.d3_line_chart_ceilometer.showCPU();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
+    <h4 class="meter_image" id="cpu_title_image"><span style="line-height:2.5">{% trans "cpu" %} / {% trans "memory" %}</span><span class="ceil_span_image" onClick="horizon.d3_line_chart_ceilometer.showCPU();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
     <hr class="header_rule" />
     <div id="cpu_cup_util" class="info row-fluid detail">
      <div class="chart_title_name"><div class="chart_title_name_left">{% trans "VM CPU Usage Rate" %}</div><div class="chart_title_name_right">{% trans "VM Memory Usage Rate" %}</div><div class="chart_title_name_clear"/></div>
@@ -28,34 +27,35 @@
                data-smoother-selector="#smoother"
                data-display="true"
                data-meter="0"
+               data-unit-conver="true"
+               data-unit="1000"
                data-slider-selector="#slider">
           </div>
           <div id="slider"></div>
         </div>
-   
         <div class="span3 legend_container">
-          <div class="span9 chart_container" style="width: 400px;">
-          <div class="chart"
-               data-chart-type="line_chart"
-               data-url="{% url 'horizon:admin:metering:samples'%}?meter=memory.usage&group_by=project&date_options=null&resource_id={{ instance.id }}"
-               data-form-selector='#linechart_general_form'
-               data-legend-selector="#legend"
-               data-smoother-selector="#smoother"
-               data-display="true"
-               data-meter="1"
-               data-slider-selector="#slider">
-          </div>
-          <div id="slider"></div>
+	          <div class="span9 chart_container" style="width: 400px;">
+	          <div class="chart"
+	               data-chart-type="line_chart"
+	               data-url="{% url 'horizon:admin:metering:samples'%}?meter=memory.usage&group_by=project&date_options=null&resource_id={{ instance.id }}"
+	               data-form-selector='#linechart_general_form'
+	               data-legend-selector="#legend"
+	               data-smoother-selector="#smoother"
+	               data-display="true"
+	               data-meter="1"
+	               data-unit-conver="true"
+	               data-unit="1024"
+	               data-slider-selector="#slider">
+	          </div>
+	        </div>
         </div>
         
-        </div>
-	
         </div>
       </div>
     </div>
   </div>
 </div>
--->
+
 <div class="info row-fluid detail">
   <div class="span12">
     <h4 class="meter_image" id="network_bytes_image"><span style="line-height:2.5">{% trans "network" %}</span><span class="ceil_span_image" onClick="horizon.d3_line_chart_ceilometer.showNetworkBytes();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
@@ -71,8 +71,10 @@
                data-legend-selector="#legend"
                data-display="true"
                data-meter="2"
-               data-y_axis={% trans "Network Bandwidth" %}
+               data-y_axis={% trans "Network Bandwidth(Units/" %}
                data-smoother-selector="#smoother"
+               data-unit-conver="true"
+               data-unit="1024"
                data-slider-selector="#slider">
           </div>
         </div>
@@ -87,6 +89,8 @@
                data-display="true"
                data-meter="3"
                data-y_axis={% trans "Network Packege(Units/Amount)" %}
+               data-unit-conver="true"
+               data-unit="1000"
                data-smoother-selector="#smoother"
                data-slider-selector="#slider">
           </div>
@@ -106,6 +110,6 @@
 <script type="text/javascript">
   if (typeof horizon.d3_line_chart !== 'undefined') {
     horizon.d3_line_chart_ceilometer.init("div[data-chart-type='line_chart']",
-      {'auto_resize': true});
+      {'auto_resize': true}, true);
   }
  </script>

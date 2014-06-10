@@ -18,11 +18,6 @@ from horizon import exceptions
 from horizon import tabs
 
 from openstack_dashboard import api
-from openstack_dashboard.api import base
-from openstack_dashboard.api import keystone
-from openstack_dashboard.api import neutron
-from openstack_dashboard.api import nova
-from openstack_dashboard.usage import quotas
 
 from openstack_dashboard.dashboards.admin.hypervisors import constants
 from openstack_dashboard.dashboards.admin.hypervisors import tables
@@ -33,6 +28,8 @@ class InstanceTab(tabs.TableTab):
     name = _("Hypervisor Instances")
     slug = "hypervisor_instances"
     template_name = constants.INSTANCE_DETAIL_TABLE_TEMPLATE_NAME
+    preload = False
+
     def get_hypervisor_instances_data(self):
         instances = []
         request = self.tab_group.request
@@ -48,19 +45,39 @@ class InstanceTab(tabs.TableTab):
             exceptions.handle(request,
                 _('Unable to retrieve hypervisor instances list.'))
         return instances
-        
+
 
 class CurrentDetailTab(tabs.Tab):
     name = _("Hypervisor Instances Monitor")
     slug = "hypervisor_instances_monitor"
-    template_name = constants.INSTANCE_DETAIL_MONITOR_TEMPLATE_NAME
+    template_name = constants.INSTANCE_MONITOR_TEMPLATE_NAME
     preload = False
 
     def get_context_data(self, request):
         instance = self.tab_group.kwargs['hypervisor']
-        return {"instance":instance}
-         
+        return {"instance": instance}
+
+
+class ResourceUsageTab(tabs.Tab):
+    name = _("Resources Usage")
+    slug = "resources_usage"
+    template_name = constants.INSTANCE_USAGE_TEMPLATE_NAME
+
+    @staticmethod
+    def _get_flavor_names(request):
+        try:
+            flavors = api.nova.flavor_list(request, None)
+            return [f.name for f in flavors]
+        except Exception:
+            return ['m1.tiny', 'm1.small', 'm1.medium',
+                    'm1.large', 'm1.xlarge']
+
+    def get_context_data(self, request):
+        instance = self.tab_group.kwargs['hypervisor']
+        return {"instance": instance}
+
+
 class InstanceInfoTabs(tabs.TabGroup):
     slug = "instance_details"
-    tabs = (InstanceTab,CurrentDetailTab)
+    tabs = (InstanceTab, CurrentDetailTab, ResourceUsageTab)
     sticky = True

@@ -16,7 +16,9 @@ import uuid
 
 from django.core.urlresolvers import reverse
 from django import http
-from mox import IsA  # noqa
+from mox import Func  # noqa
+from mox import In    # noqa
+from mox import IsA   # noqa
 
 from openstack_dashboard import api
 from openstack_dashboard.dashboards.admin.metering import tabs
@@ -150,6 +152,154 @@ class MeteringViewTests(test.APITestCase, test.BaseAdminViewTests):
                          ('Content-Type', 'application/json'))
         expected_names = ['fake_resource_id',
                           'fake_resource_id2']
+        self._verify_series(res._container[0], 4.55, '2012-12-21T11:00:55',
+                            expected_names)
+
+    @test.create_stubs({api.keystone: ('tenant_list',)})
+    def test_stats_with_resource_id_filter(self):
+        statistics = self.statistics.list()
+
+        api.keystone.tenant_list(IsA(http.HttpRequest),
+                                 domain=None,
+                                 paginate=False) \
+            .AndReturn([self.tenants.list(), False])
+
+        ceilometerclient = self.stub_ceilometerclient()
+        ceilometerclient.statistics = self.mox.CreateMockAnything()
+        query = {'field': 'resource_id',
+                  'op': 'eq',
+                  'value': 'fake_resource_id'}
+        # check that list is called twice for one resource and 3 tenants
+        ceilometerclient.statistics.list(meter_name="instance",
+                                         period=IsA(int), q=In(query)).\
+            MultipleTimes().\
+            AndReturn(statistics)
+
+        self.mox.ReplayAll()
+
+        # get resource(id='fake_resource_id') samples of project aggregates
+        res = self.client.get(reverse('horizon:admin:metering:samples') +
+            "?meter=instance&group_by=project&date_options=null" +
+            "&resource_id=fake_resource_id")
+
+        self.assertEqual(res._headers['content-type'],
+                         ('Content-Type', 'application/json'))
+        expected_names = ['test_tenant',
+                          'disabled_tenant',
+                          u'\u4e91\u89c4\u5219']
+        self._verify_series(res._container[0], 4.55, '2012-12-21T11:00:55',
+                            expected_names)
+
+    @test.create_stubs({api.keystone: ('tenant_list',)})
+    def test_stats_with_date_options_null(self):
+        statistics = self.statistics.list()
+
+        api.keystone.tenant_list(IsA(http.HttpRequest),
+                                 domain=None,
+                                 paginate=False) \
+            .AndReturn([self.tenants.list(), False])
+
+        ceilometerclient = self.stub_ceilometerclient()
+        ceilometerclient.statistics = self.mox.CreateMockAnything()
+
+        # should query 8 hours ago samples from now
+        def has_ts_filter(query):
+            date_from = None
+            date_to = None
+            for each in query:
+                if each['field'] == 'timestamp':
+                    if each['op'] == 'ge':
+                        date_from = each['value']
+                    elif each['op'] == 'le':
+                        date_to = each['value']
+
+            if date_from is None or date_to is None:
+                return False
+            #import pdb; pdb.set_trace()
+            return (date_to - date_from).seconds == (8 * 3600)
+
+        # check that list is called twice for one resource and 3 tenants
+        ceilometerclient.statistics.list(meter_name="instance",
+                                         period=IsA(int),
+                                         q=Func(has_ts_filter)).\
+            MultipleTimes().\
+            AndReturn(statistics)
+
+        self.mox.ReplayAll()
+
+        # get 8 hours ago samples of project aggregates
+        res = self.client.get(reverse('horizon:admin:metering:samples') +
+            "?meter=instance&group_by=project&date_options=null")
+
+        self.assertEqual(res._headers['content-type'],
+                         ('Content-Type', 'application/json'))
+        expected_names = ['test_tenant',
+                          'disabled_tenant',
+                          u'\u4e91\u89c4\u5219']
+        self._verify_series(res._container[0], 4.55, '2012-12-21T11:00:55',
+                            expected_names)
+
+    @test.create_stubs({api.keystone: ('tenant_list',)})
+    def test_stats_with_resource_id_like_filter(self):
+        statistics = self.statistics.list()
+
+        api.keystone.tenant_list(IsA(http.HttpRequest),
+                                 domain=None,
+                                 paginate=False) \
+            .AndReturn([self.tenants.list(), False])
+
+        ceilometerclient = self.stub_ceilometerclient()
+        ceilometerclient.statistics = self.mox.CreateMockAnything()
+        query = {'field': 'resource_id',
+                  'op': 'like',
+                  'value': 'fake_resource_id%'}
+        # check that list is called twice for one resource and 3 tenants
+        ceilometerclient.statistics.list(meter_name="instance",
+                                         period=IsA(int), q=In(query)).\
+            MultipleTimes().\
+            AndReturn(statistics)
+
+        self.mox.ReplayAll()
+
+        # get resource(id='fake_resource_id') samples of project aggregates
+        res = self.client.get(reverse('horizon:admin:metering:samples') +
+            "?meter=instance&group_by=project&date_options=null" +
+            "&resource_id=fake_resource_id%&resource_id_op=like")
+
+        self.assertEqual(res._headers['content-type'],
+                         ('Content-Type', 'application/json'))
+        expected_names = ['test_tenant',
+                          'disabled_tenant',
+                          u'\u4e91\u89c4\u5219']
+        self._verify_series(res._container[0], 4.55, '2012-12-21T11:00:55',
+                            expected_names)
+
+    def test_stats_no_groupby_with_resource_id_filter(self):
+        resource = self.resources.first()
+        resource_id = resource.resource_id
+        statistics = self.statistics.list()
+
+        ceilometerclient = self.stub_ceilometerclient()
+        ceilometerclient.resources = self.mox.CreateMockAnything()
+        ceilometerclient.resources.list(q=[]).AndReturn([resource])
+
+        ceilometerclient.statistics = self.mox.CreateMockAnything()
+        ceilometerclient.statistics.list(meter_name="storage.objects",
+                                         period=IsA(int), q=IsA(list)).\
+            MultipleTimes().\
+            AndReturn(statistics)
+
+        self.mox.ReplayAll()
+
+        # getting all resources and with statistics, I have only
+        # 'storage.objects' defined in test data
+        res = self.client.get(reverse('horizon:admin:metering:samples') +
+            "?meter=storage.objects&date_options=null" +
+            "&resource_id=" + resource_id)
+
+        self.assertEqual(res._headers['content-type'],
+                         ('Content-Type', 'application/json'))
+        expected_names = [resource_id]
         self._verify_series(res._container[0], 4.55, '2012-12-21T11:00:55',
                             expected_names)
 

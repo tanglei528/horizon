@@ -119,6 +119,7 @@ class ConsoleTab(tabs.Tab):
             console_url = None
 
         return {'console_url': console_url, 'instance_id': instance.id}
+
 class CeilometerTab(tabs.Tab):
     name = _("Ceilometer")
     slug = "ceilometer"

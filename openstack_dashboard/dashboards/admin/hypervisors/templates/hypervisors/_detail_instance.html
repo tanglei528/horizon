@@ -27,6 +27,8 @@
                data-legend-selector="#legend"
                data-smoother-selector="#smoother"
                data-display="true"
+               data-unit-conver="true"
+               data-unit="1000"
                data-slider-selector="#slider">
           </div>
           <div id="slider"></div>
@@ -40,6 +42,8 @@
                data-legend-selector="#legend"
                data-smoother-selector="#smoother"
                data-display="true"
+               data-unit-conver="true"
+               data-unit="1000"
                data-slider-selector="#slider">
           </div>
           <div id="slider"></div>
@@ -66,6 +70,8 @@
                data-legend-selector="#legend"
                data-smoother-selector="#smoother"
                data-display="true"
+               data-unit-conver="true"
+               data-unit="1024"
                data-slider-selector="#slider">
           </div>
           <div id="slider"></div>
@@ -79,6 +85,8 @@
                data-legend-selector="#legend"
                data-smoother-selector="#smoother"
                data-display="true"
+               data-unit-conver="true"
+               data-unit="1024"
                data-slider-selector="#slider">
           </div>
           <div id="slider"></div>
@@ -101,6 +109,8 @@
                data-form-selector='#linechart_general_form'
                data-legend-selector="#legend"
                data-display="true"
+               data-unit-conver="true"
+               data-unit="1024"
                data-smoother-selector="#smoother"
                data-slider-selector="#slider">
           </div>
@@ -114,6 +124,8 @@
                data-form-selector='#linechart_general_form'
                data-legend-selector="#legend"
                data-display="true"
+               data-unit-conver="true"
+               data-unit="1024"
                data-smoother-selector="#smoother"
                data-slider-selector="#slider">
           </div>
@@ -128,6 +140,6 @@
 <script type="text/javascript">
   if (typeof horizon.d3_line_chart !== 'undefined') {
     horizon.d3_line_chart_ceilometer.init("div[data-chart-type='line_chart']",
-      {'auto_resize': true});
+      {'auto_resize': true}, true);
   }
  </script>

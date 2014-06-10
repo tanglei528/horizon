@@ -231,6 +231,7 @@ horizon.d3_line_chart_ceilometer = {
           	}
           }
           self.series = data.series;
+          alert(JSON.stringify(data.series));
           self.stats = data.stats;
 
           // The highest priority settings are sent with the data.
@@ -270,19 +271,64 @@ horizon.d3_line_chart_ceilometer = {
       var self = this;
       var last_point = undefined, last_point_color = undefined;
 	  var count = 0;
+	  
+	  var ymax = 0; //The maximum value of y axis
+      var total = 0; //total of value of y axis
+      var num = 0; //total of x axis
+      var flag_unit = false; // unit conver flag
+      var n = 0; // conver number
+     
+        
+	  
       $.map(self.series, function (serie) {
       	count ++;
         serie.color = last_point_color = self.color(serie.name);
         if(count ==2){
         	serie.color = last_point_color = "#30c020";
         }
+        
+       if(jquery_element.attr('data-unit-conver')=='true'){
+       $.map(serie.data, function (statistic) {
+        num ++;
+        total = total + statistic.y;
+       });
+       var avg = total / num;
+       var unit = getValue(serie.unit);
+       n = mi(avg, unit, n);
+       var afterNum = after(serie.unit);
+       if (n > afterNum) {
+        n = afterNum;
+       }
+       if (n > 0) {
+        flag_unit = true;
+       }
+        }
+        if (flag_unit) {
+        serie.unit = converUnit(serie.unit, n);
+        //zhang
+	        if(count == 1){
+	        	self.lable = self.lable + serie.unit+')';
+	        }
+        }
+         
         $.map(serie.data, function (statistic) {
           // need to parse each date
           statistic.x = d3.time.format('%Y-%m-%dT%H:%M:%S').parse(statistic.x);
           statistic.x = statistic.x.getTime() / 1000;
           last_point = statistic;
           last_point.color = serie.color;
+          
+          if (flag_unit) {
+         for (var i=0; i<n; i++) {
+         	statistic.y = statistic.y / unit;
+         }
+          }
+          if (statistic.y > ymax) {
+         ymax = statistic.y;
+          }
         });
+        ymax = ymax * 100 / 70;
+        self.apply_settings({'yMax': ymax});
       });
 
       var renderer = self.settings.renderer;
@@ -297,8 +343,8 @@ horizon.d3_line_chart_ceilometer = {
         height: self.height,
         renderer: renderer,
         series: self.series,
-        yMin: self.settings.yMin,
-        yMax: self.settings.yMax,
+        min: self.settings.yMin,
+        max: self.settings.yMax,
         interpolation: self.settings.interpolation
       });
       graph.render();
@@ -516,7 +562,289 @@ horizon.d3_line_chart_ceilometer = {
     
   }
 };
-  
+
+
+var timeUnit = ['ns','us','ms','s'];
+
+var bitUnit = ['B','KB','MB','GB','TB','PB','EB','ZB','YB','NB','DB'];
+
+var packUnit = ['packet','K packet'];
+
+var proUnit = ['process','K process'];
+
+/**
+
+ * the unit when 'unit' convert 'n' times 
+
+ */
+
+function converUnit(unit, n) {
+
+n = parseInt(n);
+
+var unitRes = unit;
+
+var tIndex = contains(timeUnit, unit);
+
+tIndex = parseInt(tIndex);
+
+if (tIndex != -1) {
+
+if (tIndex + n < timeUnit.length) {
+
+unitRes = timeUnit[tIndex + n];
+
+return unitRes;
+
+}
+
+}
+
+var bIndex = contains(bitUnit, unit);
+
+bIndex = parseInt(bIndex);
+
+if (bIndex != -1) {
+
+if (bIndex + n < bitUnit.length) {
+
+unitRes = bitUnit[bIndex + n];
+
+return unitRes;
+
+}
+
+}
+
+var paIndex = contains(packUnit, unit);
+
+paIndex = parseInt(paIndex);
+
+if (paIndex != -1) {
+
+if (paIndex + n < packUnit.length) {
+
+unitRes = packUnit[paIndex + n];
+
+return unitRes;
+
+}
+
+}
+
+var prIndex = contains(proUnit, unit);
+
+prIndex = parseInt(prIndex);
+
+if (prIndex != -1) {
+
+if (prIndex + n < prIndex.length) {
+
+unitRes = proUnit[prIndex + n];
+
+return unitRes;
+
+}
+
+}
+
+return unitRes;
+
+}
+
+/**
+
+ * how many object after 'unit' in array
+
+ */
+
+function after(unit) {
+
+var n = 0;
+
+var tIndex = contains(timeUnit, unit);
+
+if (tIndex != -1) {
+
+n = timeUnit.length - 1 - tIndex;
+
+return n;
+
+}
+
+var bIndex = contains(bitUnit, unit);
+
+if (bIndex != -1) {
+
+n = bitUnit.length - 1 - bIndex;
+
+return n;
+
+}
+
+var paIndex = contains(packUnit, unit);
+
+if (paIndex != -1) {
+
+n = packUnit.length - 1 - paIndex;
+
+return n;
+
+}
+
+var prIndex = contains(proUnit, unit);
+
+if (prIndex != -1) {
+
+n = proUnit.length - 1 - prIndex;
+
+return n;
+
+}
+
+return n;
+
+}
+
+/**
+
+ * if array containing object, return index
+
+ * else return -1.
+
+ */
+
+function contains(arr, obj) { 
+
+var num = -1;
+
+for (var i=0 ;i<arr.length;i++) {  
+
+if (arr[i] == obj) {
+
+num = i;
+
+break;     
+
+} 
+
+} 
+
+return num;
+
+}
+
+/**
+
+ * Recursive function 
+
+ * for example: 
+
+ * num 789 unit 1024 n 0 return n 0
+
+ * num 123456 unit 1000 n 0 return 1
+
+ * num 12345678 unit 1000 n 0 return 2
+
+ */
+
+function mi(num, unit, n) {
+
+if (unit == 1) { 
+
+return n;
+
+}
+
+if (num > unit) {
+
+n = n+1;
+
+   if (num/unit > unit) {
+
+      return mi(num/unit, unit, n);
+
+   } else {
+
+    return n;
+
+   }
+
+} else {
+
+return n;
+
+}
+
+}
+
+function getValue(unit) {
+
+var val;
+
+if (unit == 'ns' || unit == 'packet' || unit == 'process') {
+
+val = 1000;
+
+} else if (unit == 'B' || unit == 'MB') {
+
+val = 1024;
+
+} else {
+
+val = 1;
+
+}
+
+return val;
+
+}
+
+function csv() {
+
+var resource_id = $("#resource_id").val();
+
+var meter =  $("#meter").find("option:selected").val();
+
+var period = $("#period").find("option:selected").val();
+
+var stats_attr = $("#stats_attr").find("option:selected").val();
+
+var date_options = $("#date_options").find("option:selected").val();
+
+
+var url = "csv?format=csv";
+
+url += "&resource_id=" + resource_id;
+
+url += "&meter=" + meter;
+
+url += "&period=" + period;
+
+url += "&stats_attr=" + stats_attr;
+
+if ($("#date_options").find("option:selected").val() == "other"){
+
+var date_from = $("#date_from").val();
+
+var date_to = $("#date_to").val();
+
+url += "&date_options=" + date_options;
+
+url += "&date_from=" + date_from;
+
+url += "&date_to=" + date_to;
+
+   } else {
+
+  url += "&date_options=" + date_options;
+
+   } 
+
+window.location.href = window.location + url;
+
+}
+
 /* Init the graphs */
 /*
 horizon.addInitFunction(function () {

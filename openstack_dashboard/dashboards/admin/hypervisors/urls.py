@@ -25,5 +25,6 @@ urlpatterns = patterns(
     url(r'^(?P<hypervisor>[^/]+)/$',
         views.AdminDetailView.as_view(),
         name='detail'),
-    url(r'^$', views.AdminIndexView.as_view(), name='index')
+    url(r'^$', views.AdminIndexView.as_view(), name='index'),
+    url(r'^(?P<hypervisor>[^/]+/csv)/$', views.CsvView.as_view(), name='csv')
 )
