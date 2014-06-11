@@ -9908,9 +9908,12 @@ msgstr "内存总量"
 msgid "Memory Used"
 msgstr "内存使用量"
 
-#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html:64
 msgid "Network Incoming and Outgoing Bytes"
 msgstr "网络发送速率和网络接收速率"
+
+msgid "Network Outgong and Ingong Packets"
+msgstr "网络发送包数和网络接收包数"
 
 msgid "Network Outgoing Bytes"
 msgstr "网络发送字节"
@@ -9975,3 +9978,11 @@ msgstr "统计区间"
 #: hypervisor/tabs.py:61
 msgid "Resources Usage"
 msgstr "监控报表"
+
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance:21
+msgid "CPU Usage Rate"
+msgstr "CPU使用率"
+
+msgid "Memory Usage Rate"
+msgstr "内存使用率"
