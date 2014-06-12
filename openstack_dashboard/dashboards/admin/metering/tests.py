@@ -215,7 +215,6 @@ class MeteringViewTests(test.APITestCase, test.BaseAdminViewTests):
 
             if date_from is None or date_to is None:
                 return False
-            #import pdb; pdb.set_trace()
             return (date_to - date_from).seconds == (8 * 3600)
 
         # check that list is called twice for one resource and 3 tenants
@@ -399,3 +398,93 @@ class MeteringStatsTabTests(test.APITestCase):
         for meter in expected_meters:
             self.assertTrue(meter in meter_hints)
             self.assertNotEqual(meter_hints[meter], '')
+
+
+class RawSamplesViewTests(test.APITestCase, test.BaseAdminViewTests):
+    URL = reverse('horizon:admin:metering:raw-samples')
+
+    def _verify_samples(self, series, volume, timestamp, names):
+        names.reverse()
+        data = json.loads(series)
+        self.assertTrue('series' in data)
+        self.assertEqual(len(names), len(data['series']))
+        for d in data['series']:
+            self.assertTrue('data' in d)
+            self.assertTrue(1, len(d['data']))
+            self.assertAlmostEqual(volume, d['data'][0].get('y'))
+            self.assertEqual(timestamp, d['data'][0].get('x'))
+            self.assertEqual(names.pop(), d.get('name'))
+            self.assertEqual('', d.get('unit'))
+
+        self.assertEqual({}, data.get('settings'))
+
+    def test_return_samples_filter_by_resource_id(self):
+        samples = self.samples.list()
+
+        # mock samples.list invoke
+        client = self.stub_ceilometerclient()
+        client.samples = self.mox.CreateMockAnything()
+        client.samples.list(meter_name='image', q=IsA(list)).\
+            AndReturn(samples)
+        self.mox.ReplayAll()
+
+        # get all samples of meter image
+        #import pdb; pdb.set_trace()
+        res = self.client.get(self.URL +
+            "?meter=image&resource_id=fake_resource_id")
+        self.assertEqual(('Content-Type', 'application/json'),
+            res._headers['content-type'])
+        self._verify_samples(res._container[0], 1, '2012-12-21T11:00:55',
+            ['image'])
+
+    def test_return_all_samples(self):
+        samples = self.samples.list()
+
+        # mock samples.list invoke
+        client = self.stub_ceilometerclient()
+        client.samples = self.mox.CreateMockAnything()
+        client.samples.list(meter_name='image', q=IsA(list)).\
+            AndReturn(samples)
+        self.mox.ReplayAll()
+
+        # get all samples of meter image
+        res = self.client.get(self.URL +
+            "?meter=image")
+        self.assertEqual(('Content-Type', 'application/json'),
+            res._headers['content-type'])
+        self._verify_samples(res._container[0], 1, '2012-12-21T11:00:55',
+            ['display_name1', u'\u4e91\u89c4\u5219'])
+
+    def test_return_samples_with_date_options_null(self):
+        samples = self.samples.list()
+
+        # mock samples.list invoke
+        client = self.stub_ceilometerclient()
+        client.samples = self.mox.CreateMockAnything()
+
+        # should query 8 hours ago samples from now
+        def has_ts_filter(query):
+            date_from = None
+            date_to = None
+            for each in query:
+                if each['field'] == 'timestamp':
+                    if each['op'] == 'ge':
+                        date_from = each['value']
+                    elif each['op'] == 'le':
+                        date_to = each['value']
+
+            if date_from is None or date_to is None:
+                return False
+            return (date_to - date_from).seconds == (8 * 3600)
+
+        client.samples.list(meter_name='image', q=Func(has_ts_filter)).\
+            AndReturn(samples)
+        self.mox.ReplayAll()
+
+        # get all samples of meter image
+        res = self.client.get(self.URL +
+            "?meter=image&resource_id=fake_resource_id")
+        self.assertEqual(('Content-Type', 'application/json'),
+            res._headers['content-type'])
+        self._verify_samples(res._container[0], 1, '2012-12-21T11:00:55',
+            ['image'])

@@ -17,11 +17,11 @@
     <h4 class="meter_image" id="cpu_title_image"><span style="line-height:2.5">{% trans "cpu" %} / {% trans "memory" %}</span><span class="ceil_span_image" onClick="horizon.d3_line_chart_ceilometer.showCPU();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
     <hr class="header_rule" />
     <div id="cpu_cup_util" class="info row-fluid detail">
-     <div class="chart_title_name"><div class="chart_title_name_left">{% trans "VM CPU Usage Rate" %}</div><div class="chart_title_name_right">{% trans "VM Memory Usage Rate" %}</div><div class="chart_title_name_clear"/></div>
-      <div class="span9 chart_container" style="width: 400px;">
+      <div class="chart_title_name"><div class="chart_title_name_left">{% trans "VM CPU Usage Rate" %}</div><div class="chart_title_name_right">{% trans "VM Memory Usage Rate" %}</div><div class="chart_title_name_clear"/></div>
+        <div class="span9 chart_container" style="width: 400px;">
           <div class="chart"
                data-chart-type="line_chart"
-               data-url="{% url 'horizon:admin:metering:samples'%}?meter=cpu_util&group_by=project&date_options=null&resource_id={{ instance.id }}"
+               data-url="{% url 'horizon:admin:metering:raw-samples'%}?meter=cpu_util&date_options=null&resource_id={{ instance.id }}"
                data-form-selector='#linechart_general_form'
                data-legend-selector="#legend"
                data-smoother-selector="#smoother"
@@ -33,10 +33,10 @@
           <div id="slider"></div>
         </div>
         <div class="span3 legend_container">
-	          <div class="span9 chart_container" style="width: 400px;">
+	        <div class="span9 chart_container" style="width: 400px;">
 	          <div class="chart"
 	               data-chart-type="line_chart"
-	               data-url="{% url 'horizon:admin:metering:samples'%}?meter=memory.usage&group_by=project&date_options=null&resource_id={{ instance.id }}"
+	               data-url="{% url 'horizon:admin:metering:raw-samples'%}?meter=memory.usage&date_options=null&resource_id={{ instance.id }}"
 	               data-form-selector='#linechart_general_form'
 	               data-legend-selector="#legend"
 	               data-smoother-selector="#smoother"
@@ -47,11 +47,10 @@
 	          </div>
 	        </div>
         </div>
-        
-        </div>
       </div>
     </div>
   </div>
+</div>
 </div>
 
 <div class="info row-fluid detail">

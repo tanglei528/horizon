@@ -103,6 +103,132 @@ class SamplesView(TemplateView):
             content_type='application/json')
 
 
+class RawSamplesView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        meter = request.GET.get('meter', None)
+        if not meter:
+            return HttpResponse(json.dumps({}),
+                                content_type='application/json')
+
+        meter_name = meter.replace(".", "_")
+        date_from = request.GET.get('date_from', None)
+        date_to = request.GET.get('date_to', None)
+        date_options = request.GET.get('date_options', 'null')
+        resource_filter = request.GET.get('resource_id', None)
+        if resource_filter:
+            name_field = 'counter_name'
+        else:
+            name_field = 'resource_metadata.display_name'
+
+        meter_names = meter_name.split("-")
+        if len(meter_names) > 1:
+            series = []
+            for meter_na in meter_names:
+                meter_n = meter_na.replace("_", ".")
+                samples, unit = self.query_raw_sample_data(request,
+                                     date_from,
+                                     date_to,
+                                     date_options,
+                                     meter_n)
+                series = series + self._series_from_samples(samples,
+                                        name_field,
+                                        meter_na,
+                                        unit)
+        else:
+            samples, unit = self.query_raw_sample_data(request,
+                                         date_from,
+                                         date_to,
+                                         date_options,
+                                         meter)
+            series = self._series_from_samples(samples,
+                                            name_field,
+                                            meter_name,
+                                            unit)
+        ret = {}
+        ret['series'] = series
+        ret['settings'] = {}
+
+        return HttpResponse(json.dumps(ret),
+            content_type='application/json')
+
+    def query_raw_sample_data(self, request,
+                   date_from,
+                   date_to,
+                   date_options,
+                   meter):
+        interval = request.GET.get('interval_time', None)
+        date_from, date_to = _calc_date_args(date_from,
+                                             date_to,
+                                             date_options,
+                                             interval)
+        queries = []
+        if date_from:
+            queries += [{'field': 'timestamp',
+                                  'op': 'ge',
+                                  'value': date_from}]
+        if date_to:
+            queries += [{'field': 'timestamp',
+                                  'op': 'le',
+                                  'value': date_to}]
+        resource_id = request.GET.get('resource_id', None)
+        resource_id_op = request.GET.get('resource_id_op', 'eq')
+        if resource_id:
+            queries += [{'field': 'resource_id',
+                                  'op': resource_id_op,
+                                  'value': resource_id}]
+        # TODO(lsmola) replace this by logic implemented in I1 in bugs
+        # 1226479 and 1226482, this is just a quick fix for RC1
+        try:
+            meter_list = [m for m in ceilometer.meter_list(request)
+                          if m.name == meter]
+            unit = meter_list[0].unit
+        except Exception:
+            unit = ""
+
+        ceilometer_usage = ceilometer.CeilometerUsage(request)
+        try:
+            samples = ceilometer_usage.get_raw_samples(queries, meter)
+        except Exception:
+            samples = []
+            exceptions.handle(request,
+                              _('Unable to retrieve samples.'))
+        return samples, unit
+
+    def _series_from_samples(self, samples,
+                          name_field,
+                          meter_name,
+                          unit):
+        """Construct datapoint series for a meter from samples."""
+
+        def _series_name_factory(field):
+            def _make_name_from_metadata(sample):
+                attribute = getattr(sample, attr, None)
+                return attribute.get(key, '') if attribute else ''
+
+            if field.find('.') != -1:
+                attr, key = field.split('.')
+                return _make_name_from_metadata
+            else:
+                return lambda sample: getattr(sample, field, '')
+
+        series = {}
+        name_factory = _series_name_factory(name_field)
+        for sample in samples:
+            name = name_factory(sample)
+            date = sample.timestamp[:19]
+            value = float(getattr(sample, 'counter_volume'))
+            if name in series:
+                series[name]['data'].append({'x': date, 'y': value})
+            else:
+                series[name] = {'unit': unit,
+                                'name': name,
+                                'data': [{'x': date, 'y': value}]}
+        # sort data points by x value in asc
+        for each in series.iteritems():
+            each[1]['data'].sort(key=lambda p: p['x'])
+        return series.values()
+
+
 class ReportView(tables.MultiTableView):
     template_name = 'admin/metering/report.html'
 

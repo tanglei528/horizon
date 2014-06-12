@@ -684,6 +684,20 @@ class CeilometerUsage(object):
 
         return resource_aggregates
 
+    def get_raw_samples(self, queries=None, meter_name=None, filter_func=None):
+        """Obtaining raw samples data of meters.
+
+        :Parameters:
+          - `queries`: Query for fetching the Ceilometer Samples.
+          - `filter_func`: Callable for filtering of the obtained samples.
+          - `meter_name`: the meter name of which we want the samples.
+        """
+
+        samples = sample_list(self._request, meter_name, queries)
+        if filter_func:
+            samples = [sample for sample in samples if filter_func(sample)]
+        return samples
+
 
 def diff_lists(a, b):
     if not a:

@@ -131,7 +131,8 @@ def data(TEST):
                    'counter_unit': 'image',
                    'counter_volume': 1,
                    'timestamp': '2012-12-21T11:00:55.000000',
-                   'metadata': {'name1': 'value1', 'name2': 'value2'},
+                   'resource_metadata': {'name1': 'value1', 'name2': 'value2',
+                       'display_name': 'display_name1'},
                     'message_id': 'fake_message_id'}
     sample_dict_2 = {'resource_id': 'fake_resource_id2',
                    'project_id': 'fake_project_id',
@@ -141,7 +142,8 @@ def data(TEST):
                    'counter_unit': 'image',
                    'counter_volume': 1,
                    'timestamp': '2012-12-21T11:00:55.000000',
-                   'metadata': {'name1': 'value1', 'name2': 'value2'},
+                   'resource_metadata': {'name1': 'value1', 'name2': 'value2',
+                       'display_name': u'\u4e91\u89c4\u5219'},
                     'message_id': 'fake_message_id'}
     sample_1 = samples.Sample(samples.SampleManager(None), sample_dict_1)
     sample_2 = samples.Sample(samples.SampleManager(None), sample_dict_2)

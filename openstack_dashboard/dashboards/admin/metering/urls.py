@@ -21,4 +21,5 @@ urlpatterns = patterns('openstack_dashboard.dashboards.admin.metering.views',
     url(r'^$', views.IndexView.as_view(), name='index'),
     url(r'^samples$', views.SamplesView.as_view(), name='samples'),
     url(r'^report$', views.ReportView.as_view(), name='report'),
-    url(r'^csv$', views.CsvView.as_view(), name='csv'))
+    url(r'^csv$', views.CsvView.as_view(), name='csv'),
+    url(r'^raw-samples$', views.RawSamplesView.as_view(), name='raw-samples'))
