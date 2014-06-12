@@ -274,6 +274,7 @@ horizon.d3_line_chart_ceilometer = {
 			var arrUnit = new Array();
 			var ymax = 0; //The maximum value of y axis
 			var flag_unit = false; // unit conver flag
+			var converNum = 0;
 			if (jquery_element.attr('data-unit-conver') == 'true') {
 				var xNum = 0; //total of points
 				var meterNum = 0; // num of meter
@@ -299,18 +300,26 @@ horizon.d3_line_chart_ceilometer = {
 							n = afterNum;
 						}
 						if (n > 0) {
-							flag_unit = flag_unit && true;
+							var f = true;
+							if (i == 0) {
+								flag_unit = f;
+							} else {
+								flag_unit = flag_unit && f;
+							}
 						}
 						arrNum[i] = n;
 					}
 				}
-				if (flag_unit) {
-					var nn = 0;
-					$.map(self.series, function(serie) {
-						serie.unit = converUnit(serie.unit, arrNum[nn]);
-						nn++;
-					});
+				for (var i=0 ;i<arrNum.length;i++) {
+					if (arrNum[i] > converNum) {
+						converNum = arrNum[i];
+					}
 				}
+				$.map(self.series, function(serie) {
+					if (flag_unit) {
+						serie.unit = converUnit(serie.unit, converNum);
+					}
+				});
 			}
 			$.map(self.series, function(serie) {
 				serie.color = last_point_color = self.color(serie.name);
@@ -325,7 +334,7 @@ horizon.d3_line_chart_ceilometer = {
 					last_point = statistic;
 					last_point.color = serie.color;
 					if (flag_unit) {
-						for (var i = 0; i < arrNum[count]; i++) {
+						for (var i = 0; i < converNum; i++) {
 							var unit = getValue(arrUnit[i]);
 							statistic.y = statistic.y / unit;
 						}
