@@ -704,7 +704,7 @@ function csv() {
 	var period = $("#period").find("option:selected").val();
 	var stats_attr = $("#stats_attr").find("option:selected").val();
 	var date_options = $("#date_options").find("option:selected").val();
-	var url = "csv?format=csv";
+	var url = "?format=csv";
 	url += "&resource_id=" + resource_id;
 	url += "&meter=" + meter;
 	url += "&period=" + period;
@@ -718,7 +718,11 @@ function csv() {
 	} else {
 		url += "&date_options=" + date_options;
 	}
-	window.location.href = window.location + url;
+	href = window.location + '';
+	n = href.indexOf('admin');
+	var len = href.length;
+	var str = href.substring(n, len);
+	window.location.href = href.replace(str,'')+"admin/metering/csv" + url;
 }
 /* Init the graphs */
 /* horizon.addInitFunction(function () { 
