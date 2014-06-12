@@ -25,14 +25,24 @@ from django.views.generic import TemplateView  # noqa
 from horizon import exceptions
 from horizon import tables
 from horizon import tabs
+from horizon.utils import csvbase
 
 from openstack_dashboard import api
-from openstack_dashboard.api import ceilometer
+from openstack_dashboard import usage
 
+from openstack_dashboard.api import ceilometer
 from openstack_dashboard.dashboards.admin.metering import tables as \
     metering_tables
 from openstack_dashboard.dashboards.admin.metering import tabs as \
     metering_tabs
+
+
+class ResourceUsageCsvRenderer(csvbase.BaseCsvResponse):
+    columns = [_("time"), _("value")]
+
+    def get_row_data(self):
+        for inst in self.context['series']:
+            yield (inst[0], inst[1])
 
 
 class IndexView(tabs.TabbedTableView):
@@ -42,26 +52,6 @@ class IndexView(tabs.TabbedTableView):
 
 class SamplesView(TemplateView):
     template_name = "admin/metering/samples.csv"
-
-    @staticmethod
-    def _series_for_meter(aggregates,
-                          resource_name,
-                          meter_name,
-                          stats_name,
-                          unit):
-        """Construct datapoint series for a meter from resource aggregates."""
-        series = []
-        for resource in aggregates:
-            if getattr(resource, meter_name):
-                point = {'unit': unit,
-                         'name': getattr(resource, resource_name),
-                         'data': []}
-                for statistic in getattr(resource, meter_name):
-                    date = statistic.duration_end[:19]
-                    value = float(getattr(statistic, stats_name))
-                    point['data'].append({'x': date, 'y': value})
-                series.append(point)
-        return series
 
     def get(self, request, *args, **kwargs):
         meter = request.GET.get('meter', None)
@@ -88,7 +78,7 @@ class SamplesView(TemplateView):
                                      date_options,
                                      group_by,
                                      meter_n)
-                series = series + self._series_for_meter(resources,
+                series = series + _series_for_meter(resources,
                                         resource_name,
                                         meter_na,
                                         stats_attr,
@@ -100,7 +90,7 @@ class SamplesView(TemplateView):
                                          date_options,
                                          group_by,
                                          meter)
-            series = self._series_for_meter(resources,
+            series = _series_for_meter(resources,
                                             resource_name,
                                             meter_name,
                                             stats_attr,
@@ -190,6 +180,124 @@ class ReportView(tables.MultiTableView):
         return context
 
 
+class CsvView(TemplateView):
+    usage_class = usage.BaseUsage
+    csv_response_class = ResourceUsageCsvRenderer
+    csv_template_name = "admin/hypervisors/detail.csv"
+
+    def get_template_names(self):
+        if self.request.GET.get('format', 'html') == 'csv':
+            return (self.csv_template_name or
+                     ".".join((self.template_name.rsplit('.', 1)[0], 'csv')))
+        return self.template_name
+
+    def get_content_type(self):
+        if self.request.GET.get('format', 'html') == 'csv':
+            return "text/csv"
+        return "text/html"
+
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.GET.get('format', 'html') == 'csv':
+            render_class = self.csv_response_class
+            response_kwargs.setdefault("filename", "usage.csv")
+        else:
+            render_class = self.response_class
+        resp = render_class(request=self.request,
+                            template=self.get_template_names(),
+                            context=context,
+                            content_type=self.get_content_type(),
+                            **response_kwargs)
+        return resp
+
+    def get(self, request, *args, **kwargs):
+        meter = request.GET.get('meter', None)
+        meter_name = meter.replace(".", "_")
+        date_options = request.GET.get('date_options', None)
+        date_from = request.GET.get('date_from', None)
+        date_to = request.GET.get('date_to', None)
+        stats_attr = request.GET.get('stats_attr', None)
+        group_by = request.GET.get('group_by', None)
+        period = request.GET.get('period', None)
+        resource_name = 'id' if group_by == "project" else 'resource_id'
+        resource_id = request.GET.get('resource_id', None)
+
+        meter_names = meter_name.split("-")
+        if len(meter_names) > 1:
+            series = []
+            for meter_na in meter_names:
+                meter_n = meter_na.replace("_", ".")
+                resources, unit = query_data(request,
+                                     date_from,
+                                     date_to,
+                                     date_options,
+                                     group_by,
+                                     meter_n,
+                                     period)
+                series = series + _series_for_meter(resources,
+                                        resource_name,
+                                        meter_na,
+                                        stats_attr,
+                                        unit)
+        else:
+            resources, unit = query_data(request,
+                                         date_from,
+                                         date_to,
+                                         date_options,
+                                         group_by,
+                                         meter,
+                                         period)
+            series = _series_for_meter(resources,
+                                            resource_name,
+                                            meter_name,
+                                            stats_attr,
+                                            unit)
+
+        self.kwargs['series'] = series
+
+        self.kwargs['resource_id'] = resource_id
+        self.kwargs['meter'] = meter
+        self.kwargs['date_options'] = date_options
+        self.kwargs['date_from'] = date_from
+        self.kwargs['date_to'] = date_to
+        self.kwargs['stats_attr'] = stats_attr
+        self.kwargs['period'] = period
+
+        return self.render_to_response(self.get_context_data(**kwargs))
+
+    def get_context_data(self, **kwargs):
+        context = super(CsvView, self).get_context_data(**kwargs)
+        context['series'] = self.kwargs['series']
+
+        context['resource_id'] = self.kwargs['resource_id']
+        context['meter'] = self.kwargs['meter']
+        context['date_options'] = self.kwargs['date_options']
+        context['date_from'] = self.kwargs['date_from']
+        context['date_to'] = self.kwargs['date_to']
+        context['stats_attr'] = self.kwargs['stats_attr']
+        context['period'] = self.kwargs['period']
+        return context
+
+
+def _series_for_meter(aggregates,
+                      resource_name,
+                      meter_name,
+                      stats_name,
+                      unit):
+    """Construct datapoint series for a meter from resource aggregates."""
+    series = []
+    for resource in aggregates:
+        if getattr(resource, meter_name):
+            point = {'unit': unit,
+                     'name': getattr(resource, resource_name),
+                     'data': []}
+            for statistic in getattr(resource, meter_name):
+                date = statistic.duration_end[:19]
+                value = float(getattr(statistic, stats_name))
+                point['data'].append({'x': date, 'y': value})
+            series.append(point)
+    return series
+
+
 def _calc_period(date_from, date_to):
     if date_from and date_to:
         if date_to < date_from:
@@ -244,6 +352,7 @@ def _calc_date_args(date_from, date_to, date_options, interval_time):
         if interval_time:
             date_from = datetime.utcnow() - \
                 timedelta(seconds=int(interval_time))
+
             date_to = datetime.utcnow()
         else:
             date_from = datetime.utcnow() - timedelta(hours=8)
@@ -287,6 +396,7 @@ def query_data(request,
         additional_query += [{'field': 'resource_id',
                               'op': resource_id_op,
                               'value': resource_id}]
+
     # TODO(lsmola) replace this by logic implemented in I1 in bugs
     # 1226479 and 1226482, this is just a quick fix for RC1
 
