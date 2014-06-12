@@ -120,6 +120,7 @@ class ConsoleTab(tabs.Tab):
 
         return {'console_url': console_url, 'instance_id': instance.id}
 
+
 class CeilometerTab(tabs.Tab):
     name = _("Ceilometer")
     slug = "ceilometer"
@@ -128,9 +129,13 @@ class CeilometerTab(tabs.Tab):
 
     def get_context_data(self, request):
         instance = self.tab_group.kwargs['instance']
-        instance_name = getattr(instance, 'OS-EXT-SRV-ATTR:instance_name', None)
+        instance_name = getattr(instance,
+                                'OS-EXT-SRV-ATTR:instance_name',
+                                None)
         instance_name = instance_name + "-" + instance.id
         return {'instance': instance, 'nw_resource_id': instance_name}
+
+
 class InstanceDetailTabs(tabs.TabGroup):
     slug = "instance_details"
     tabs = (OverviewTab, LogTab, ConsoleTab, CeilometerTab)
