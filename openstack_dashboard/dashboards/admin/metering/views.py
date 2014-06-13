@@ -59,25 +59,39 @@ class SamplesView(TemplateView):
             return HttpResponse(json.dumps({}),
                                 content_type='application/json')
 
-        meter_name = meter.replace(".", "_")
         date_options = request.GET.get('date_options', None)
         date_from = request.GET.get('date_from', None)
         date_to = request.GET.get('date_to', None)
         stats_attr = request.GET.get('stats_attr', 'avg')
         group_by = request.GET.get('group_by', None)
-        resource_name = 'id' if group_by == "project" else 'resource_id'
+        period = request.GET.get('period', None)
+        if period is not None:
+            try:
+                period = int(period)
+            except Exception:
+                period = None
+        filte_by_res = ('resource_id' in request.GET or
+                        'metadata.instance_id' in request.GET)
+        if filte_by_res:
+            # filte by resource will return statistics of desired res,
+            # so name the series to meter name
+            resource_name = 'meter'
+        elif group_by == "project":
+            resource_name = 'id'
+        else:
+            resource_name = 'resource_id'
 
-        meter_names = meter_name.split("-")
+        meter_names = meter.split("-")
         if len(meter_names) > 1:
             series = []
             for meter_na in meter_names:
-                meter_n = meter_na.replace("_", ".")
                 resources, unit = query_data(request,
                                      date_from,
                                      date_to,
                                      date_options,
                                      group_by,
-                                     meter_n)
+                                     meter_na,
+                                     period)
                 series = series + _series_for_meter(resources,
                                         resource_name,
                                         meter_na,
@@ -89,10 +103,11 @@ class SamplesView(TemplateView):
                                          date_to,
                                          date_options,
                                          group_by,
-                                         meter)
+                                         meter,
+                                         period)
             series = _series_for_meter(resources,
                                             resource_name,
-                                            meter_name,
+                                            meter,
                                             stats_attr,
                                             unit)
         ret = {}
@@ -284,7 +299,7 @@ class ReportView(tables.MultiTableView):
                                    meter.name,
                                    3600 * 24)
             for re in res:
-                values = getattr(re, meter.name.replace(".", "_"))
+                values = getattr(re, meter.name)
                 if values:
                     for value in values:
                         row = {"name": 'none',
@@ -413,8 +428,13 @@ def _series_for_meter(aggregates,
     series = []
     for resource in aggregates:
         if getattr(resource, meter_name):
+            if resource_name == 'meter':
+                name = meter_name
+            else:
+                name = getattr(resource, resource_name)
+
             point = {'unit': unit,
-                     'name': getattr(resource, resource_name),
+                     'name': name,
                      'data': []}
             for statistic in getattr(resource, meter_name):
                 date = statistic.duration_end[:19]
@@ -522,6 +542,11 @@ def query_data(request,
         additional_query += [{'field': 'resource_id',
                               'op': resource_id_op,
                               'value': resource_id}]
+
+    metadata = request.GET.get('metadata.instance_id', None)
+    if metadata:
+        additional_query += [{'field': 'metadata.instance_id',
+                              'value': metadata}]
 
     # TODO(lsmola) replace this by logic implemented in I1 in bugs
     # 1226479 and 1226482, this is just a quick fix for RC1
