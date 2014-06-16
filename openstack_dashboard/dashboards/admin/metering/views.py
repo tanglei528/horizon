@@ -72,7 +72,7 @@ class SamplesView(TemplateView):
             series = []
             for meter_na in meter_names:
                 meter_n = meter_na.replace("_", ".")
-                resources, unit = query_data(request,
+                resources, unit, end_date = query_data(request,
                                      date_from,
                                      date_to,
                                      date_options,
@@ -84,7 +84,7 @@ class SamplesView(TemplateView):
                                         stats_attr,
                                         unit)
         else:
-            resources, unit = query_data(request,
+            resources, unit, end_date = query_data(request,
                                          date_from,
                                          date_to,
                                          date_options,
@@ -98,6 +98,7 @@ class SamplesView(TemplateView):
         ret = {}
         ret['series'] = series
         ret['settings'] = {}
+        ret['last_time'] = {'date_time':end_date}
 
         return HttpResponse(json.dumps(ret),
             content_type='application/json')
@@ -125,7 +126,7 @@ class RawSamplesView(TemplateView):
             series = []
             for meter_na in meter_names:
                 meter_n = meter_na.replace("_", ".")
-                samples, unit = self.query_raw_sample_data(request,
+                samples, unit,last_date = self.query_raw_sample_data(request,
                                      date_from,
                                      date_to,
                                      date_options,
@@ -135,7 +136,7 @@ class RawSamplesView(TemplateView):
                                         meter_na,
                                         unit)
         else:
-            samples, unit = self.query_raw_sample_data(request,
+            samples, unit ,last_date = self.query_raw_sample_data(request,
                                          date_from,
                                          date_to,
                                          date_options,
@@ -147,6 +148,7 @@ class RawSamplesView(TemplateView):
         ret = {}
         ret['series'] = series
         ret['settings'] = {}
+        ret['last_time'] = {'date_time':last_date}
 
         return HttpResponse(json.dumps(ret),
             content_type='application/json')
@@ -176,6 +178,7 @@ class RawSamplesView(TemplateView):
             queries += [{'field': 'resource_id',
                                   'op': resource_id_op,
                                   'value': resource_id}]
+        last_search_date = date_to.strftime("%Y-%m-%d %H:%M:%S %f")
         # TODO(lsmola) replace this by logic implemented in I1 in bugs
         # 1226479 and 1226482, this is just a quick fix for RC1
         try:
@@ -192,7 +195,7 @@ class RawSamplesView(TemplateView):
             samples = []
             exceptions.handle(request,
                               _('Unable to retrieve samples.'))
-        return samples, unit
+        return samples, unit, last_search_date
 
     def _series_from_samples(self, samples,
                           name_field,
@@ -276,7 +279,7 @@ class ReportView(tables.MultiTableView):
                     service = name
             # show detailed samples
             # samples = ceilometer.sample_list(request, meter.name)
-            res, unit = query_data(request,
+            res, unit, _ = query_data(request,
                                    date_from,
                                    date_to,
                                    date_options,
@@ -352,7 +355,7 @@ class CsvView(TemplateView):
             series = []
             for meter_na in meter_names:
                 meter_n = meter_na.replace("_", ".")
-                resources, unit = query_data(request,
+                resources, unit,last_date = query_data(request,
                                      date_from,
                                      date_to,
                                      date_options,
@@ -365,7 +368,7 @@ class CsvView(TemplateView):
                                         stats_attr,
                                         unit)
         else:
-            resources, unit = query_data(request,
+            resources, unit,last_date = query_data(request,
                                          date_from,
                                          date_to,
                                          date_options,
@@ -476,8 +479,9 @@ def _calc_date_args(date_from, date_to, date_options, interval_time):
                              "recognized")
     elif(date_options == "null"):
         if interval_time:
-            date_from = datetime.utcnow() - \
-                timedelta(seconds=int(interval_time))
+#             date_from = datetime.utcnow() - \
+#                 timedelta(seconds=int(60))
+            date_from = datetime.strptime(interval_time, "%Y-%m-%d %H:%M:%S %f")
 
             date_to = datetime.utcnow()
         else:
@@ -516,6 +520,7 @@ def query_data(request,
         additional_query += [{'field': 'timestamp',
                               'op': 'le',
                               'value': date_to}]
+    last_search_date = date_to.strftime("%Y-%m-%d %H:%M:%S %f")
     resource_id = request.GET.get('resource_id', None)
     resource_id_op = request.GET.get('resource_id_op', 'eq')
     if resource_id:
@@ -581,4 +586,4 @@ def query_data(request,
             resources = []
             exceptions.handle(request,
                               _('Unable to retrieve statistics.'))
-    return resources, unit
+    return resources, unit,last_search_date
