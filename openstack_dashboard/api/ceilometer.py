@@ -561,7 +561,6 @@ class CeilometerUsage(object):
         for meter in meter_names:
             statistics = statistic_list(self._request, meter,
                                         query=query, period=period)
-            meter = meter.replace(".", "_")
             if statistics:
                 if stats_attr:
                     # I want to load only a specific attribute

@@ -184,9 +184,9 @@ class MeteringViewTests(test.APITestCase, test.BaseAdminViewTests):
 
         self.assertEqual(res._headers['content-type'],
                          ('Content-Type', 'application/json'))
-        expected_names = ['test_tenant',
-                          'disabled_tenant',
-                          u'\u4e91\u89c4\u5219']
+        expected_names = ['instance',
+                          'instance',
+                          u'instance']
         self._verify_series(res._container[0], 4.55, '2012-12-21T11:00:55',
                             expected_names)
 
@@ -267,9 +267,77 @@ class MeteringViewTests(test.APITestCase, test.BaseAdminViewTests):
 
         self.assertEqual(res._headers['content-type'],
                          ('Content-Type', 'application/json'))
-        expected_names = ['test_tenant',
-                          'disabled_tenant',
-                          u'\u4e91\u89c4\u5219']
+        expected_names = ['instance', 'instance', 'instance']
+        self._verify_series(res._container[0], 4.55, '2012-12-21T11:00:55',
+                            expected_names)
+
+    @test.create_stubs({api.keystone: ('tenant_list',)})
+    def test_stats_with_metadata_filter(self):
+        statistics = self.statistics.list()
+
+        api.keystone.tenant_list(IsA(http.HttpRequest),
+                                 domain=None,
+                                 paginate=False) \
+            .AndReturn([self.tenants.list(), False])
+
+        ceilometerclient = self.stub_ceilometerclient()
+        ceilometerclient.statistics = self.mox.CreateMockAnything()
+        query = {'field': 'metadata.instance_id',
+                 'value': u'instance_id'}
+        # check that list is called twice for one resource and 3 tenants
+        ceilometerclient.statistics.list(meter_name="instance",
+                                         period=IsA(int), q=In(query)).\
+            MultipleTimes().\
+            AndReturn(statistics)
+
+        self.mox.ReplayAll()
+
+        res = self.client.get(reverse('horizon:admin:metering:samples') +
+            "?meter=instance&period=60&group_by=project&date_options=null" +
+            "&metadata.instance_id=instance_id")
+
+        self.assertEqual(res._headers['content-type'],
+                         ('Content-Type', 'application/json'))
+        expected_names = ['instance', 'instance', 'instance']
+        self._verify_series(res._container[0], 4.55, '2012-12-21T11:00:55',
+                            expected_names)
+
+    @test.create_stubs({api.keystone: ('tenant_list',)})
+    def test_stats_multi_meters_with_metadata_filter(self):
+        statistics = self.statistics.list()
+        tenant = self.tenants.first()
+
+        api.keystone.tenant_list(IsA(http.HttpRequest),
+                                 domain=None,
+                                 paginate=False) \
+            .MultipleTimes()\
+            .AndReturn([[tenant], False])
+
+        ceilometerclient = self.stub_ceilometerclient()
+        ceilometerclient.statistics = self.mox.CreateMockAnything()
+        query = {'field': 'metadata.instance_id',
+                 'value': u'instance_id'}
+        # check that list is called twice for one resource and 3 tenants
+        ceilometerclient.statistics.list(meter_name="network.outgoing.bytes",
+                                         period=IsA(int), q=In(query)).\
+            MultipleTimes().\
+            AndReturn(statistics)
+        ceilometerclient.statistics.list(meter_name="network.incoming.bytes",
+                                         period=IsA(int), q=In(query)).\
+            MultipleTimes().\
+            AndReturn(statistics)
+
+        self.mox.ReplayAll()
+
+        res = self.client.get(reverse('horizon:admin:metering:samples') +
+            "?meter=network.outgoing.bytes-network.incoming.bytes" +
+            "&group_by=project&date_options=null" +
+            "&metadata.instance_id=instance_id")
+
+        self.assertEqual(res._headers['content-type'],
+                         ('Content-Type', 'application/json'))
+        expected_names = ['network.outgoing.bytes',
+                          'network.incoming.bytes']
         self._verify_series(res._container[0], 4.55, '2012-12-21T11:00:55',
                             expected_names)
 
@@ -298,7 +366,7 @@ class MeteringViewTests(test.APITestCase, test.BaseAdminViewTests):
 
         self.assertEqual(res._headers['content-type'],
                          ('Content-Type', 'application/json'))
-        expected_names = [resource_id]
+        expected_names = [u'storage.objects']
         self._verify_series(res._container[0], 4.55, '2012-12-21T11:00:55',
                             expected_names)
 
