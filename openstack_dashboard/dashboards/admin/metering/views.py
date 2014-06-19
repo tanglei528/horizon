@@ -74,45 +74,62 @@ class SamplesView(TemplateView):
             return HttpResponse(json.dumps({}),
                                 content_type='application/json')
 
-        meter_name = meter.replace(".", "_")
         date_options = request.GET.get('date_options', None)
         date_from = request.GET.get('date_from', None)
         date_to = request.GET.get('date_to', None)
         stats_attr = request.GET.get('stats_attr', 'avg')
         group_by = request.GET.get('group_by', None)
-        resource_name = 'id' if group_by == "project" else 'resource_id'
+        period = request.GET.get('period', None)
+        if period is not None:
+            try:
+                period = int(period)
+            except Exception:
+                period = None
+        filte_by_res = ('resource_id' in request.GET or
+                        'metadata.instance_id' in request.GET)
+        if filte_by_res:
+            # filte by resource will return statistics of desired res,
+            # so name the series to meter name
+            resource_name = 'meter'
+        elif group_by == "project":
+            resource_name = 'id'
+        else:
+            resource_name = 'resource_id'
 
-        meter_names = meter_name.split("-")
+        meter_names = meter.split("-")
         if len(meter_names) > 1:
             series = []
             for meter_na in meter_names:
                 meter_n = meter_na.replace("_", ".")
-                resources, unit = query_data(request,
+                resources, unit, end_date = query_data(request,
                                      date_from,
                                      date_to,
                                      date_options,
                                      group_by,
-                                     meter_n)
+                                     meter_na,
+                                     period)
                 series = series + _series_for_meter(resources,
                                         resource_name,
                                         meter_na,
                                         stats_attr,
                                         unit)
         else:
-            resources, unit = query_data(request,
+            resources, unit, end_date = query_data(request,
                                          date_from,
                                          date_to,
                                          date_options,
                                          group_by,
-                                         meter)
+                                         meter,
+                                         period)
             series = _series_for_meter(resources,
                                             resource_name,
-                                            meter_name,
+                                            meter,
                                             stats_attr,
                                             unit)
         ret = {}
         ret['series'] = series
         ret['settings'] = {}
+        ret['last_time'] = {'date_time':end_date}
 
         return HttpResponse(json.dumps(ret),
             content_type='application/json')
@@ -140,7 +157,7 @@ class RawSamplesView(TemplateView):
             series = []
             for meter_na in meter_names:
                 meter_n = meter_na.replace("_", ".")
-                samples, unit = self.query_raw_sample_data(request,
+                samples, unit,last_date = self.query_raw_sample_data(request,
                                      date_from,
                                      date_to,
                                      date_options,
@@ -150,7 +167,7 @@ class RawSamplesView(TemplateView):
                                         meter_na,
                                         unit)
         else:
-            samples, unit = self.query_raw_sample_data(request,
+            samples, unit ,last_date = self.query_raw_sample_data(request,
                                          date_from,
                                          date_to,
                                          date_options,
@@ -162,6 +179,7 @@ class RawSamplesView(TemplateView):
         ret = {}
         ret['series'] = series
         ret['settings'] = {}
+        ret['last_time'] = {'date_time':last_date}
 
         return HttpResponse(json.dumps(ret),
             content_type='application/json')
@@ -191,6 +209,7 @@ class RawSamplesView(TemplateView):
             queries += [{'field': 'resource_id',
                                   'op': resource_id_op,
                                   'value': resource_id}]
+        last_search_date = date_to.strftime("%Y-%m-%d %H:%M:%S %f")
         # TODO(lsmola) replace this by logic implemented in I1 in bugs
         # 1226479 and 1226482, this is just a quick fix for RC1
         try:
@@ -207,7 +226,7 @@ class RawSamplesView(TemplateView):
             samples = []
             exceptions.handle(request,
                               _('Unable to retrieve samples.'))
-        return samples, unit
+        return samples, unit, last_search_date
 
     def _series_from_samples(self, samples,
                           name_field,
@@ -291,7 +310,7 @@ class ReportView(tables.MultiTableView):
                     service = name
             # show detailed samples
             # samples = ceilometer.sample_list(request, meter.name)
-            res, unit = query_data(request,
+            res, unit, _ = query_data(request,
                                    date_from,
                                    date_to,
                                    date_options,
@@ -299,7 +318,7 @@ class ReportView(tables.MultiTableView):
                                    meter.name,
                                    3600 * 24)
             for re in res:
-                values = getattr(re, meter.name.replace(".", "_"))
+                values = getattr(re, meter.name)
                 if values:
                     for value in values:
                         row = {"name": 'none',
@@ -367,7 +386,7 @@ class CsvView(TemplateView):
             series = []
             for meter_na in meter_names:
                 meter_n = meter_na.replace("_", ".")
-                resources, unit = query_data(request,
+                resources, unit,last_date = query_data(request,
                                      date_from,
                                      date_to,
                                      date_options,
@@ -380,7 +399,7 @@ class CsvView(TemplateView):
                                         stats_attr,
                                         unit)
         else:
-            resources, unit = query_data(request,
+            resources, unit,last_date = query_data(request,
                                          date_from,
                                          date_to,
                                          date_options,
@@ -429,8 +448,13 @@ def _series_for_meter(aggregates,
     series = []
     for resource in aggregates:
         if getattr(resource, meter_name):
+            if resource_name == 'meter':
+                name = meter_name
+            else:
+                name = getattr(resource, resource_name)
+
             point = {'unit': unit,
-                     'name': getattr(resource, resource_name),
+                     'name': name,
                      'data': []}
             for statistic in getattr(resource, meter_name):
                 date = statistic.duration_end[:19]
@@ -492,8 +516,9 @@ def _calc_date_args(date_from, date_to, date_options, interval_time):
                              "recognized")
     elif(date_options == "null"):
         if interval_time:
-            date_from = datetime.utcnow() - \
-                timedelta(seconds=int(interval_time))
+#             date_from = datetime.utcnow() - \
+#                 timedelta(seconds=int(60))
+            date_from = datetime.strptime(interval_time, "%Y-%m-%d %H:%M:%S %f")
 
             date_to = datetime.utcnow()
         else:
@@ -532,12 +557,18 @@ def query_data(request,
         additional_query += [{'field': 'timestamp',
                               'op': 'le',
                               'value': date_to}]
+    last_search_date = date_to.strftime("%Y-%m-%d %H:%M:%S %f")
     resource_id = request.GET.get('resource_id', None)
     resource_id_op = request.GET.get('resource_id_op', 'eq')
     if resource_id:
         additional_query += [{'field': 'resource_id',
                               'op': resource_id_op,
                               'value': resource_id}]
+
+    metadata = request.GET.get('metadata.instance_id', None)
+    if metadata:
+        additional_query += [{'field': 'metadata.instance_id',
+                              'value': metadata}]
 
     # TODO(lsmola) replace this by logic implemented in I1 in bugs
     # 1226479 and 1226482, this is just a quick fix for RC1
@@ -597,4 +628,4 @@ def query_data(request,
             resources = []
             exceptions.handle(request,
                               _('Unable to retrieve statistics.'))
-    return resources, unit
+    return resources, unit,last_search_date

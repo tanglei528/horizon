@@ -1,6 +1,8 @@
 var refresh_time = 60000;
 var interval_time = '';
 meterArray = new Array(4);
+dateArray = new Array(4);
+intervalIdArray = new Array(4);
 horizon.d3_line_chart_ceilometer = {
 	/**
    * A class representing the line chart
@@ -195,8 +197,10 @@ horizon.d3_line_chart_ceilometer = {
 					// Clearing the old chart data.
 					$(self.html_element).html('');
 					$(self.legend_element).html('');
+					dateArray[$(html_element).attr('data-meter')] = data.last_time.date_time;
 					if (data.series.length == 0) {
-						data = JSON.parse(meterArray[jquery_element.attr('data-meter')]);
+						if(meterArray[jquery_element.attr('data-meter')] != undefined)
+							data = JSON.parse(meterArray[jquery_element.attr('data-meter')]);
 					} else {
 						if (meterArray[jquery_element.attr('data-meter')] != null) {
 							dataObjJson = JSON.parse(meterArray[jquery_element.attr('data-meter')]);
@@ -274,7 +278,6 @@ horizon.d3_line_chart_ceilometer = {
 			var arrUnit = new Array();
 			var ymax = 0; //The maximum value of y axis
 			var flag_unit = false; // unit conver flag
-			var converNum = 0;
 			if (jquery_element.attr('data-unit-conver') == 'true') {
 				var xNum = 0; //total of points
 				var meterNum = 0; // num of meter
@@ -300,26 +303,18 @@ horizon.d3_line_chart_ceilometer = {
 							n = afterNum;
 						}
 						if (n > 0) {
-							var f = true;
-							if (i == 0) {
-								flag_unit = f;
-							} else {
-								flag_unit = flag_unit && f;
-							}
+							flag_unit = flag_unit && true;
 						}
 						arrNum[i] = n;
 					}
 				}
-				for (var i=0 ;i<arrNum.length;i++) {
-					if (arrNum[i] > converNum) {
-						converNum = arrNum[i];
-					}
+				if (flag_unit) {
+					var nn = 0;
+					$.map(self.series, function(serie) {
+						serie.unit = converUnit(serie.unit, arrNum[nn]);
+						nn++;
+					});
 				}
-				$.map(self.series, function(serie) {
-					if (flag_unit) {
-						serie.unit = converUnit(serie.unit, converNum);
-					}
-				});
 			}
 			$.map(self.series, function(serie) {
 				serie.color = last_point_color = self.color(serie.name);
@@ -334,7 +329,7 @@ horizon.d3_line_chart_ceilometer = {
 					last_point = statistic;
 					last_point.color = serie.color;
 					if (flag_unit) {
-						for (var i = 0; i < converNum; i++) {
+						for (var i = 0; i < arrNum[count]; i++) {
 							var unit = getValue(arrUnit[i]);
 							statistic.y = statistic.y / unit;
 						}
@@ -531,19 +526,36 @@ horizon.d3_line_chart_ceilometer = {
 			inner_fun()
 		},
 		refresh_time);
+		intervalIdArray[$(html_element).attr('data-meter')] = interval_id;
 		function inner_fun() {
-			interval_time = '&interval_time=' + refresh_time / 1000;
-			horizon.d3_line_chart_ceilometer.refresh(html_element, settings);
 			clearInterval(interval_id);
+			interval_time = '&interval_time=' + dateArray[$(html_element).attr('data-meter')]; 
+			//interval_time = '&interval_time=' + refresh_time / 1000;
+			horizon.d3_line_chart_ceilometer.refresh(html_element, settings);
 		}
 	},
 	switchTime: function() {
 		var value = $('#stats_attr').val();
-		refresh_time = value;
-		interval_time = '&interval_time=' + refresh_time / 1000;
-		horizon.d3_line_chart_ceilometer.init('div[data-chart-type="line_chart"]', {
-			'auto_resize': true
+		refresh_time = parseInt(value);
+		for(var i = 0; i < intervalIdArray.length; i++){
+			if(intervalIdArray[i] != undefined)
+				window.clearInterval(intervalIdArray[i]);
+		}
+		
+		var self = this;
+		$('div[data-chart-type="line_chart"]').each(function() {
+			if(dateArray[$(this).attr('data-meter')] != undefined)
+				interval_time = '&interval_time=' + dateArray[$(this).attr('data-meter')];
+			else{
+				meterArray[$(this).attr('data-meter')] = "";
+			}
+			self.refresh(this, {'auto_resize': true});
 		});
+		
+		//interval_time = '&interval_time=' + refresh_time / 1000;
+		//horizon.d3_line_chart_ceilometer.init('div[data-chart-type="line_chart"]', {
+		//	'auto_resize': true
+		//});
 	},
 	showCPU: function() {
 		var cupdiv = $('#cpu_cup_util');
