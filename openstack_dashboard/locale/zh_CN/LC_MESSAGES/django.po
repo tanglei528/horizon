@@ -9924,8 +9924,11 @@ msgstr "网络接收字节"
 msgid "Harware Disk Size Total"
 msgstr "磁盘总量"
 
-msgid "Harware Disk Size Usage"
+msgid "Harware Disk Size Used"
 msgstr "磁盘使用量"
+
+msgid "Harware Disk Size Usage"
+msgstr "磁盘使用率"
 
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html
 msgid "Network Bandwidth Bytes"
@@ -9986,3 +9989,15 @@ msgstr "CPU使用率"
 
 msgid "Memory Usage Rate"
 msgstr "内存使用率"
+
+msgid "Network Incoming Bytes Rate"
+msgstr "网络接收速率"
+
+msgid "Network Outgoing Bytes Rate"
+msgstr "网络发送速率"
+
+msgid "Network Outgong Packets Rate"
+msgstr "网络发送包速率"
+
+msgid "Network Ingong Packets Rate"
+msgstr "网络接收包速率"

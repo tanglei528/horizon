@@ -38,11 +38,26 @@ from openstack_dashboard.dashboards.admin.metering import tabs as \
 
 
 class ResourceUsageCsvRenderer(csvbase.BaseCsvResponse):
-    columns = [_("time"), _("value")]
+    columns = [_("value"), _("date")]
 
     def get_row_data(self):
+        unit = ''
         for inst in self.context['series']:
-            yield (inst[0], inst[1])
+            for key, value in inst.items():
+                if (key == 'unit'):
+                    unit = value
+                    break
+        for inst in self.context['series']:
+            for key, value in inst.items():
+                if (key == 'data'):
+                    line = []
+                    for point in value:
+                        for k, v in point.items():
+                            if (k == 'x'):
+                                line.append(str(v))
+                            if (k == 'y'):
+                                line.append(str(v) + unit)
+                    yield (line)
 
 
 class IndexView(tabs.TabbedTableView):
@@ -372,6 +387,7 @@ class CsvView(TemplateView):
                                          group_by,
                                          meter,
                                          period)
+
             series = _series_for_meter(resources,
                                             resource_name,
                                             meter_name,
