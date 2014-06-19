@@ -303,7 +303,11 @@ horizon.d3_line_chart_ceilometer = {
 							n = afterNum;
 						}
 						if (n > 0) {
-							flag_unit = flag_unit && true;
+							var flag = true;
+							flag_unit = flag_unit || flag;
+						} else {
+							var flag = false;
+							flag_unit = flag_unit && flag
 						}
 						arrNum[i] = n;
 					}
