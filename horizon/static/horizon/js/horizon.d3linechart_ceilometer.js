@@ -725,11 +725,20 @@ function csv() {
 	var period = $("#period").find("option:selected").val();
 	var stats_attr = $("#stats_attr").find("option:selected").val();
 	var date_options = $("#date_options").find("option:selected").val();
+	var group_by = $("#group_by").find("option:selected").val();
 	var url = "?format=csv";
-	url += "&resource_id=" + resource_id;
+	if (!(resource_id == undefined)) {
+	    url += "&resource_id=" + resource_id;
+	}
 	url += "&meter=" + meter;
-	url += "&period=" + period;
+	if (!(period == undefined) ){
+	    url += "&period=" + period;
+	} else {
+		url += "&period=";
+	}
+		
 	url += "&stats_attr=" + stats_attr;
+	url += "&group_by=" + group_by;
 	if ($("#date_options").find("option:selected").val() == "other") {
 		var date_from = $("#date_from").val();
 		var date_to = $("#date_to").val();
@@ -739,11 +748,14 @@ function csv() {
 	} else {
 		url += "&date_options=" + date_options;
 	}
-	href = window.location + '';
-	n = href.indexOf('admin');
-	var len = href.length;
-	var str = href.substring(n, len);
-	window.location.href = href.replace(str,'')+"admin/metering/csv" + url;
+	//href = window.location + '';
+	//n = href.indexOf('admin');
+	//var len = href.length;
+	//var str = href.substring(n, len)
+
+	url = "/admin/metering/csv" + url;
+
+	window.location.href = url;//href.replace(str,'')+"admin/metering/csv" + url;
 }
 /* Init the graphs */
 /* horizon.addInitFunction(function () { 

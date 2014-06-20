@@ -21,7 +21,9 @@ from horizon import exceptions
 from horizon import tabs
 
 from openstack_dashboard import api
+from openstack_dashboard.api import ceilometer
 
+import logging
 
 class OverviewTab(tabs.Tab):
     name = _("Overview")
@@ -135,8 +137,58 @@ class CeilometerTab(tabs.Tab):
         instance_name = instance_name + "-" + instance.id
         return {'instance': instance, 'nw_resource_id': instance_name}
 
+class ResourceUsageTab(tabs.Tab):
+    name = _("Resources Usage")
+    slug = "resources_usage"
+    template_name = "project/instances/_detail_usage.html"
+
+    @staticmethod
+    def _get_flavor_names(request):
+        try:
+            flavors = api.nova.flavor_list(request, None)
+            return [f.name for f in flavors]
+        except Exception:
+            return ['m1.tiny', 'm1.small', 'm1.medium',
+                    'm1.large', 'm1.xlarge']
+    def _get_data(self,request):
+        meters = ceilometer.Meters(request)
+        meters = []
+        meter = {'name':'cpu', 'unit':'ns'}
+        meters.append(meter)
+        meter = {'name':'cpu_util', 'unit':'%'}
+        meters.append(meter)
+        meter = {'name':'memory', 'unit':'MB'}
+        meters.append(meter)
+        meter = {'name':'memory.usage', 'unit':'MB'}
+        meters.append(meter)
+        meter = {'name':'network.outgoing.bytes', 'unit':'B'}
+        meters.append(meter)
+        meter = {'name':'network.incoming.bytes', 'unit':'B'}
+        meters.append(meter)
+        meter = {'name':'network.outgoing.packets', 'unit':'packet'}
+        meters.append(meter)
+        meter = {'name':'network.incoming.packets', 'unit':'packet'}
+        meters.append(meter)
+        meter = {'name':'disk.root.size.used', 'unit':'GB'}
+        meters.append(meter)
+        meter = {'name':'disk.root.size.used.percent', 'unit':'%'}
+        meters.append(meter)
+        meter = {'name':'disk.ephemeral.size.used', 'unit':'GB'}
+        meters.append(meter)
+        meter = {'name':'disk.ephemeral.size.used.percent', 'unit':'%'}
+        meters.append(meter)
+        return meters
+
+    def get_context_data(self, request):
+        meters = self._get_data(request)
+
+        context = {
+            'nova_meters': meters,
+        }
+
+        return context
 
 class InstanceDetailTabs(tabs.TabGroup):
     slug = "instance_details"
-    tabs = (OverviewTab, LogTab, ConsoleTab, CeilometerTab)
+    tabs = (OverviewTab, LogTab, ConsoleTab, CeilometerTab, ResourceUsageTab)
     sticky = True

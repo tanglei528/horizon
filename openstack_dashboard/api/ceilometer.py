@@ -957,6 +957,22 @@ class Meters(object):
                 'description': _("Size of ephemeral disk "
                                  "in GB"),
             }),
+            ("disk.root.size.used", {
+                'label': '',
+                'description': _("Size of root disk in GB"),
+            }),
+            ("disk.root.size.used.percent", {
+                'label': '',
+                'description': _("Size of root disk in %"),
+            }),
+            ("disk.ephemeral.size.used", {
+                'label': '',
+                'description': _("Size of ephemeral disk in GB"),
+            }),
+            ("disk.ephemeral.size.used.percent", {
+                'label': '',
+                'description': _("Size of ephemeral disk in %"),
+            }),
             ("network.incoming.bytes", {
                 'label': '',
                 'description': _("Number of incoming bytes "
