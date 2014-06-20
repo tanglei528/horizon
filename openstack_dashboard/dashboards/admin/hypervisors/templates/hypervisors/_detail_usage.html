@@ -9,37 +9,34 @@
     <div class="control-group">
       <label for="meter" class="control-label">{% trans "Metric" %}:&nbsp;</label>
       <div class="controls line_chart_time_picker">
-        <select data-line-chart-command="select_box_change" onChange="horizon.d3_line_chart_ceilometer.switchTime();"
+        <select data-line-chart-command="select_box_change"
                 name="meter" id="meter" class="span2 example">
-                <option title="{% trans "CPU Load 1 min" %}" value="compute.node.cpu.user.time" data-unit="ns">
-                	compute.node.cpu.user.time
-                </option>
-                <option title="{% trans "CPU Load 5 min" %}" value="compute.node.cpu.user.percent" data-unit="%">
-                	compute.node.cpu.user.percent
+                <option title="{% trans "CPU Usage Rate" %}" value="hardware.cpu.usage" data-unit="%">
+                	hardware.cpu.usage
                 </option>
                 <option title="{% trans "Memory Used" %}" value="hardware.memory.used" data-unit="B">
                 	hardware.memory.used
                 </option>
-                <option title="{% trans "Memory Total" %}" value="hardware.memory.total" data-unit="B">
-                	hardware.memory.total
+                <option title="{% trans "Memory Usage Rate" %}" value="hardware.memory.usage" data-unit="%">
+                	hardware.memory.usage
                 </option>
-                <option title="{% trans "Network Outgoing Bytes" %}" value="network.outgoing.bytes.rate" data-unit="B/s">
-                	network.outgoing.bytes.rate
+                <option title="{% trans "Network Outgoing Bytes Rate" %}" value="hardware.network.outgoing.bytes.rate" data-unit="B/s">
+                	hardware.network.outgoing.bytes.rate
                 </option>
-                <option title="{% trans "Network Incoming Bytes" %}" value="network.incoming.bytes.rate" data-unit="B/s">
-                	network.incoming.bytes.rate
+                <option title="{% trans "Network Incoming Bytes Rate" %}" value="hardware.network.incoming.bytes.rate" data-unit="B/s">
+                	hardware.network.incoming.bytes.rate
                 </option>
-                <option title="{% trans "Network Outgoing Bytes" %}" value="network.outgoing.packets" data-unit="packet">
-                	network.outgoing.packets
+                <option title="{% trans "Network Outgong Packets Rate" %}" value="hardware.network.outgoing.packets.rate" data-unit="packet/s">
+                	hardware.network.outgoing.packets.rate
                 </option>
-                <option title="{% trans "Network Incoming Bytes" %}" value="network.incoming.packets" data-unit="packet">
-                	network.incoming.packets
+                <option title="{% trans "Network Ingong Packets Rate" %}" value="hardware.network.incoming.packets.rate" data-unit="packet/s">
+                	hardware.network.incoming.packets.rate
                 </option>
-                <option title="{% trans "Harware Disk Size Total" %}" value="hardware.disk.size.total" data-unit="B">
-                	hardware.disk.size.total
-                </option>
-                <option title="{% trans "Harware Disk Size Usage" %}" value="hardware.disk.size.used" data-unit="B">
+                <option title="{% trans "Harware Disk Size Used" %}" value="hardware.disk.size.used" data-unit="B">
                 	hardware.disk.size.used
+                </option>
+                <option title="{% trans "Harware Disk Size Usage" %}" value="hardware.disk.size.usage" data-unit="B">
+                	hardware.disk.size.usage
                 </option>
         </select>
       </div>
@@ -47,23 +44,23 @@
     <div class="control-group">
     <label for="date_options" class="control-label">{% trans "Statistics Interval" %}:&nbsp;</label>
     <div class="controls">
-      <select data-line-chart-command="select_box_change" onChange="horizon.d3_line_chart_ceilometer.switchTime();"
+      <select data-line-chart-command="select_box_change"
               id="period" name="period" class="span2">
-        <option value="60" selected="selected">{% trans "1 min" %}</option>
-        <option value="300">{% trans "5 min" %}</option>
-        <option value="600">{% trans "10 min" %}</option>
-        <option value="1800">{% trans "30 min" %}</option>
-        <option value="3600">{% trans "1 hour" %}</option>
-        <option value="86400">{% trans "1 day" %}</option>
-        <option value="604800">{% trans "1 week" %}</option>
-        <option value="2073600">{% trans "1 month" %}</option>
+        <option value="60000" selected="selected">{% trans "1 min" %}</option>
+        <option value="300000">{% trans "5 min" %}</option>
+        <option value="600000">{% trans "10 min" %}</option>
+        <option value="1800000">{% trans "30 min" %}</option>
+        <option value="3600000">{% trans "1 hour" %}</option>
+        <option value="86400000">{% trans "1 day" %}</option>
+        <option value="604800000">{% trans "1 week" %}</option>
+        <option value="2073600000">{% trans "1 month" %}</option>
       </select>
     </div>
   </div>
     <div class="control-group">
       <label for="stats_attr" class="control-label">{% trans "Statistics Method" %}:&nbsp;</label>
       <div class="controls">
-        <select data-line-chart-command="select_box_change" onChange="horizon.d3_line_chart_ceilometer.switchTime();"
+        <select data-line-chart-command="select_box_change"
                 id="stats_attr" name="stats_attr" class="span2">
 
           <option selected="selected" value="avg">{% trans "Avg." %}</option>
@@ -76,7 +73,7 @@
     <div class="control-group">
       <label for="date_options" class="control-label">{% trans "Statistics Period" %}:&nbsp;</label>
       <div class="controls">
-        <select data-line-chart-command="select_box_change" onChange="horizon.d3_line_chart_ceilometer.switchTime();"
+        <select data-line-chart-command="select_box_change"
                 id="date_options" name="date_options" class="span2">
           <option value="1">{% trans "Last day" %}</option>
           <option value="7" selected="selected">{% trans "Last week" %}</option>
@@ -119,6 +116,7 @@
                data-legend-selector="#legend"
                data-smoother-selector="#smoother" 
                data-display="true"
+               data-meter="0"
                data-unit-conver="true"
                data-slider-selector="#slider">
           </div>

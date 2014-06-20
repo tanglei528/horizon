@@ -22,8 +22,7 @@
       <div class="span9 chart_container" style="width: 400px;">
           <div class="chart"
                data-chart-type="line_chart"
-               data-url="{% url 'horizon:admin:metering:samples'%}?meter=compute.node.cpu.user.percent&date_options=null&resource_id={{ instance }}"
-               data-form-selector='#linechart_general_form'
+               data-url="{% url 'horizon:admin:metering:samples'%}?meter=hardware.cpu.usage&date_options=null&resource_id={{ instance }}"
                data-legend-selector="#legend"
                data-smoother-selector="#smoother"
                data-display="true"
@@ -37,8 +36,7 @@
 	        <div class="span9 chart_container" style="width: 400px;">
 		        <div class="chart"
 		             data-chart-type="line_chart"
-		             data-url="{% url 'horizon:admin:metering:samples'%}?meter=hardware.memory.used&date_options=null&resource_id={{ instance }}"
-		             data-form-selector='#linechart_general_form'
+		             data-url="{% url 'horizon:admin:metering:samples'%}?meter=hardware.memory.usage&date_options=null&resource_id={{ instance }}"
 		             data-legend-selector="#legend"
 		             data-smoother-selector="#smoother"
 		             data-display="true"
@@ -65,8 +63,7 @@
       <div class="span9 chart_container" style="width: 400px;">
           <div class="chart"
                data-chart-type="line_chart"
-               data-url="{% url 'horizon:admin:metering:samples'%}?meter=hardware.network.incoming.bytes-hardware.network.outgoing.bytes&date_options=null&resource_id={{ instance }}"
-               data-form-selector='#linechart_general_form'
+               data-url="{% url 'horizon:admin:metering:samples'%}?meter=hardware.network.incoming.bytes.rate-hardware.network.outgoing.bytes.rate&date_options=null&resource_id={{ instance }}"
                data-legend-selector="#legend"
                data-display="true"
                data-meter="2"
@@ -82,8 +79,7 @@
 	          <div class="span9 chart_container" style="width: 400px;">
 		          <div class="chart"
 		               data-chart-type="line_chart"
-		               data-url="{% url 'horizon:admin:metering:samples'%}?meter=hardware.network.bandwidth.bytes&date_options=null&resource_id={{ instance }}"
-		               data-form-selector='#linechart_general_form'
+		               data-url="{% url 'horizon:admin:metering:samples'%}?meter=hardware.network.incoming.packets.rate-hardware.network.outgoing.packets.rate&date_options=null&resource_id={{ instance }}"
 		               data-legend-selector="#legend"
 		               data-display="true"
 		               data-meter="3"

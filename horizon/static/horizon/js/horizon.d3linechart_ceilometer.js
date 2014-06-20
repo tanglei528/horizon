@@ -303,7 +303,11 @@ horizon.d3_line_chart_ceilometer = {
 							n = afterNum;
 						}
 						if (n > 0) {
-							flag_unit = flag_unit && true;
+							var flag = true;
+							flag_unit = flag_unit || flag;
+						} else {
+							var flag = false;
+							flag_unit = flag_unit && flag
 						}
 						arrNum[i] = n;
 					}
@@ -597,7 +601,9 @@ horizon.d3_line_chart_ceilometer = {
 
 var timeUnit = ['ns', 'us', 'ms', 's'];
 var bitUnit = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB', 'NB', 'DB'];
+var bitRateUnit = ['B/s', 'KB/s', 'MB/s', 'GB/s', 'TB/s', 'PB/s', 'EB/s', 'ZB/s', 'YB/s', 'NB/s', 'DB/s'];
 var packUnit = ['packet', 'K packet'];
+var packRateUnit = ['packet/s', 'K packet/s'];
 var proUnit = ['process', 'K process'];
 /**
  * the unit when 'unit' convert 'n' times 
@@ -621,6 +627,15 @@ function converUnit(unit, n) {
 			return unitRes;
 		}
 	}
+	var bRateIndex = contains(bitRateUnit, unit);
+	bRateIndex = parseInt(bRateIndex);
+	if (bRateIndex != -1) {
+		if (bRateIndex + n < bitRateUnit.length) {
+			unitRes = bitRateUnit[bRateIndex + n];
+			return unitRes;
+		}
+	}
+	
 	var paIndex = contains(packUnit, unit);
 	paIndex = parseInt(paIndex);
 	if (paIndex != -1) {
@@ -629,6 +644,15 @@ function converUnit(unit, n) {
 			return unitRes;
 		}
 	}
+	var paRateIndex = contains(packRateUnit, unit);
+	paRateIndex = parseInt(paRateIndex);
+	if (paRateIndex != -1) {
+		if (paRateIndex + n < packRateUnit.length) {
+			unitRes = packRateUnit[paRateIndex + n];
+			return unitRes;
+		}
+	}
+	
 	var prIndex = contains(proUnit, unit);
 	prIndex = parseInt(prIndex);
 	if (prIndex != -1) {
@@ -654,9 +678,20 @@ function after(unit) {
 		n = bitUnit.length - 1 - bIndex;
 		return n;
 	}
+	var bRateIndex = contains(bitRateUnit, unit);
+	if (bRateIndex != -1) {
+		n = bitRateUnit.length - 1 - bRateIndex;
+		return n;
+	}
+	
 	var paIndex = contains(packUnit, unit);
 	if (paIndex != -1) {
 		n = packUnit.length - 1 - paIndex;
+		return n;
+	}
+	var paRateIndex = contains(packRateUnit, unit);
+	if (paRateIndex != -1) {
+		n = packRateUnit.length - 1 - paRateIndex;
 		return n;
 	}
 	var prIndex = contains(proUnit, unit);
@@ -707,9 +742,9 @@ function mi(num, unit, n) {
  */
 function getValue(unit) {
 	var val;
-	if (unit == 'ns' || unit == 'packet' || unit == 'process') {
+	if (unit == 'ns' || unit == 'packet' || unit == 'packet/s' || unit == 'process') {
 		val = 1000;
-	} else if (unit == 'B' || unit == 'MB') {
+	} else if (unit == 'B' || unit == 'MB' || unit == 'B/s') {
 		val = 1024;
 	} else {
 		val = 1;
