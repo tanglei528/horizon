@@ -760,7 +760,7 @@ function csv() {
 	var period = $("#period").find("option:selected").val();
 	var stats_attr = $("#stats_attr").find("option:selected").val();
 	var date_options = $("#date_options").find("option:selected").val();
-	var group_by = $("#group_by").find("option:selected").val();
+	var group_by = $("#group_by").val();
 	var url = "?format=csv";
 	if (!(resource_id == undefined)) {
 	    url += "&resource_id=" + resource_id;
@@ -773,7 +773,9 @@ function csv() {
 	}
 		
 	url += "&stats_attr=" + stats_attr;
-	url += "&group_by=" + group_by;
+	if (!(group_by == undefined)) {
+ 	    url += "&group_by=" + group_by;
+ 	}
 	if ($("#date_options").find("option:selected").val() == "other") {
 		var date_from = $("#date_from").val();
 		var date_to = $("#date_to").val();

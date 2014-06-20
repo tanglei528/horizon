@@ -171,6 +171,9 @@ horizon.addInitFunction(function () {
       memory_group.attr('data-display',true)
       network_group.attr('data-display',true)
     }
+    if (cur_href == '?tab=instance_details__resources_usage') {
+      window.location.reload()
+    }
   })
   $(document).on('submit', '#tail_length', function (evt) {
     horizon.instances.user_decided_length = true;

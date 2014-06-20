@@ -181,9 +181,10 @@ class ResourceUsageTab(tabs.Tab):
 
     def get_context_data(self, request):
         meters = self._get_data(request)
-
+        instance = self.tab_group.kwargs['instance']
         context = {
             'nova_meters': meters,
+            'instance': instance,
         }
 
         return context
