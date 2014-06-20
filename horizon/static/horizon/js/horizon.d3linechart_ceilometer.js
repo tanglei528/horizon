@@ -150,8 +150,6 @@ horizon.d3_line_chart_ceilometer = {
 			// Set either the minimal height defined by CSS.
 			self.height = jquery_element.height();
 
-			//alert(self.width);
-			//alert(self.height);
 			/*
         Or stretch it to the remaining height of the window if there
         is a place. + some space on the bottom, lets say 30px.
@@ -478,10 +476,10 @@ horizon.d3_line_chart_ceilometer = {
    * @param selector JQuery selector of charts we want to initialize.
    * @param settings An object containing settings of the chart.
    */
-	init: function(selector, settings) {
+	init: function(selector, settings, flag) {
 		var self = this;
 		$(selector).each(function() {
-			self.refresh(this, settings);
+			self.refresh(this, settings, flag);
 		});
 		if (settings !== undefined && settings.auto_resize) {
 			/*
@@ -518,7 +516,7 @@ horizon.d3_line_chart_ceilometer = {
    * @param html_element HTML element where the chart will be rendered.
    * @param settings An object containing settings of the chart.
    */
-	refresh: function(html_element, settings) {
+	refresh: function(html_element, settings, flag) {
 		var chart = new this.LineChart(this, html_element, settings);
 		/*
       FIXME save chart objects somewhere so I can use them again when
@@ -527,10 +525,13 @@ horizon.d3_line_chart_ceilometer = {
       this.charts.add_or_update(chart)
     */
 		chart.refresh();
-		interval_id = setInterval(function() {
-			inner_fun()
-		},
-		refresh_time);
+		interval_id = "";
+		if (flag) {
+			interval_id= setInterval(function() {
+				inner_fun()
+			},
+			refresh_time);
+		}
 		intervalIdArray[$(html_element).attr('data-meter')] = interval_id;
 		function inner_fun() {
 			clearInterval(interval_id);
