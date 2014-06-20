@@ -553,7 +553,7 @@ horizon.d3_line_chart_ceilometer = {
 	     * all connected charts are refreshed.
 	     */
 	    connect_forms_to_charts = function(){
-	      $(selector).each(function() {alert("aaaaaaaaaaaaaaaa");
+	      $(selector).each(function() {("aaaaaaaaaaaaaaaa");
 	        var chart = $(this);
 	        $(chart.data('form-selector')).each(function(){
 	          var form = $(this);
@@ -576,7 +576,7 @@ horizon.d3_line_chart_ceilometer = {
 	     * @param settings An object containing settings of the chart.
 	     */
 	    delegate_event_and_refresh_charts = function(selector, event_name, settings) {
-	      $('form').delegate(selector, event_name, function() {alert("bbbbbbbbbbbbb");
+	      $('form').delegate(selector, event_name, function() {
 	        /*
 	          Registering 'any event' on form element by delegating. This way it
 	          can be easily overridden / enhanced when some special functionality
@@ -587,7 +587,7 @@ horizon.d3_line_chart_ceilometer = {
 	        var invoker = $(this);
 	        var form = invoker.parents('form').first();
 
-	        $(form.data('charts_selector')).each(function(){alert("cccccccccccccc");
+	        $(form.data('charts_selector')).each(function(){
 	          // refresh the chart connected to changed form
 	          self.refresh(this, settings);
 	        });
@@ -598,7 +598,7 @@ horizon.d3_line_chart_ceilometer = {
 	     * A helper function for catching change event of form selectboxes
 	     * connected to charts.
 	     */
-	    bind_select_box_change = function(settings) {alert("dddddddddddd");
+	    bind_select_box_change = function(settings) {
 	      delegate_event_and_refresh_charts(select_box_selector, 'change', settings);
 	    };
 
@@ -606,7 +606,7 @@ horizon.d3_line_chart_ceilometer = {
 	     * A helper function for catching changeDate event of form datepickers
 	     * connected to charts.
 	     */
-	    bind_datepicker_change = function(settings) {alert("eeeeeeeeeeeeeeee");
+	    bind_datepicker_change = function(settings) {
 	      var now = new Date();
 
 	      $(datepicker_selector).each(function() {
