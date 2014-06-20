@@ -510,6 +510,7 @@ horizon.d3_line_chart_ceilometer = {
 				}
 			};
 		}
+	    self.bind_commands(selector, settings);
 	},
 	/**
    * Function for creating chart objects, saving them for later reuse
@@ -538,6 +539,89 @@ horizon.d3_line_chart_ceilometer = {
 			horizon.d3_line_chart_ceilometer.refresh(html_element, settings);
 		}
 	},
+	bind_commands: function (selector, settings){
+	    // connecting controls of the charts
+	    var select_box_selector = 'select[data-line-chart-command="select_box_change"]';
+	    var datepicker_selector = 'input[data-line-chart-command="date_picker_change"]';
+	    var self = this;
+
+	    /**
+	     * Connecting forms to charts it controls. Each chart contains
+	     * JQuery selector data-form-selector, which defines by which
+	     * html Forms is a particular chart controlled. This information
+	     * has to be projected to forms. So when form input is changed,
+	     * all connected charts are refreshed.
+	     */
+	    connect_forms_to_charts = function(){
+	      $(selector).each(function() {alert("aaaaaaaaaaaaaaaa");
+	        var chart = $(this);
+	        $(chart.data('form-selector')).each(function(){
+	          var form = $(this);
+	          // each form is building a jquery selector for all charts it affects
+	          var chart_identifier = 'div[data-form-selector="' + chart.data('form-selector') + '"]';
+	          if (!form.data('charts_selector')){
+	            form.data('charts_selector', chart_identifier);
+	          } else {
+	            form.data('charts_selector', form.data('charts_selector') + ', ' + chart_identifier);
+	          }
+	        });
+	      });
+	    };
+
+	    /**
+	     * A helper function for delegating form events to charts, causing their
+	     * refreshing.
+	     * @param selector JQuery selector of charts we are initializing.
+	     * @param event_name Event name we want to delegate.
+	     * @param settings An object containing settings of the chart.
+	     */
+	    delegate_event_and_refresh_charts = function(selector, event_name, settings) {
+	      $('form').delegate(selector, event_name, function() {alert("bbbbbbbbbbbbb");
+	        /*
+	          Registering 'any event' on form element by delegating. This way it
+	          can be easily overridden / enhanced when some special functionality
+	          needs to be added. Like input element showing/hiding another element
+	          on some condition will be defined directly on element and can block
+	          this default behavior.
+	        */
+	        var invoker = $(this);
+	        var form = invoker.parents('form').first();
+
+	        $(form.data('charts_selector')).each(function(){alert("cccccccccccccc");
+	          // refresh the chart connected to changed form
+	          self.refresh(this, settings);
+	        });
+	      });
+	    };
+
+	    /**
+	     * A helper function for catching change event of form selectboxes
+	     * connected to charts.
+	     */
+	    bind_select_box_change = function(settings) {alert("dddddddddddd");
+	      delegate_event_and_refresh_charts(select_box_selector, 'change', settings);
+	    };
+
+	    /**
+	     * A helper function for catching changeDate event of form datepickers
+	     * connected to charts.
+	     */
+	    bind_datepicker_change = function(settings) {alert("eeeeeeeeeeeeeeee");
+	      var now = new Date();
+
+	      $(datepicker_selector).each(function() {
+	        var el = $(this);
+	        el.datepicker({format: 'yyyy-mm-dd',
+	          setDate: new Date(),
+	          showButtonPanel: true});
+	      });
+	      delegate_event_and_refresh_charts(datepicker_selector, 'changeDate', settings);
+	    };
+
+	    connect_forms_to_charts();
+	    bind_select_box_change(settings);
+	    bind_datepicker_change(settings);
+	  },
 	switchTime: function() {
 		var value = $('#stats_attr').val();
 		refresh_time = parseInt(value);

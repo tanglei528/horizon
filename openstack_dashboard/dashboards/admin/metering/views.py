@@ -406,10 +406,9 @@ class CsvView(TemplateView):
                                          group_by,
                                          meter,
                                          period)
-
             series = _series_for_meter(resources,
                                             resource_name,
-                                            meter_name,
+                                            meter,
                                             stats_attr,
                                             unit)
 
