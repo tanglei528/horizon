@@ -11,7 +11,7 @@
     </select>
   </div>
 </div>
-
+ 
 <div class="info row-fluid detail">
   <div class="span12">
     <h4 class="meter_image" id="cpu_title_image"><span style="line-height:2.5">{% trans "cpu" %} / {% trans "memory" %}</span><span class="ceil_span_image" onClick="horizon.d3_line_chart_ceilometer.showCPU();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
@@ -19,7 +19,8 @@
     <div id="cpu_cup_util" class="info row-fluid detail">
       <div class="chart_title_name"><div class="chart_title_name_left">{% trans "VM CPU Usage Rate" %}</div><div class="chart_title_name_right">{% trans "VM Memory Usage Rate" %}</div><div class="chart_title_name_clear"/></div>
         <div class="span9 chart_container" style="width: 400px;">
-          <div class="chart"
+          <div id="cpu_util_chart"
+               class="chart"
                data-chart-type="line_chart"
                data-url="{% url 'horizon:admin:metering:raw-samples'%}?meter=cpu_util&date_options=null&resource_id={{ instance.id }}"
                data-form-selector='#linechart_general_form'
@@ -34,7 +35,8 @@
         </div>
         <div class="span3 legend_container">
 	        <div class="span9 chart_container" style="width: 400px;">
-	          <div class="chart"
+	          <div id="memory_usage_chart"
+                 class="chart"
 	               data-chart-type="line_chart"
 	               data-url="{% url 'horizon:admin:metering:raw-samples'%}?meter=memory.usage&date_options=null&resource_id={{ instance.id }}"
 	               data-form-selector='#linechart_general_form'
@@ -61,7 +63,8 @@
     <div class="chart_title_name"><div class="chart_title_name_left">{% trans "VM Network Outgong and Ingong Bytes" %}</div><div class="chart_title_name_right" style="margin-right:39.5%;">{% trans "VM Network Outgong and Ingong Packets" %}</div><div class="chart_title_name_clear"/></div>
      
       <div class="span9 chart_container" style="width: 400px;">
-          <div class="chart"
+          <div id="net_bytes_chart"
+               class="chart"
                data-chart-type="line_chart"
 							 data-url="{% url 'horizon:admin:metering:samples'%}?meter=network.incoming.bytes.rate-network.outgoing.bytes.rate&period=60&group_by=project&stats_attr=sum&date_options=null&metadata.instance_id={{ instance.id }}"
                data-form-selector='#linechart_general_form'
@@ -78,7 +81,8 @@
         
         <div class="span3 legend_container">
           <div class="span9 chart_container" style="width: 400px;">
-          <div class="chart"
+          <div id="net_packages_chart"
+               class="chart"
                data-chart-type="line_chart"
 							 data-url="{% url 'horizon:admin:metering:samples'%}?meter=network.incoming.packets.rate-network.outgoing.packets.rate&period=60&group_by=project&stats_attr=sum&date_options=null&metadata.instance_id={{ instance.id }}"
                data-form-selector='#linechart_general_form'
@@ -107,7 +111,15 @@
 
 <script type="text/javascript">
   if (typeof horizon.d3_line_chart !== 'undefined') {
-    horizon.d3_line_chart_ceilometer.init("div[data-chart-type='line_chart']",
+  //  horizon.d3_line_chart_ceilometer.init("div[data-chart-type='line_chart']",
+  //    {'auto_resize': true}, true);
+      horizon.d3_line_chart_ceilometer.init("div[id='cpu_util_chart']",
+      {'auto_resize': true}, true);
+      horizon.d3_line_chart_ceilometer.init("div[id='memory_usage_chart']",
+      {'auto_resize': true}, true);
+      horizon.d3_line_chart_ceilometer.init("div[id='net_bytes_chart']",
+      {'auto_resize': true}, true);
+      horizon.d3_line_chart_ceilometer.init("div[id='net_packages_chart']",
       {'auto_resize': true}, true);
   }
  </script>

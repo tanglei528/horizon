@@ -1,6 +1,6 @@
 {% load i18n %}
 {% load url from future %}
-
+ 
 <div id="samples_url" url="{% url "horizon:admin:metering:samples" %}"></div>
 <div id="ceilometer-stats">
   <form class="form-horizontal"
@@ -89,28 +89,29 @@
   </form>
 </div>
 
-<div class="info row-fluid detail">
+<div class="info row-fluid detail" style="height:350px">
   <div class="span12">
     <h4>{% trans "Statistics of all resources" %}</h4>
     <hr class="header_rule" />
     <div class="info row-fluid detail">
-      <div class="span9 chart_container"  style="width: 500px;">
-          <div class="chart"
+      <div class="span9 chart_container"  style="width: 400px; height: 350px">
+          <div id= "chart_usage"
+               class="chart"
                data-chart-type="line_chart"
                data-url="{% url 'horizon:admin:metering:samples'%}"
                data-form-selector='#linechart_usage_form'
-               data-legend-selector="#legend"
-               data-smoother-selector="#smoother" 
+               data-legend-selector="#legend_usage"
+               data-smoother-selector="#smoother_usage" 
                data-display="true"
                data-meter="0"
                data-unit-conver="true"
-               data-slider-selector="#slider">
+               data-slider-selector="#slider_usage">
           </div>
           <div id="slider_usage"></div>
         </div>
         <div class="span3 legend_container">
-          <div id="smoother" title="Smoothing"></div>
-          <div id="legend"></div>
+          <div id="smoother_usage" title="Smoothing"></div>
+          <div id="legend_usage"></div>
         </div>
       </div>
     </div>
@@ -119,7 +120,7 @@
 
 <script type="text/javascript">
   if (typeof horizon.d3_line_chart !== 'undefined') {
-    horizon.d3_line_chart_ceilometer.init("div[data-chart-type='line_chart']",
+    horizon.d3_line_chart_ceilometer.init("div[id='chart_usage']",
       {'auto_resize': true}, false);
   }
 
