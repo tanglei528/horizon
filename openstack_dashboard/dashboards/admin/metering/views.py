@@ -100,7 +100,6 @@ class SamplesView(TemplateView):
         if len(meter_names) > 1:
             series = []
             for meter_na in meter_names:
-                meter_n = meter_na.replace("_", ".")
                 resources, unit, end_date = query_data(request,
                                      date_from,
                                      date_to,
@@ -129,7 +128,7 @@ class SamplesView(TemplateView):
         ret = {}
         ret['series'] = series
         ret['settings'] = {}
-        ret['last_time'] = {'date_time':end_date}
+        ret['last_time'] = {'date_time': end_date}
 
         return HttpResponse(json.dumps(ret),
             content_type='application/json')
@@ -157,7 +156,7 @@ class RawSamplesView(TemplateView):
             series = []
             for meter_na in meter_names:
                 meter_n = meter_na.replace("_", ".")
-                samples, unit,last_date = self.query_raw_sample_data(request,
+                samples, unit, last_date = self.query_raw_sample_data(request,
                                      date_from,
                                      date_to,
                                      date_options,
@@ -167,7 +166,7 @@ class RawSamplesView(TemplateView):
                                         meter_na,
                                         unit)
         else:
-            samples, unit ,last_date = self.query_raw_sample_data(request,
+            samples, unit, last_date = self.query_raw_sample_data(request,
                                          date_from,
                                          date_to,
                                          date_options,
@@ -179,7 +178,7 @@ class RawSamplesView(TemplateView):
         ret = {}
         ret['series'] = series
         ret['settings'] = {}
-        ret['last_time'] = {'date_time':last_date}
+        ret['last_time'] = {'date_time': last_date}
 
         return HttpResponse(json.dumps(ret),
             content_type='application/json')
@@ -386,7 +385,7 @@ class CsvView(TemplateView):
             series = []
             for meter_na in meter_names:
                 meter_n = meter_na.replace("_", ".")
-                resources, unit,last_date = query_data(request,
+                resources, unit, last_date = query_data(request,
                                      date_from,
                                      date_to,
                                      date_options,
@@ -399,7 +398,7 @@ class CsvView(TemplateView):
                                         stats_attr,
                                         unit)
         else:
-            resources, unit,last_date = query_data(request,
+            resources, unit, last_date = query_data(request,
                                          date_from,
                                          date_to,
                                          date_options,
@@ -517,7 +516,8 @@ def _calc_date_args(date_from, date_to, date_options, interval_time):
         if interval_time:
 #             date_from = datetime.utcnow() - \
 #                 timedelta(seconds=int(60))
-            date_from = datetime.strptime(interval_time, "%Y-%m-%d %H:%M:%S %f")
+            date_from = datetime.strptime(interval_time,
+               "%Y-%m-%d %H:%M:%S %f")
 
             date_to = datetime.utcnow()
         else:
@@ -627,4 +627,4 @@ def query_data(request,
             resources = []
             exceptions.handle(request,
                               _('Unable to retrieve statistics.'))
-    return resources, unit,last_search_date
+    return resources, unit, last_search_date

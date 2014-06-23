@@ -23,7 +23,6 @@ from horizon import tabs
 from openstack_dashboard import api
 from openstack_dashboard.api import ceilometer
 
-import logging
 
 class OverviewTab(tabs.Tab):
     name = _("Overview")
@@ -137,6 +136,7 @@ class CeilometerTab(tabs.Tab):
         instance_name = instance_name + "-" + instance.id
         return {'instance': instance, 'nw_resource_id': instance_name}
 
+
 class ResourceUsageTab(tabs.Tab):
     name = _("Resources Usage")
     slug = "resources_usage"
@@ -150,32 +150,33 @@ class ResourceUsageTab(tabs.Tab):
         except Exception:
             return ['m1.tiny', 'm1.small', 'm1.medium',
                     'm1.large', 'm1.xlarge']
-    def _get_data(self,request):
+
+    def _get_data(self, request):
         meters = ceilometer.Meters(request)
         meters = []
-        meter = {'name':'cpu', 'unit':'ns'}
+        meter = {'name': 'cpu', 'unit': 'ns'}
         meters.append(meter)
-        meter = {'name':'cpu_util', 'unit':'%'}
+        meter = {'name': 'cpu_util', 'unit': '%'}
         meters.append(meter)
-        meter = {'name':'memory', 'unit':'MB'}
+        meter = {'name': 'memory', 'unit': 'MB'}
         meters.append(meter)
-        meter = {'name':'memory.usage', 'unit':'MB'}
+        meter = {'name': 'memory.usage', 'unit': 'MB'}
         meters.append(meter)
-        meter = {'name':'network.outgoing.bytes', 'unit':'B'}
+        meter = {'name': 'network.outgoing.bytes', 'unit': 'B'}
         meters.append(meter)
-        meter = {'name':'network.incoming.bytes', 'unit':'B'}
+        meter = {'name': 'network.incoming.bytes', 'unit': 'B'}
         meters.append(meter)
-        meter = {'name':'network.outgoing.packets', 'unit':'packet'}
+        meter = {'name': 'network.outgoing.packets', 'unit': 'packet'}
         meters.append(meter)
-        meter = {'name':'network.incoming.packets', 'unit':'packet'}
+        meter = {'name': 'network.incoming.packets', 'unit': 'packet'}
         meters.append(meter)
-        meter = {'name':'disk.root.size.used', 'unit':'GB'}
+        meter = {'name': 'disk.root.size.used', 'unit': 'GB'}
         meters.append(meter)
-        meter = {'name':'disk.root.size.used.percent', 'unit':'%'}
+        meter = {'name': 'disk.root.size.used.percent', 'unit': '%'}
         meters.append(meter)
-        meter = {'name':'disk.ephemeral.size.used', 'unit':'GB'}
+        meter = {'name': 'disk.ephemeral.size.used', 'unit': 'GB'}
         meters.append(meter)
-        meter = {'name':'disk.ephemeral.size.used.percent', 'unit':'%'}
+        meter = {'name': 'disk.ephemeral.size.used.percent', 'unit': '%'}
         meters.append(meter)
         return meters
 
@@ -188,6 +189,7 @@ class ResourceUsageTab(tabs.Tab):
         }
 
         return context
+
 
 class InstanceDetailTabs(tabs.TabGroup):
     slug = "instance_details"
