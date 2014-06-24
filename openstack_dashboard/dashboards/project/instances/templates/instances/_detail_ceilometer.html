@@ -1,125 +1,120 @@
 {% load i18n %}
 {% load url from future %}
 <div class="control-group">
-  <div class="controls">
-    {% trans "refresh cycle" %}:&nbsp;<select data-line-chart-command="select_box_change" onChange="horizon.d3_line_chart_ceilometer.switchTime();"
+	<div class="controls">
+		{% trans "refresh cycle" %}:&nbsp;<select data-line-chart-command="select_box_change" onChange="horizon.d3_line_chart_ceilometer.switchTime();"
             id="stats_attr" name="stats_attr" class="span2">
-      <option value="30000">{% trans "30 sec" %}</option>
-      <option selected="selected" value="60000">{% trans "1 min" %}</option>
-      <option value="300000">{% trans "5 min" %}</option>
-      <option value="600000">{% trans "10 min" %}</option>
-    </select>
-  </div>
+		<option value="30000">{% trans "30 sec" %}</option>
+		<option selected="selected" value="60000">{% trans "1 min" %}</option>
+		<option value="300000">{% trans "5 min" %}</option>
+		<option value="600000">{% trans "10 min" %}</option>
+	</select>
+	</div>
 </div>
- 
 <div class="info row-fluid detail">
-  <div class="span12">
-    <h4 class="meter_image" id="cpu_title_image"><span style="line-height:2.5">{% trans "cpu" %} / {% trans "memory" %}</span><span class="ceil_span_image" onClick="horizon.d3_line_chart_ceilometer.showCPU();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
-    <hr class="header_rule" />
-    <div id="cpu_cup_util" class="info row-fluid detail">
-      <div class="chart_title_name"><div class="chart_title_name_left">{% trans "VM CPU Usage Rate" %}</div><div class="chart_title_name_right">{% trans "VM Memory Usage Rate" %}</div><div class="chart_title_name_clear"/></div>
-        <div class="span9 chart_container" style="width: 400px;">
-          <div id="cpu_util_chart"
-               class="chart"
-               data-chart-type="line_chart"
-               data-url="{% url 'horizon:admin:metering:raw-samples'%}?meter=cpu_util&date_options=null&resource_id={{ instance.id }}"
-               data-form-selector='#linechart_general_form'
-               data-legend-selector="#legend"
-               data-smoother-selector="#smoother"
-               data-display="true"
-               data-meter="0"
-               data-unit-conver="false"
-               data-slider-selector="#slider">
-          </div>
-          <div id="slider"></div>
-        </div>
-        <div class="span3 legend_container">
-	        <div class="span9 chart_container" style="width: 400px;">
-	          <div id="memory_usage_chart"
-                 class="chart"
-	               data-chart-type="line_chart"
-	               data-url="{% url 'horizon:admin:metering:raw-samples'%}?meter=memory.usage&date_options=null&resource_id={{ instance.id }}"
-	               data-form-selector='#linechart_general_form'
-	               data-legend-selector="#legend"
-	               data-smoother-selector="#smoother"
-	               data-display="true"
-	               data-meter="1"
-	               data-unit-conver="false"
-	               data-slider-selector="#slider">
-	          </div>
+	<div class="span12">
+		<h4 class="meter_image" id="cpu_title_image"><span style="line-height:2.5">{% trans "cpu" %} / {% trans "memory" %}</span><span class="ceil_span_image" onClick="horizon.d3_line_chart_ceilometer.showCPU();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
+		<hr class="header_rule" />
+		<div id="cpu_cup_util" class="info row-fluid detail">
+			<div class="chart_title_name">
+				<div class="chart_title_name_left">{% trans "VM CPU Usage Rate" %}</div>
+				<div class="chart_title_name_right">{% trans "VM Memory Usage Rate" %}</div>
+				<div class="chart_title_name_clear"/></div>
+			</div>
+			<div class="span9 chart_container" style="width: 400px;">
+				<div class="chart"
+					data-chart-type="line_chart"
+					data-url="{% url 'horizon:admin:metering:raw-samples'%}?meter=cpu_util&date_options=null&resource_id={{ instance.id }}"
+					data-form-selector='#linechart_general_form'
+					data-legend-selector="#legend1"
+					data-smoother-selector="#smoother"
+					data-display="true"
+					data-meter="0"
+			        data-y_axis={% trans "CPU Usage(Units/" %}
+					data-unit-conver="false"
+					data-slider-selector="#slider">
+				</div>
+				<div class="span3" style="position: relative;width: 400px;">
+					<div id="smoother" title="Smoothing"></div>
+					<div id="legend1"></div>
+				</div>
+				<div id="slider"></div>
 	        </div>
-        </div>
-      </div>
-    </div>
-  </div>
+	        <div class="span9 chart_container" style="width: 400px;margin-left: 100px;">
+	        	<div class="chart"
+	        		data-chart-type="line_chart"
+	        		data-url="{% url 'horizon:admin:metering:raw-samples'%}?meter=memory.usage&date_options=null&resource_id={{ instance.id }}"
+	        		data-form-selector='#linechart_general_form'
+	        		data-legend-selector="#legend2"
+	        		data-smoother-selector="#smoother"
+	        		data-display="true"
+	        		data-meter="1"
+			        data-y_axis={% trans "Memory Usage(Units/" %}
+	        		data-unit-conver="false"
+	        		data-slider-selector="#slider">
+	        	</div>
+	        	<div class="span3" style="position: relative;width: 400px;">
+	        		<div id="smoother" title="Smoothing"></div>
+	        		<div id="legend2"></div>
+	        	</div>
+	        </div>
+		</div>
+	</div>
 </div>
-</div>
-
 <div class="info row-fluid detail">
-  <div class="span12">
-    <h4 class="meter_image" id="network_bytes_image"><span style="line-height:2.5">{% trans "network" %}</span><span class="ceil_span_image" onClick="horizon.d3_line_chart_ceilometer.showNetworkBytes();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
-    <hr class="header_rule" />
-    <div id="network_bytes" class="info row-fluid detail">
-    <div class="chart_title_name"><div class="chart_title_name_left">{% trans "VM Network Outgong and Ingong Bytes" %}</div><div class="chart_title_name_right" style="margin-right:39.5%;">{% trans "VM Network Outgong and Ingong Packets" %}</div><div class="chart_title_name_clear"/></div>
-     
-      <div class="span9 chart_container" style="width: 400px;">
-          <div id="net_bytes_chart"
-               class="chart"
-               data-chart-type="line_chart"
-							 data-url="{% url 'horizon:admin:metering:samples'%}?meter=network.incoming.bytes.rate-network.outgoing.bytes.rate&period=60&group_by=project&stats_attr=sum&date_options=null&metadata.instance_id={{ instance.id }}"
-               data-form-selector='#linechart_general_form'
-               data-legend-selector="#legend"
-               data-display="true"
-               data-meter="2"
-               data-y_axis={% trans "Network Bandwidth(Units/" %}
-               data-smoother-selector="#smoother"
-               data-unit-conver="true"
-               data-unit="1024"
-               data-slider-selector="#slider">
-          </div>
-        </div>
-        
-        <div class="span3 legend_container">
-          <div class="span9 chart_container" style="width: 400px;">
-          <div id="net_packages_chart"
-               class="chart"
-               data-chart-type="line_chart"
-							 data-url="{% url 'horizon:admin:metering:samples'%}?meter=network.incoming.packets.rate-network.outgoing.packets.rate&period=60&group_by=project&stats_attr=sum&date_options=null&metadata.instance_id={{ instance.id }}"
-               data-form-selector='#linechart_general_form'
-               data-legend-selector="#legend"
-               data-display="true"
-               data-meter="3"
-               data-y_axis={% trans "Network Packege(Units/Amount)" %}
-               data-unit-conver="true"
-               data-unit="1000"
-               data-smoother-selector="#smoother"
-               data-slider-selector="#slider">
-          </div>
-        </div>
-      </div>
-      
-      <div style="float:right;">
-      	<div class="" style="width: 160px;">
-      		<div id="smoother" title="Smoothing"></div>
-          	<div id="legend"></div>
-      	</div>
-      </div>
-      
-    </div>
-  </div>
+	<div class="span12">
+		<h4 class="meter_image" id="network_bytes_image"><span style="line-height:2.5">{% trans "network" %}</span><span class="ceil_span_image" onClick="horizon.d3_line_chart_ceilometer.showNetworkBytes();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h4>
+		<hr class="header_rule" />
+		<div id="network_bytes" class="info row-fluid detail">
+			<div class="chart_title_name">
+				<div class="chart_title_name_left">{% trans "VM Network Outgong and Ingong Bytes" %}</div>
+				<div class="chart_title_name_right">{% trans "VM Network Outgong and Ingong Packets" %}</div>
+				<div class="chart_title_name_clear"/></div>
+			</div>
+			<div class="span9 chart_container" style="width: 400px;">
+				<div class="chart"
+					data-chart-type="line_chart"
+					data-url="{% url 'horizon:admin:metering:samples'%}?meter=network.incoming.bytes.rate-network.outgoing.bytes.rate&period=60&group_by=project&stats_attr=sum&date_options=null&metadata.instance_id={{ instance.id }}"
+					data-form-selector='#linechart_general_form'
+					data-legend-selector="#legend3"
+					data-display="true"
+					data-meter="2"
+					data-y_axis={% trans "Network Bandwidth(Units/" %}
+					data-smoother-selector="#smoother"
+					data-unit-conver="true"
+					data-unit="1024"
+					data-slider-selector="#slider">
+				</div>
+				<div class="span3" style="position: relative;width: 400px;">
+					<div id="smoother" title="Smoothing"></div>
+					<div id="legend3"></div>
+				</div>
+			</div>
+	        <div class="span9 chart_container" style="width: 400px;margin-left: 100px;">
+		        <div class="chart"
+		        	data-chart-type="line_chart"
+		        	data-url="{% url 'horizon:admin:metering:samples'%}?meter=network.incoming.packets.rate-network.outgoing.packets.rate&period=60&group_by=project&stats_attr=sum&date_options=null&metadata.instance_id={{ instance.id }}"
+		        	data-form-selector='#linechart_general_form'
+		        	data-legend-selector="#legend"
+		        	data-display="true"
+		        	data-meter="3"
+		        	data-y_axis={% trans "Network Packege(Units/" %}
+		        	data-unit-conver="true"
+		        	data-unit="1000"
+		        	data-smoother-selector="#smoother"
+		        	data-slider-selector="#slider">
+		        </div>
+		        <div class="span4" style="position: relative;width: 400px;">
+		        	<div id="smoother" title="Smoothing"></div>
+		        	<div id="legend4"></div>
+		        </div>
+		    </div>
+	    </div>
+	</div>
 </div>
-
 <script type="text/javascript">
   if (typeof horizon.d3_line_chart !== 'undefined') {
-  //  horizon.d3_line_chart_ceilometer.init("div[data-chart-type='line_chart']",
-  //    {'auto_resize': true}, true);
-      horizon.d3_line_chart_ceilometer.init("div[id='cpu_util_chart']",
-      {'auto_resize': true}, true);
-      horizon.d3_line_chart_ceilometer.init("div[id='memory_usage_chart']",
-      {'auto_resize': true}, true);
-      horizon.d3_line_chart_ceilometer.init("div[id='net_bytes_chart']",
-      {'auto_resize': true}, true);
-      horizon.d3_line_chart_ceilometer.init("div[id='net_packages_chart']",
+    horizon.d3_line_chart_ceilometer.init("div[data-chart-type='line_chart']",
       {'auto_resize': true}, true);
   }
  </script>

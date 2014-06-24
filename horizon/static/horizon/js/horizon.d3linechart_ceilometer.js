@@ -320,9 +320,11 @@ horizon.d3_line_chart_ceilometer = {
 			}
 			$.map(self.series, function(serie) {
 				serie.color = last_point_color = self.color(serie.name);
+				if (count == 0) {
+					self.lable = self.lable + serie.unit + ')';
+				}
 				if (count == 1) {
 					serie.color = last_point_color = "#30c020";
-					self.lable = self.lable + serie.unit + ')';
 				}
 				$.map(serie.data, function(statistic) {
 					// need to parse each date
@@ -554,7 +556,7 @@ horizon.d3_line_chart_ceilometer = {
 	     * all connected charts are refreshed.
 	     */
 	    connect_forms_to_charts = function(){
-	      $(selector).each(function() {("aaaaaaaaaaaaaaaa");
+	      $(selector).each(function() {
 	        var chart = $(this);
 	        $(chart.data('form-selector')).each(function(){
 	          var form = $(this);
