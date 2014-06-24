@@ -9939,3 +9939,125 @@ msgstr ""
 #: usage/tables.py:54 usage/tables.py:83
 msgid "Usage"
 msgstr ""
+
+#: hypervisor/tabs.py:51
+msgid "Hypervisor Instances Monitor"
+msgstr ""
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html
+msgid "CPU Load 1 min"
+msgstr ""
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html
+msgid "CPU Load 5 min"
+msgstr ""
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html
+msgid "Memory Total"
+msgstr ""
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html
+msgid "Memory Used"
+msgstr ""
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html:64
+msgid "Network Incoming and Outgoing Bytes"
+msgstr ""
+
+msgid "Network Outgong and Ingong Packets"
+msgstr ""
+
+msgid "Network Outgoing Bytes"
+msgstr ""
+
+msgid "Network Incoming Bytes"
+msgstr ""
+
+msgid "Harware Disk Size Total"
+msgstr ""
+
+msgid "Harware Disk Size Used"
+msgstr ""
+
+msgid "Harware Disk Size Usage"
+msgstr ""
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html
+msgid "Network Bandwidth Bytes"
+msgstr ""
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html 32
+msgid "CPU Usage(Units/"
+msgstr ""
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html 50
+msgid "Memory Usage(Units/"
+msgstr ""
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html 81
+msgid "Network Bandwidth(Units/"
+msgstr ""
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html 100
+msgid "Network Packege(Units/"
+msgstr ""
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html:57
+msgid "30 min"
+msgstr ""
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html:58
+msgid "1 hour" 
+msgstr ""
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html:59
+msgid "1 day" 
+msgstr ""
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html:60
+msgid "1 week" 
+msgstr ""
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html:61
+msgid "1 month" 
+msgstr ""
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html:10
+msgid "Metric " 
+msgstr ""
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html:48
+msgid "Statistics Interval" 
+msgstr ""
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html:64
+msgid "Statistics Method" 
+msgstr ""
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html:77
+msgid "Statistics Period" 
+msgstr ""
+
+#: hypervisor/tabs.py:61
+msgid "Resources Usage"
+msgstr ""
+
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance:21
+msgid "CPU Usage Rate"
+msgstr ""
+
+msgid "Memory Usage Rate"
+msgstr ""
+
+msgid "Network Incoming Bytes Rate"
+msgstr ""
+
+msgid "Network Outgoing Bytes Rate"
+msgstr ""
+
+msgid "Network Outgong Packets Rate"
+msgstr ""
+
+msgid "Network Ingong Packets Rate"
+msgstr ""
