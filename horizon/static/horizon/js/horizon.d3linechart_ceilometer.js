@@ -556,7 +556,7 @@ horizon.d3_line_chart_ceilometer = {
 	     * all connected charts are refreshed.
 	     */
 	    connect_forms_to_charts = function(){
-	      $(selector).each(function() {("aaaaaaaaaaaaaaaa");
+	      $(selector).each(function() {
 	        var chart = $(this);
 	        $(chart.data('form-selector')).each(function(){
 	          var form = $(this);
