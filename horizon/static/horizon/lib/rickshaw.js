@@ -2075,7 +2075,7 @@ Rickshaw.Graph.HoverDetail = Rickshaw.Class.create({
 
         var domainX = nearestPoint.value.x;
         var formattedXValue = nearestPoint.formattedXValue;
-
+        
         this.element.innerHTML = '';
         this.element.style.left = graph.x(domainX) + 'px';
 
@@ -2137,6 +2137,9 @@ Rickshaw.Graph.HoverDetail = Rickshaw.Class.create({
 
         item.innerHTML = this.formatter(series, point.value.x, actualY, formattedXValue, formattedYValue, point);
         item.style.top = this.graph.y(point.value.y0 + point.value.y) + 'px';
+        //custom
+        var tmp_text = item.getElementsByTagName("span")[1].innerHTML
+        item.getElementsByTagName("span")[1].innerHTML = date_to_str(new Date(tmp_text))
 
         this.element.appendChild(item);
 

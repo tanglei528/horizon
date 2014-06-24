@@ -684,6 +684,34 @@ horizon.d3_line_chart_ceilometer = {
 	}
 };
 
+function date_to_str(datetime){
+		 var year = datetime.getFullYear();
+		 var month = datetime.getMonth()+1;//js从0开始取 
+		 var date = datetime.getDate(); 
+		 var hour = datetime.getHours(); 
+		 var minutes = datetime.getMinutes(); 
+		 var second = datetime.getSeconds();
+		 
+		 if(month<10){
+		  month = "0" + month;
+		 }
+		 if(date<10){
+		  date = "0" + date;
+		 }
+		 if(hour <10){
+		  hour = "0" + hour;
+		 }
+		 if(minutes <10){
+		  minutes = "0" + minutes;
+		 }
+		 if(second <10){
+		  second = "0" + second ;
+		 }
+		 
+		 var time = year+"-"+month+"-"+date+" "+hour+":"+minutes+":"+second; //2014-06-24 10:10:30
+		 return time;	
+}
+
 var timeUnit = ['ns', 'us', 'ms', 's'];
 var bitUnit = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB', 'NB', 'DB'];
 var bitRateUnit = ['B/s', 'KB/s', 'MB/s', 'GB/s', 'TB/s', 'PB/s', 'EB/s', 'ZB/s', 'YB/s', 'NB/s', 'DB/s'];
