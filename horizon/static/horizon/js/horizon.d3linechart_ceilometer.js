@@ -541,7 +541,11 @@ horizon.d3_line_chart_ceilometer = {
 		intervalIdArray[$(html_element).attr('data-meter')] = interval_id;
 		function inner_fun() {
 			clearInterval(interval_id);
-			interval_time = '&interval_time=' + dateArray[$(html_element).attr('data-meter')]; 
+			if(dateArray[$(html_element).attr('data-meter')] != undefined) {
+				interval_time = '&interval_time=' + dateArray[$(this).attr('data-meter')];
+			} else{
+				meterArray[$(this).attr('data-meter')] = "";
+			}
 			//interval_time = '&interval_time=' + refresh_time / 1000;
 			horizon.d3_line_chart_ceilometer.refresh(html_element, settings);
 		}
@@ -639,9 +643,9 @@ horizon.d3_line_chart_ceilometer = {
 		
 		var self = this;
 		$('div[data-chart-type="line_chart"]').each(function() {
-			if(dateArray[$(this).attr('data-meter')] != undefined)
+			if(dateArray[$(this).attr('data-meter')] != undefined) {
 				interval_time = '&interval_time=' + dateArray[$(this).attr('data-meter')];
-			else{
+			} else{
 				meterArray[$(this).attr('data-meter')] = "";
 			}
 			self.refresh(this, {'auto_resize': true});
