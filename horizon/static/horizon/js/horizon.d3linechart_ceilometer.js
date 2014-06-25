@@ -201,31 +201,35 @@ horizon.d3_line_chart_ceilometer = {
 							data = JSON.parse(meterArray[jquery_element.attr('data-meter')]);
 					} else {
 						if (meterArray[jquery_element.attr('data-meter')] != null) {
-							dataObjJson = JSON.parse(meterArray[jquery_element.attr('data-meter')]);
-							for (j = 0; j < data.series.length; j++) {
-								daArray = data.series[j].data;
-								for (i = 0; i < daArray.length; i++) {
-									dataObjJson.series[j].data.push(daArray[i]);
+							if ($(jquery_element.attr('data-increm')) == null){
+								dataObjJson = JSON.parse(meterArray[jquery_element.attr('data-meter')]);
+								for (j = 0; j < data.series.length; j++) {
+									daArray = data.series[j].data;
+									for (i = 0; i < daArray.length; i++) {
+										dataObjJson.series[j].data.push(daArray[i]);
+									}
 								}
-							}
-							//remove element from data, if the element is not include latest 8 hours
-							arrayDate = dataObjJson.series[0].data;
-							latestDate = arrayDate[arrayDate.length - 1];
-							new_time = new Date(latestDate.x).getTime();
-							for (i = 0; i < arrayDate.length; i++) {
-								time = new Date(arrayDate[i].x).getTime();
-								hours = (new_time - time) / 1000 / 60 / 60;
-								//compare date
-								if (hours > 8) {
-									arrayDate.shift();
-									continue;
-								} else {
-									break;
+								//remove element from data, if the element is not include latest 8 hours
+								arrayDate = dataObjJson.series[0].data;
+								latestDate = arrayDate[arrayDate.length - 1];
+								new_time = new Date(latestDate.x).getTime();
+								for (i = 0; i < arrayDate.length; i++) {
+									time = new Date(arrayDate[i].x).getTime();
+									hours = (new_time - time) / 1000 / 60 / 60;
+									//compare date
+									if (hours > 8) {
+										arrayDate.shift();
+										continue;
+									} else {
+										break;
+									}
 								}
+								// reset data 
+								data = dataObjJson;
+								meterArray[jquery_element.attr('data-meter')] = JSON.stringify(dataObjJson);
+							} else {
+								meterArray[jquery_element.attr('data-meter')] = JSON.stringify(data);
 							}
-							// reset data 
-							data = dataObjJson;
-							meterArray[jquery_element.attr('data-meter')] = JSON.stringify(dataObjJson);
 						} else {
 							meterArray[jquery_element.attr('data-meter')] = JSON.stringify(data);
 						}
@@ -305,7 +309,7 @@ horizon.d3_line_chart_ceilometer = {
 							flag_unit = flag_unit || flag;
 						} else {
 							var flag = false;
-							flag_unit = flag_unit && flag
+							flag_unit = flag_unit && flag;
 						}
 						arrNum[i] = n;
 					}
@@ -683,6 +687,10 @@ horizon.d3_line_chart_ceilometer = {
 			elem.attr('data-display', false);
 			bgimage.css("background-image", "url(/static/dashboard/img/right_droparrow_l2.png)");
 		}
+	},
+	switchUnit: function (obj) {
+		var legend = $("#meter option:selected").attr("legend");
+		$("div[data-chart-type='line_chart']").attr('data-y_axis', legend);
 	}
 };
 
@@ -859,7 +867,7 @@ function getValue(unit) {
 	var val;
 	if (unit == 'ns' || unit == 'packet' || unit == 'packet/s' || unit == 'process') {
 		val = 1000;
-	} else if (unit == 'B' || unit == 'MB' || unit == 'B/s') {
+	} else if (unit == 'B'|| unit == 'KB' || unit == 'MB' || unit == 'B/s') {
 		val = 1024;
 	} else {
 		val = 1;

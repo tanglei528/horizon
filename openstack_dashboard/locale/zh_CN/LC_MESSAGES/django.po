@@ -9950,6 +9950,34 @@ msgstr "网络带宽速率(单位/"
 msgid "Network Packege(Units/"
 msgstr "网络数据包速率（单位/"
 
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html 17
+msgid "Memory Used(Units/"
+msgstr "内存使用量(单位/"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html 23
+msgid "Harware Disk Size Used(Units/"
+msgstr "磁盘使用量(单位/"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html 26
+msgid "Harware Disk Size Usage(Units/"
+msgstr "磁盘使用率(单位/"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html 29
+msgid "Network Outgoing Bytes Rate(Units/"
+msgstr "网络发送速率(单位/"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html 32
+msgid "Network Incoming Bytes Rate(Units/"
+msgstr "网络接收速率(单位/"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html 35
+msgid "Network Outgoing Packets Rate(Units/"
+msgstr "网络发送包速率(单位/"
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html 38
+msgid "Network Incoming Packets Rate(Units/"
+msgstr "网络接收包速率(单位/"
+                
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html:57
 msgid "30 min"
 msgstr "30分钟"
