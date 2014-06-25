@@ -10061,3 +10061,25 @@ msgstr ""
 
 msgid "Network Ingong Packets Rate"
 msgstr ""
+
+#: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html 17
+msgid "Memory Used(Units/"
+msgstr ""
+
+msgid "Harware Disk Size Used(Units/"
+msgstr ""
+
+msgid "Harware Disk Size Usage(Units/"
+msgstr ""
+
+msgid "Network Outgoing Bytes Rate(Units/"
+msgstr ""
+
+msgid "Network Incoming Bytes Rate(Units/"
+msgstr ""
+
+msgid "Network Outgoing Packets Rate(Units/"
+msgstr ""
+
+msgid "Network Incoming Packets Rate(Units/"
+msgstr ""

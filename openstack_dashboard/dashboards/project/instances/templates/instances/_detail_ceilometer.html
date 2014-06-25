@@ -23,6 +23,7 @@
 			</div>
 			<div class="span9 chart_container" style="width: 400px;">
 				<div class="chart"
+			        data-y_axis="{% trans 'CPU Usage(Units/' %}"
 					data-chart-type="line_chart"
 					data-url="{% url 'horizon:admin:metering:raw-samples'%}?meter=cpu_util&date_options=null&resource_id={{ instance.id }}"
 					data-form-selector='#linechart_general_form'
@@ -30,7 +31,6 @@
 					data-smoother-selector="#smoother"
 					data-display="true"
 					data-meter="0"
-			        data-y_axis={% trans "CPU Usage(Units/" %}
 					data-unit-conver="false"
 					data-slider-selector="#slider">
 				</div>
@@ -42,6 +42,7 @@
 	        </div>
 	        <div class="span9 chart_container" style="width: 400px;margin-left: 100px;">
 	        	<div class="chart"
+			        data-y_axis="{% trans 'Memory Usage(Units/' %}"
 	        		data-chart-type="line_chart"
 	        		data-url="{% url 'horizon:admin:metering:raw-samples'%}?meter=memory.usage&date_options=null&resource_id={{ instance.id }}"
 	        		data-form-selector='#linechart_general_form'
@@ -49,7 +50,6 @@
 	        		data-smoother-selector="#smoother"
 	        		data-display="true"
 	        		data-meter="1"
-			        data-y_axis={% trans "Memory Usage(Units/" %}
 	        		data-unit-conver="false"
 	        		data-slider-selector="#slider">
 	        	</div>
@@ -73,13 +73,13 @@
 			</div>
 			<div class="span9 chart_container" style="width: 400px;">
 				<div class="chart"
+					data-y_axis="{% trans 'Network Bandwidth(Units/' %}"
 					data-chart-type="line_chart"
-					data-url="{% url 'horizon:admin:metering:samples'%}?meter=network.incoming.bytes.rate-network.outgoing.bytes.rate&period=60&group_by=project&stats_attr=sum&date_options=null&metadata.instance_id={{ instance.id }}"
+					data-url="{% url 'horizon:admin:metering:raw-samples'%}?meter=network.incoming.bytes.rate-network.outgoing.bytes.rate&period=60&group_by=project&stats_attr=sum&date_options=null&metadata.instance_id={{ instance.id }}"
 					data-form-selector='#linechart_general_form'
 					data-legend-selector="#legend3"
 					data-display="true"
 					data-meter="2"
-					data-y_axis={% trans "Network Bandwidth(Units/" %}
 					data-smoother-selector="#smoother"
 					data-unit-conver="true"
 					data-unit="1024"
@@ -92,13 +92,13 @@
 			</div>
 	        <div class="span9 chart_container" style="width: 400px;margin-left: 100px;">
 		        <div class="chart"
+		        	data-y_axis="{% trans 'Network Packege(Units/' %}"
 		        	data-chart-type="line_chart"
-		        	data-url="{% url 'horizon:admin:metering:samples'%}?meter=network.incoming.packets.rate-network.outgoing.packets.rate&period=60&group_by=project&stats_attr=sum&date_options=null&metadata.instance_id={{ instance.id }}"
+		        	data-url="{% url 'horizon:admin:metering:raw-samples'%}?meter=network.incoming.packets.rate-network.outgoing.packets.rate&period=60&group_by=project&stats_attr=sum&date_options=null&metadata.instance_id={{ instance.id }}"
 		        	data-form-selector='#linechart_general_form'
 		        	data-legend-selector="#legend"
 		        	data-display="true"
 		        	data-meter="3"
-		        	data-y_axis={% trans "Network Packege(Units/" %}
 		        	data-unit-conver="true"
 		        	data-unit="1000"
 		        	data-smoother-selector="#smoother"
