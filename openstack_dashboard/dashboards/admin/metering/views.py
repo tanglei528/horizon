@@ -309,7 +309,7 @@ class ReportView(tables.MultiTableView):
                     service = name
             # show detailed samples
             # samples = ceilometer.sample_list(request, meter.name)
-            res, unit, _ = query_data(request,
+            res, unit, _ignore = query_data(request,
                                    date_from,
                                    date_to,
                                    date_options,

@@ -21,7 +21,6 @@ from horizon import exceptions
 from horizon import tabs
 
 from openstack_dashboard import api
-from openstack_dashboard.api import ceilometer
 
 
 class OverviewTab(tabs.Tab):
@@ -152,7 +151,6 @@ class ResourceUsageTab(tabs.Tab):
                     'm1.large', 'm1.xlarge']
 
     def _get_data(self, request):
-        meters = ceilometer.Meters(request)
         meters = []
         meter = {'name': 'cpu', 'unit': 'ns'}
         meters.append(meter)
