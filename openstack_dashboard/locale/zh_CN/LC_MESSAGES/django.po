@@ -10026,7 +10026,6 @@ msgstr "统计区间"
 msgid "Resources Usage"
 msgstr "监控报表"
 
-
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance:21
 msgid "CPU Usage Rate"
 msgstr "CPU使用率"
@@ -10045,3 +10044,10 @@ msgstr "网络发送包速率"
 
 msgid "Network Ingong Packets Rate"
 msgstr "网络接收包速率"
+
+#: dashboards/admin/metering/views.py:40
+msgid "Gauge Value"
+msgstr "测量值"
+
+msgid "Gauge Date"
+msgstr "测量时间"

@@ -276,7 +276,7 @@ horizon.d3_line_chart_ceilometer = {
 			last_point_color = undefined;
 			var count = 0;
 
-			var arrNum = new Array();
+			var converNum = 0;
 			var arrUnit = new Array();
 			var ymax = 0; //The maximum value of y axis
 			var flag_unit = false; // unit conver flag
@@ -311,19 +311,23 @@ horizon.d3_line_chart_ceilometer = {
 							var flag = false;
 							flag_unit = flag_unit && flag;
 						}
-						arrNum[i] = n;
+						if (flag_unit) {
+							if (converNum == 0) {
+								converNum = n;
+							} else {
+								if (n < converNum) {
+									converNum = n;
+								}
+							}
+						}
 					}
-				}
-				if (flag_unit) {
-					var nn = 0;
-					$.map(self.series, function(serie) {
-						serie.unit = converUnit(serie.unit, arrNum[nn]);
-						nn++;
-					});
 				}
 			}
 			$.map(self.series, function(serie) {
 				serie.color = last_point_color = self.color(serie.name);
+				if (flag_unit) {
+					serie.unit = converUnit(serie.unit, converNum);
+				}
 				if (count == 0) {
 					self.lable = self.lable + serie.unit + ')';
 				}
@@ -337,7 +341,7 @@ horizon.d3_line_chart_ceilometer = {
 					last_point = statistic;
 					last_point.color = serie.color;
 					if (flag_unit) {
-						for (var i = 0; i < arrNum[count]; i++) {
+						for (var i = 0; i < converNum; i++) {
 							var unit = getValue(arrUnit[i]);
 							statistic.y = statistic.y / unit;
 						}
@@ -634,7 +638,7 @@ horizon.d3_line_chart_ceilometer = {
 	    bind_datepicker_change(settings);
 	  },
 	switchTime: function() {
-		var value = $('#stats_attr').val();
+		var value = $('#interval').val();
 		refresh_time = parseInt(value);
 		for(var i = 0; i < intervalIdArray.length; i++){
 			if(intervalIdArray[i] != undefined)

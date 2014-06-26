@@ -38,7 +38,7 @@ from openstack_dashboard.dashboards.admin.metering import tabs as \
 
 
 class ResourceUsageCsvRenderer(csvbase.BaseCsvResponse):
-    columns = [_("value"), _("date")]
+    columns = [_("Gauge Value"), _("Gauge Date")]
 
     def get_row_data(self):
         unit = ''
@@ -50,14 +50,17 @@ class ResourceUsageCsvRenderer(csvbase.BaseCsvResponse):
         for inst in self.context['series']:
             for key, value in inst.items():
                 if (key == 'data'):
-                    line = []
                     for point in value:
+                        line = []
+                        i = 0
                         for k, v in point.items():
                             if (k == 'x'):
                                 line.append(str(v))
                             if (k == 'y'):
                                 line.append(str(v) + unit)
-                    yield (line)
+                            i += 1
+                            if i % 2 == 0:
+                                yield (line)
 
 
 class IndexView(tabs.TabbedTableView):

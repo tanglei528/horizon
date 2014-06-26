@@ -10091,3 +10091,10 @@ msgstr ""
 #: openstack_dashboard/dashboards/project/instances/templates/instances/_detail_usage.html 23
 msgid "VM Disk Ephemeral Usage(Units/"
 msgstr ""
+
+#: dashboards/admin/metering/views.py:40
+msgid "Gauge Value"
+msgstr ""
+
+msgid "Gauge Date"
+msgstr ""
