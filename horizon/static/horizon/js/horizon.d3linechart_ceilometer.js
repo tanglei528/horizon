@@ -869,7 +869,7 @@ function mi(num, unit, n) {
  */
 function getValue(unit) {
 	var val;
-	if (unit == 'ns' || unit == 'packet' || unit == 'packet/s' || unit == 'process') {
+	if (unit == 's' || unit == 'ns' || unit == 'packet' || unit == 'packet/s' || unit == 'process') {
 		val = 1000;
 	} else if (unit == 'B'|| unit == 'KB' || unit == 'MB' || unit == 'B/s') {
 		val = 1024;
