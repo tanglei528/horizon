@@ -10066,10 +10066,10 @@ msgstr ""
 msgid "Memory Used(Units/"
 msgstr ""
 
-msgid "Harware Disk Size Used(Units/"
+msgid "Harware Disk Used(Units/"
 msgstr ""
 
-msgid "Harware Disk Size Usage(Units/"
+msgid "Harware Disk Usage(Units/"
 msgstr ""
 
 msgid "Network Outgoing Bytes Rate(Units/"
@@ -10082,4 +10082,12 @@ msgid "Network Outgoing Packets Rate(Units/"
 msgstr ""
 
 msgid "Network Incoming Packets Rate(Units/"
+msgstr ""
+
+#: openstack_dashboard/dashboards/project/instances/templates/instances/_detail_usage.html 20
+msgid "VM Disk Usage(Units/"
+msgstr ""
+
+#: openstack_dashboard/dashboards/project/instances/templates/instances/_detail_usage.html 23
+msgid "VM Disk Ephemeral Usage(Units/"
 msgstr ""
