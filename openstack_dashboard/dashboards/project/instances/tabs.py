@@ -141,6 +141,7 @@ class ResourceUsageTab(tabs.Tab):
     name = _("Resources Usage")
     slug = "resources_usage"
     template_name = "project/instances/_detail_usage.html"
+    preload = False
 
     @staticmethod
     def _get_flavor_names(request):
@@ -181,10 +182,10 @@ class ResourceUsageTab(tabs.Tab):
         return meters
 
     def get_context_data(self, request):
-        meters = self._get_data(request)
+        #meters = self._get_data(request)
         instance = self.tab_group.kwargs['instance']
         context = {
-            'nova_meters': meters,
+            #'nova_meters': meters,
             'instance': instance,
         }
 
