@@ -9984,7 +9984,7 @@ msgstr "磁盘使用率(单位/"
 
 #: openstack_dashboard/dashboards/project/instances/templates/instances/_detail_usage.html 23
 msgid "VM Disk Ephemeral Usage(Units/"
-msgstr "磁盘使用率(单位/"
+msgstr "临时磁盘使用率(单位/"
             
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html:57
 msgid "30 min"
