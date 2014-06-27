@@ -386,7 +386,7 @@ horizon.d3_line_chart_ceilometer = {
 						var d = new Date(x * 1000);
 						d.setTime(d.getTime() - (d.getTimezoneOffset() * 60000));
 						//var date = '<span class="date">' + d.toString() + '</span>';
-						var date = '<span class="date">' + date_to_format(d) + '</span>';
+						var date = '<span class="date">' + d.toLocaleString() + '</span>';
 						var swatch = '<span class="detail_swatch" style="background-color: ' + series.color + '"></span>';
 						var content = swatch + series.name + ': ' + parseFloat(y).toFixed(2) + ' ' + series.unit + '<br>' + date;
 						return content;
@@ -415,12 +415,10 @@ horizon.d3_line_chart_ceilometer = {
 					legend: legend
 				});
 			}
-			if (self.settings.axes_x) {
-				var time = new Rickshaw.Fixtures.Time();
-				var hours = time.unit('hour');
+			if (self.settings.axes_x) { 
+				
 				var axes_x = new Rickshaw.Graph.Axis.Time({
-					graph: graph,
-					timeUnit: hours
+					graph: graph
 				});
 				axes_x.render();
 			}
@@ -662,26 +660,14 @@ horizon.d3_line_chart_ceilometer = {
 		var cupdiv = $('#cpu_cup_util');
 		var elem = $(cupdiv).find('.chart');
 		var bgimage = $('#cpu_title_image');
+		console.log(elem);
 		this.switchImage(cupdiv, bgimage, elem);
-	},
-
-	showMemory: function() {
-		var memorydiv = $('#memory_memory_usage');
-		var elem = $(memorydiv).find('.chart');
-		var bgimage = $('#memory_title_image');
-		this.switchImage(memorydiv, bgimage, elem);
 	},
 	showNetworkBytes: function() {
 		var networkBytediv = $('#network_bytes');
 		var elem = $(networkBytediv).find('.chart');
 		var bgimage = $('#network_bytes_image');
 		this.switchImage(networkBytediv, bgimage, elem);
-	},
-	showNetworkPackets: function() {
-		var networkPacketdiv = $('#network_packets');
-		var elem = $(showNetworkPackets).find('.chart');
-		var bgimage = $('#network_packets_image');
-		this.switchImage(networkPacketdiv, bgimage, elem);
 	},
 	switchImage: function(obj, bgimage, elem) {
 		if (obj.css('display') == "none") {

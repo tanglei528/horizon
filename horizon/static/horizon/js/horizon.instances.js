@@ -152,24 +152,30 @@ horizon.instances = {
 horizon.addInitFunction(function () {
   $("#instance_details").children().on("click",function(){
     var cur_href = $(this).children().attr("href");
-    var cup_group = $('#cpu_cup_util').find('.chart');
-    var memory_group = $('#memory_memory_usage').find('.chart');
-    var network_group = $('#network_bytes').find('.chart');
-    if (cur_href == "?tab=instance_details__overview" || cur_href == "?tab=instance_details__log" || cur_href == "?tab=instance_details__console" || cur_href == "?tab=instance_details__hypervisor_instances" || cur_href == "?tab=instance_details__resources_usage") {
-      if (cup_group.attr('data-display') != undefined) {
-        cup_group.attr('data-display',false)
+    var cpu_util_chart = $('#cpu_util_chart');
+    var memery_usage_percent_chart = $('#memery_usage_percent_chart');
+    var net_bytes_chart = $('#net_bytes_chart');
+    var net_packets_chart = $('#net_packets_chart');
+    if (cur_href == "?tab=instance_details__overview" || cur_href == "?tab=instance_details__log" || 
+        cur_href == "?tab=instance_details__console" || cur_href == "?tab=instance_details__hypervisor_instances" || cur_href == "?tab=instance_details__resources_usage") {
+      if (cpu_util_chart.attr('data-display') != undefined) {
+        cpu_util_chart.attr('data-display',false)
       }
-      if (memory_group.attr('data-display') != undefined) {
-          memory_group.attr('data-display',false)
+      if (memery_usage_percent_chart.attr('data-display') != undefined) {
+          memery_usage_percent_chart.attr('data-display',false)
       }
-      if (network_group.attr('data-display') != undefined) {
-          network_group.attr('data-display',false)        
+      if (net_bytes_chart.attr('data-display') != undefined) {
+          net_bytes_chart.attr('data-display',false)        
+      }
+      if (net_packets_chart.attr('data-display') != undefined) {
+          net_packets_chart.attr('data-display',false)        
       }
     }
     if (cur_href == "?tab=instance_details__ceilometer" || cur_href == "?tab=instance_details__hypervisor_instances_monitor") {
-      cup_group.attr('data-display',true)
-      memory_group.attr('data-display',true)
-      network_group.attr('data-display',true)
+      cpu_util_chart.attr('data-display',true)
+      memery_usage_percent_chart.attr('data-display',true)
+      net_bytes_chart.attr('data-display',true)
+      net_packets_chart.attr('data-display',true)
     }
 
   })

@@ -14,7 +14,7 @@
                  <option title="{% trans "CPU Usage Rate" %}" legend="{% trans "CPU Usage(Units/" %}" value="cpu_util" data-unit="%">
                  cpu_util
                  </option>
-                 <option title="{% trans "Memory Usage Rate" %}" legend="{% trans "Memory Usage(Units/" %}" value="memory.usage.rate" data-unit="%">
+                 <option title="{% trans "Memory Usage Rate" %}" legend="{% trans "Memory Usage(Units/" %}" value="memory.usage.percent" data-unit="%">
                  memory.usage.percent
                  </option>
                  <option title="{% trans "Harware Disk Size Usage" %}" legend="{% trans "VM Disk Usage(Units/" %}" value="disk.root.size.used.percent" data-unit="B">
@@ -103,7 +103,7 @@
     <h4>{% trans "Statistics of all resources" %}</h4>
     <hr class="header_rule" />
     <div class="info row-fluid detail">
-      <div class="span9 chart_container" style="width: 500px;">
+      <div class="span9 chart_container" style="width: 80%;">
           <div class="chart"
 			         data-y_axis="{% trans 'CPU Usage(Units/' %}"
                data-chart-type="line_chart"
