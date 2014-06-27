@@ -210,28 +210,29 @@ horizon.d3_line_chart_ceilometer = {
 						if(self.hist_series != undefined) {
 							data.series = $.extend(true, [], self.hist_series);
 						}
-					} else {
-						
+					} else {						
 						// if (meterArray[jquery_element.attr('data-meter')] != null) {
-                        if (self.hist_series !== undefined) {										
-							for (j = 0; j < data.series.length; j++) {
-								self.hist_series[j].data = 
-									self.hist_series[j].data.concat(data.series[j].data);                                
-								var latest_x = data.series[j].data[data.series[j].data.length-1].x;
-								var oldest_local = new Date(Date.parse(latest_x) - 8*60*60*1000);
-								var index = -1;
-								for (var i = 0; i < self.hist_series[j].data.length; i ++) {
-									var date_local = new Date(Date.parse(self.hist_series[j].data[i].x));
-									if (date_local >= oldest_local) {
-										index = i;
-										break;
+                        if (self.hist_series !== undefined) {
+                            if ($(jquery_element.attr('data-increm')) == null){
+								for (j = 0; j < data.series.length; j++) {
+									self.hist_series[j].data = 
+										self.hist_series[j].data.concat(data.series[j].data);                                
+									var latest_x = data.series[j].data[data.series[j].data.length-1].x;
+									var oldest_local = new Date(Date.parse(latest_x) - 8*60*60*1000);
+									var index = -1;
+									for (var i = 0; i < self.hist_series[j].data.length; i ++) {
+										var date_local = new Date(Date.parse(self.hist_series[j].data[i].x));
+										if (date_local >= oldest_local) {
+											index = i;
+											break;
+										}
+									}
+									if (index != -1) {
+										self.hist_series[j].data.splice(0, index + 1);
 									}
 								}
-								if (index != -1) {
-									self.hist_series[j].data.splice(0, index + 1);
-								}
-							}							
-							data.series = $.extend(true, [], self.hist_series);							
+						    }							
+							data.series = $.extend(true, [], self.hist_series);
 						} else {
 							self.hist_series = $.extend(true, [], data.series);							
 						}
@@ -279,7 +280,7 @@ horizon.d3_line_chart_ceilometer = {
 			last_point_color = undefined;
 			var count = 0;
 
-			var arrNum = new Array();
+			var converNum = 0;
 			var arrUnit = new Array();
 			var ymax = 0; //The maximum value of y axis
 			var flag_unit = false; // unit conver flag
@@ -312,21 +313,25 @@ horizon.d3_line_chart_ceilometer = {
 							flag_unit = flag_unit || flag;
 						} else {
 							var flag = false;
-							flag_unit = flag_unit && flag
+							flag_unit = flag_unit && flag;
 						}
-						arrNum[i] = n;
+						if (flag_unit) {
+							if (converNum == 0) {
+								converNum = n;
+							} else {
+								if (n < converNum) {
+									converNum = n;
+								}
+							}
+						}
 					}
-				}
-				if (flag_unit) {
-					var nn = 0;
-					$.map(self.series, function(serie) {
-						serie.unit = converUnit(serie.unit, arrNum[nn]);
-						nn++;
-					});
 				}
 			}
 			$.map(self.series, function(serie) {
 				serie.color = last_point_color = self.color(serie.name);
+				if (flag_unit) {
+					serie.unit = converUnit(serie.unit, converNum);
+				}
 				if (count == 0) {
 					self.lable = self.lable + serie.unit + ')';
 				}
@@ -340,7 +345,7 @@ horizon.d3_line_chart_ceilometer = {
 					last_point = statistic;
 					last_point.color = serie.color;
 					if (flag_unit) {
-						for (var i = 0; i < arrNum[count]; i++) {
+						for (var i = 0; i < converNum; i++) {
 							var unit = getValue(arrUnit[i]);
 							statistic.y = statistic.y / unit;
 						}
@@ -556,7 +561,8 @@ horizon.d3_line_chart_ceilometer = {
 				
 		function inner_fun() {
 			clearInterval(interval_id);
-			horizon.d3_line_chart_ceilometer.refresh(html_element, settings, auto_refresh, chart);
+			horizon.d3_line_chart_ceilometer.refresh(html_element, 
+				settings, auto_refresh, chart);
 		}
 	},
 	bind_commands: function (selector, settings){
@@ -647,7 +653,6 @@ horizon.d3_line_chart_ceilometer = {
 		var value = $('#refresh_cycle').val();
 		self.refresh_time = parseInt(value);
 		
-		
 		//interval_time = '&interval_time=' + refresh_time / 1000;
 		//horizon.d3_line_chart_ceilometer.init('div[data-chart-type="line_chart"]', {
 		//	'auto_resize': true
@@ -688,6 +693,10 @@ horizon.d3_line_chart_ceilometer = {
 			elem.attr('data-display', false);
 			bgimage.css("background-image", "url(/static/dashboard/img/right_droparrow_l2.png)");
 		}
+	},
+	switchUnit: function (obj) {
+		var legend = $("#meter option:selected").attr("legend");
+		$("div[data-chart-type='line_chart']").attr('data-y_axis', legend);
 	}
 };
 
@@ -862,9 +871,9 @@ function mi(num, unit, n) {
  */
 function getValue(unit) {
 	var val;
-	if (unit == 'ns' || unit == 'packet' || unit == 'packet/s' || unit == 'process') {
+	if (unit == 's' || unit == 'ns' || unit == 'packet' || unit == 'packet/s' || unit == 'process') {
 		val = 1000;
-	} else if (unit == 'B' || unit == 'MB' || unit == 'B/s') {
+	} else if (unit == 'B'|| unit == 'KB' || unit == 'MB' || unit == 'B/s') {
 		val = 1024;
 	} else {
 		val = 1;

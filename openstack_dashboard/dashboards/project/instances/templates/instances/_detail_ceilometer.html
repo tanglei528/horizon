@@ -2,13 +2,15 @@
 {% load url from future %}
 <div class="control-group">
 	<div class="controls">
-		{% trans "refresh cycle" %}:&nbsp;<select data-line-chart-command="select_box_change" onChange="horizon.d3_line_chart_ceilometer.switchTime();"
-            id="refresh_cycle" name="refresh_cycle" class="span2">
-		<option value="30000">{% trans "30 sec" %}</option>
-		<option selected="selected" value="60000">{% trans "1 min" %}</option>
-		<option value="300000">{% trans "5 min" %}</option>
-		<option value="600000">{% trans "10 min" %}</option>
-	</select>
+		{% trans "refresh cycle" %}:&nbsp;
+		<select data-line-chart-command="select_box_change" 
+				onChange="horizon.d3_line_chart_ceilometer.switchTime();"
+	      id="refresh_cycle" name="refresh_cycle" class="span2">
+			<option value="30000">{% trans "30 sec" %}</option>
+			<option selected="selected" value="60000">{% trans "1 min" %}</option>
+			<option value="300000">{% trans "5 min" %}</option>
+			<option value="600000">{% trans "10 min" %}</option>
+		</select>
 	</div>
 </div>
 <div class="info row-fluid detail">
@@ -23,13 +25,13 @@
 			</div>
 			<div class="span9 chart_container" style="width: 400px;">
 				<div class="chart"
+			        data-y_axis="{% trans 'CPU Usage(Units/' %}"
 					data-chart-type="line_chart"
 					data-url="{% url 'horizon:admin:metering:raw-samples'%}?meter=cpu_util&date_options=null&resource_id={{ instance.id }}"
 					data-legend-selector="#legend1"
 					data-smoother-selector="#smoother"
 					data-display="true"
 					data-meter="0"
-			    data-y_axis={% trans "CPU Usage(Units/" %}
 					data-unit-conver="false"
 					data-slider-selector="#slider">
 				</div>
@@ -41,13 +43,13 @@
 	        </div>
 	        <div class="span9 chart_container" style="width: 400px;margin-left: 100px;">
 	        	<div class="chart"
+			        data-y_axis="{% trans 'Memory Usage(Units/' %}"
 	        		data-chart-type="line_chart"
-	        		data-url="{% url 'horizon:admin:metering:raw-samples'%}?meter=memory.usage&date_options=null&resource_id={{ instance.id }}"
+	        		data-url="{% url 'horizon:admin:metering:raw-samples'%}?meter=memory.usage.rate&date_options=null&resource_id={{ instance.id }}"
 	        		data-legend-selector="#legend2"
 	        		data-smoother-selector="#smoother"
 	        		data-display="true"
 	        		data-meter="1"
-			        data-y_axis={% trans "Memory Usage(Units/" %}
 	        		data-unit-conver="false"
 	        		data-slider-selector="#slider">
 	        	</div>
@@ -71,15 +73,14 @@
 			</div>
 			<div class="span9 chart_container" style="width: 400px;">
 				<div class="chart"
+					data-y_axis="{% trans 'Network Bandwidth(Units/' %}"
 					data-chart-type="line_chart"
-					data-url="{% url 'horizon:admin:metering:samples'%}?meter=network.incoming.bytes.rate-network.outgoing.bytes.rate&period=60&group_by=project&stats_attr=sum&date_options=null&metadata.instance_id={{ instance.id }}"
+					data-url="{% url 'horizon:admin:metering:raw-samples'%}?meter=network.incoming.bytes.rate-network.outgoing.bytes.rate&period=60&group_by=project&stats_attr=sum&date_options=null&metadata.instance_id={{ instance.id }}"
 					data-legend-selector="#legend3"
 					data-display="true"
 					data-meter="2"
-					data-y_axis={% trans "Network Bandwidth(Units/" %}
 					data-smoother-selector="#smoother"
 					data-unit-conver="true"
-					data-unit="1024"
 					data-slider-selector="#slider">
 				</div>
 				<div class="span3" style="position: relative;width: 400px;">
@@ -89,14 +90,13 @@
 			</div>
 	        <div class="span9 chart_container" style="width: 400px;margin-left: 100px;">
 		        <div class="chart"
+		        	data-y_axis="{% trans 'Network Packege(Units/' %}"
 		        	data-chart-type="line_chart"
-		        	data-url="{% url 'horizon:admin:metering:samples'%}?meter=network.incoming.packets.rate-network.outgoing.packets.rate&period=60&group_by=project&stats_attr=sum&date_options=null&metadata.instance_id={{ instance.id }}"
-		        	data-legend-selector="#legend4"
+		        	data-url="{% url 'horizon:admin:metering:raw-samples'%}?meter=network.incoming.packets.rate-network.outgoing.packets.rate&period=60&group_by=project&stats_attr=sum&date_options=null&metadata.instance_id={{ instance.id }}"
+		        	data-legend-selector="#legend"
 		        	data-display="true"
 		        	data-meter="3"
-		        	data-y_axis={% trans "Network Packege(Units/" %}
 		        	data-unit-conver="true"
-		        	data-unit="1000"
 		        	data-smoother-selector="#smoother"
 		        	data-slider-selector="#slider">
 		        </div>
