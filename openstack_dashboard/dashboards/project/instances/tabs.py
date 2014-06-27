@@ -141,7 +141,7 @@ class ResourceUsageTab(tabs.Tab):
     name = _("Resources Usage")
     slug = "resources_usage"
     template_name = "project/instances/_detail_usage.html"
-
+    preload = False
     @staticmethod
     def _get_flavor_names(request):
         try:

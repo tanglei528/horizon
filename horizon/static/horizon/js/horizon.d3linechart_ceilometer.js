@@ -1,22 +1,25 @@
-var refresh_time = 60000;
-var interval_time = '';
-meterArray = new Array(4);
-dateArray = new Array(4);
-intervalIdArray = new Array(4);
+//var refresh_time = 60000;
 horizon.d3_line_chart_ceilometer = {
+
 	/**
    * A class representing the line chart
    * @param chart_module A context of horizon.d3_line_chart module.
    * @param html_element A html_element containing the chart.
    * @param settings An object containing settings of the chart.
    */
-	LineChart: function(chart_module, html_element, settings) {
+	LineChart: function(chart_module, html_element, settings, state) {
 		var self = this;
 		var jquery_element = $(html_element);
 		self.chart_module = chart_module;
 		self.html_element = html_element;
 		self.jquery_element = jquery_element;
 		self.lable = jquery_element.attr('data-y_axis');
+		
+        if (state !== undefined) {
+            self.hist_series = state.hist_series;
+            self.interval_time = state.interval_time;
+        }
+        
 
 		/************************************************************************/
 		/*********************** Initialization methods *************************/
@@ -24,8 +27,8 @@ horizon.d3_line_chart_ceilometer = {
 		/**
      * Initialize object
      */
-		self.init = function() {
-			var self = this;
+		self.init = function() {			
+			var self = this;			
 			/* TODO(lsmola) make more configurable init from more sources */
 			self.legend_element = $(jquery_element.data('legend-selector')).get(0);
 			self.slider_element = $(jquery_element.data('slider-selector')).get(0);
@@ -44,7 +47,13 @@ horizon.d3_line_chart_ceilometer = {
 					}
 				});
 			}
-
+			if (self.interval_time != undefined) {
+				if (self.final_url.indexOf('?') > -1) {
+					self.final_url += '&interval_time=' + self.interval_time;
+				} else {
+					self.final_url += '?interval_time' + self.interval_time;
+				}
+            }
 			self.data = [];
 			self.color = d3.scale.category10();
 
@@ -183,56 +192,54 @@ horizon.d3_line_chart_ceilometer = {
      */
 		self.refresh = function() {
 			var self = this;
+			var interval_time = self.interval_time;
 			if (jquery_element.attr('data-display') == 'false') {
 				return false;
 			}
-			if (interval_time.length == 0) {
+			if (self.interval_time == undefined) {
 				self.start_loading();
 			}
 			horizon.ajax.queue({
-				url: self.final_url + interval_time,
+				url: self.final_url,
 				success: function(data, textStatus, jqXHR) {
 					// Clearing the old chart data.
 					$(self.html_element).html('');
 					$(self.legend_element).html('');
-					dateArray[$(html_element).attr('data-meter')] = data.last_time.date_time;
+					self.interval_time = data.last_time.date_time;
 					if (data.series.length == 0) {
-						if(meterArray[jquery_element.attr('data-meter')] != undefined)
-							data = JSON.parse(meterArray[jquery_element.attr('data-meter')]);
+						if(self.hist_series != undefined) {
+							data.series = $.extend(true, [], self.hist_series);
+						}
 					} else {
-						if (meterArray[jquery_element.attr('data-meter')] != null) {
-							dataObjJson = JSON.parse(meterArray[jquery_element.attr('data-meter')]);
+						
+						// if (meterArray[jquery_element.attr('data-meter')] != null) {
+                        if (self.hist_series !== undefined) {										
 							for (j = 0; j < data.series.length; j++) {
-								daArray = data.series[j].data;
-								for (i = 0; i < daArray.length; i++) {
-									dataObjJson.series[j].data.push(daArray[i]);
+								self.hist_series[j].data = 
+									self.hist_series[j].data.concat(data.series[j].data);                                
+								var latest_x = data.series[j].data[data.series[j].data.length-1].x;
+								var oldest_local = new Date(Date.parse(latest_x) - 8*60*60*1000);
+								var index = -1;
+								for (var i = 0; i < self.hist_series[j].data.length; i ++) {
+									var date_local = new Date(Date.parse(self.hist_series[j].data[i].x));
+									if (date_local >= oldest_local) {
+										index = i;
+										break;
+									}
 								}
-							}
-							//remove element from data, if the element is not include latest 8 hours
-							arrayDate = dataObjJson.series[0].data;
-							latestDate = arrayDate[arrayDate.length - 1];
-							new_time = new Date(latestDate.x).getTime();
-							for (i = 0; i < arrayDate.length; i++) {
-								time = new Date(arrayDate[i].x).getTime();
-								hours = (new_time - time) / 1000 / 60 / 60;
-								//compare date
-								if (hours > 8) {
-									arrayDate.shift();
-									continue;
-								} else {
-									break;
+								if (index != -1) {
+									self.hist_series[j].data.splice(0, index + 1);
 								}
-							}
-							// reset data 
-							data = dataObjJson;
-							meterArray[jquery_element.attr('data-meter')] = JSON.stringify(dataObjJson);
+							}							
+							data.series = $.extend(true, [], self.hist_series);							
 						} else {
-							meterArray[jquery_element.attr('data-meter')] = JSON.stringify(data);
+							self.hist_series = $.extend(true, [], data.series);							
 						}
 					}
+					
 					self.series = data.series;
 					self.stats = data.stats;
-
+                    
 					// The highest priority settings are sent with the data.
 					self.apply_settings(data.settings);
 
@@ -373,7 +380,8 @@ horizon.d3_line_chart_ceilometer = {
 						//var date = '<span class="date">' + new Date(x * 1000).toUTCString() + '</span>';
 						var d = new Date(x * 1000);
 						d.setTime(d.getTime() - (d.getTimezoneOffset() * 60000));
-						var date = '<span class="date">' + d.toString() + '</span>';
+						//var date = '<span class="date">' + d.toString() + '</span>';
+						var date = '<span class="date">' + date_to_format(d) + '</span>';
 						var swatch = '<span class="detail_swatch" style="background-color: ' + series.color + '"></span>';
 						var content = swatch + series.name + ': ' + parseFloat(y).toFixed(2) + ' ' + series.unit + '<br>' + date;
 						return content;
@@ -480,6 +488,7 @@ horizon.d3_line_chart_ceilometer = {
    */
 	init: function(selector, settings, flag) {
 		var self = this;
+		self.refresh_time = $('#refresh_cycle').val();
 		$(selector).each(function() {
 			self.refresh(this, settings, flag);
 		});
@@ -517,9 +526,18 @@ horizon.d3_line_chart_ceilometer = {
    * and calling their refresh method.
    * @param html_element HTML element where the chart will be rendered.
    * @param settings An object containing settings of the chart.
+   * @param auto_refresh if auto refresh the chart 
+   * @param old_chart to get the history chart states 
    */
-	refresh: function(html_element, settings, flag) {
-		var chart = new this.LineChart(this, html_element, settings);
+	refresh: function(html_element, settings, auto_refresh, old_chart) {
+		var self = this;
+		var state = undefined
+        if (old_chart !== undefined) {
+		    state = {"hist_series" : old_chart.hist_series, 
+	                 "interval_time" : old_chart.interval_time}
+        }  
+
+		var chart = new this.LineChart(this, html_element, settings, state);
 		/*
       FIXME save chart objects somewhere so I can use them again when
       e.g. I am switching tabs, or if I want to update them
@@ -527,19 +545,18 @@ horizon.d3_line_chart_ceilometer = {
       this.charts.add_or_update(chart)
     */
 		chart.refresh();
-		interval_id = "";
-		if (flag) {
+
+		var interval_id = "";
+		if (auto_refresh) {
 			interval_id= setInterval(function() {
 				inner_fun()
 			},
-			refresh_time);
+			self.refresh_time);
 		}
-		intervalIdArray[$(html_element).attr('data-meter')] = interval_id;
+				
 		function inner_fun() {
 			clearInterval(interval_id);
-			interval_time = '&interval_time=' + dateArray[$(html_element).attr('data-meter')]; 
-			//interval_time = '&interval_time=' + refresh_time / 1000;
-			horizon.d3_line_chart_ceilometer.refresh(html_element, settings);
+			horizon.d3_line_chart_ceilometer.refresh(html_element, settings, auto_refresh, chart);
 		}
 	},
 	bind_commands: function (selector, settings){
@@ -626,22 +643,10 @@ horizon.d3_line_chart_ceilometer = {
 	    bind_datepicker_change(settings);
 	  },
 	switchTime: function() {
-		var value = $('#stats_attr').val();
-		refresh_time = parseInt(value);
-		for(var i = 0; i < intervalIdArray.length; i++){
-			if(intervalIdArray[i] != undefined)
-				window.clearInterval(intervalIdArray[i]);
-		}
-		
 		var self = this;
-		$('div[data-chart-type="line_chart"]').each(function() {
-			if(dateArray[$(this).attr('data-meter')] != undefined)
-				interval_time = '&interval_time=' + dateArray[$(this).attr('data-meter')];
-			else{
-				meterArray[$(this).attr('data-meter')] = "";
-			}
-			self.refresh(this, {'auto_resize': true});
-		});
+		var value = $('#refresh_cycle').val();
+		self.refresh_time = parseInt(value);
+		
 		
 		//interval_time = '&interval_time=' + refresh_time / 1000;
 		//horizon.d3_line_chart_ceilometer.init('div[data-chart-type="line_chart"]', {
@@ -686,7 +691,7 @@ horizon.d3_line_chart_ceilometer = {
 	}
 };
 
-function date_to_str(datetime){
+function date_to_format(datetime){
 		 var year = datetime.getFullYear();
 		 var month = datetime.getMonth()+1;//js从0开始取 
 		 var date = datetime.getDate(); 
