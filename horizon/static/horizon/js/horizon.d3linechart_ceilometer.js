@@ -213,7 +213,7 @@ horizon.d3_line_chart_ceilometer = {
 					} else {						
 						// if (meterArray[jquery_element.attr('data-meter')] != null) {
                         if (self.hist_series !== undefined) {
-                            if ($(jquery_element.attr('data-increm')) == null){
+                            if (jquery_element.attr('data-increm') == undefined){
 								for (j = 0; j < data.series.length; j++) {
 									self.hist_series[j].data = 
 										self.hist_series[j].data.concat(data.series[j].data);                                
