@@ -75,6 +75,7 @@ class BaseCsvResponse(CsvDataMixin, HttpResponse):
         self['Content-Type'] = content_type
         self.context = context
         self.header = None
+        self.get_header_data()
         if template:
             # Display some header info if provided as a template
             header_template = django_template.loader.get_template(template)
@@ -89,6 +90,7 @@ class BaseCsvResponse(CsvDataMixin, HttpResponse):
         for row in self.get_row_data():
             self.write_csv_row(row)
 
+        self.get_row_data()
         self.out.flush()
         self.content = self.out.getvalue()
         self.out.close()
@@ -96,6 +98,11 @@ class BaseCsvResponse(CsvDataMixin, HttpResponse):
     def get_row_data(self):
         raise NotImplementedError("You must define a get_row_data method on %s"
                                   % self.__class__.__name__)
+
+    def get_header_data(self):
+        raise NotImplementedError("You must define a get_row_data method on %s"
+                                  % self.__class__.__name__)
+
 
 if VERSION >= (1, 5, 0):
 
@@ -129,6 +136,9 @@ if VERSION >= (1, 5, 0):
             return buf
 
         def get_content(self):
+            self.get_header_data()
+            yield self.buffer()
+
             if self.header:
                 self.out.write(self.encode(self.header))
 
@@ -140,5 +150,9 @@ if VERSION >= (1, 5, 0):
                 yield self.buffer()
 
         def get_row_data(self):
+            raise NotImplementedError("You must define a get_row_data method "
+                                      "on %s" % self.__class__.__name__)
+
+        def get_header_data(self):
             raise NotImplementedError("You must define a get_row_data method "
                                       "on %s" % self.__class__.__name__)
