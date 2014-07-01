@@ -10098,3 +10098,8 @@ msgstr ""
 
 msgid "Gauge Date"
 msgstr ""
+
+#:dashboards/project/instances/templates/instances/_detail_usage.html:108
+#:dashboards/admin/hypervisors/templates/hypervisors/_detail_usage.html:126
+msgid "Download CSV Report"
+msgstr ""
