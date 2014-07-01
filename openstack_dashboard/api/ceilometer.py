@@ -978,7 +978,17 @@ class Meters(object):
                 'description': _("Number of incoming bytes "
                                  "on the network for a VM interface"),
             }),
+            ("network.incoming.bytes.rate", {
+                'label': '',
+                'description': _("Number of incoming bytes "
+                                 "on the network for a VM interface"),
+            }),
             ("network.outgoing.bytes", {
+                'label': '',
+                'description': _("Number of outgoing bytes "
+                                 "on the network for a VM interface"),
+            }),
+            ("network.outgoing.bytes.rate", {
                 'label': '',
                 'description': _("Number of outgoing bytes "
                                  "on the network for a VM interface"),
@@ -988,7 +998,17 @@ class Meters(object):
                 'description': _("Number of incoming "
                                  "packets for a VM interface"),
             }),
+            ("network.incoming.packets.rate", {
+                'label': '',
+                'description': _("Number of incoming "
+                                 "packets for a VM interface"),
+            }),            
             ("network.outgoing.packets", {
+                'label': '',
+                'description': _("Number of outgoing "
+                                 "packets for a VM interface"),
+            }),
+            ("network.outgoing.packets.rate", {
                 'label': '',
                 'description': _("Number of outgoing "
                                  "packets for a VM interface"),
