@@ -98,10 +98,18 @@
 
 <div class="info row-fluid detail">
   <div class="span12">
-    <h4>{% trans "Statistics of all resources" %}</h4>
-    <hr class="header_rule" />
+    <div style="width:80%;margin-bottom:30px">
+      <h4 style="float:left;">
+        {% trans "Statistics of all resources" %}
+      </h4>
+        <a style="float:right" href="javascript:void(0);" onClick="csv();" title="Download CSV Summary" 
+              class="btn btn-small btn-download" id="project_usage__action_csv_summary">{% trans "Download CSV Report" %}</a>
+    </div>
+    <div>
+      <hr class="header_rule" />
+    </div>
     <div class="info row-fluid detail">
-      <div class="span9 chart_container" style="width: 500px;">
+      <div class="span9 chart_container" style="width: 80%;">
           <div class="chart"
 			   data-y_axis="{% trans 'CPU Usage(Units/' %}"
                data-chart-type="line_chart"
@@ -119,10 +127,6 @@
 	      	<div id="smoother" title="Smoothing"></div>
 	      	<div id="legend"></div>
 	      </div>
-        </div>
-        <div class="span3 legend_container">
-          <a href="javascript:void(0);" onClick="csv();" title="Download CSV Summary" 
-        	  class="btn btn-small btn-download" id="project_usage__action_csv_summary">Download CSV Summary</a>
         </div>
       </div>
   </div>

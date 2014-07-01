@@ -9810,6 +9810,11 @@ msgstr "无法获取计算限制信息。"
 msgid "Download CSV Summary"
 msgstr "下载 CSV 摘要"
 
+#:dashboards/project/instances/templates/instances/_detail_usage.html:108
+#:dashboards/admin/hypervisors/templates/hypervisors/_detail_usage.html:126
+msgid "Download CSV Report"
+msgstr "下载 CSV 报表"
+
 #: usage/tables.py:39
 msgid "VCPU Hours"
 msgstr "虚拟内核小时数"
