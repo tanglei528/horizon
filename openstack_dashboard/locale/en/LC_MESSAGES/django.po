@@ -6070,11 +6070,11 @@ msgid "network"
 msgstr ""
 
 #: dashboards/project/instances/templates/instances/_detail_ceilometer.html:100
-msgid "VM Network Outgong and Ingong Bytes"
+msgid "VM Network Outgong and Ingong Bytes Rate"
 msgstr ""
 
 #: dashboards/project/instances/templates/instances/_detail_ceilometer.html:100
-msgid "VM Network Outgong and Ingong Packets"
+msgid "VM Network Outgong and Ingong Packets Rate"
 msgstr ""
 
 #: dashboards/project/instances/templates/instances/_detail_console.html:4
@@ -9987,19 +9987,19 @@ msgid "Network Bandwidth Bytes"
 msgstr ""
 
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html 32
-msgid "CPU Usage(Units/"
+msgid "CPU Usage(Units:"
 msgstr ""
 
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html 50
-msgid "Memory Usage(Units/"
+msgid "Memory Usage(Units:"
 msgstr ""
 
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html 81
-msgid "Network Bandwidth(Units/"
+msgid "Network Bandwidth(Units:"
 msgstr ""
 
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html 100
-msgid "Network Packege(Units/"
+msgid "Network Packege(Units:"
 msgstr ""
 
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html:57
@@ -10063,33 +10063,33 @@ msgid "Network Ingong Packets Rate"
 msgstr ""
 
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html 17
-msgid "Memory Used(Units/"
+msgid "Memory Used(Units:"
 msgstr ""
 
-msgid "Harware Disk Used(Units/"
+msgid "Harware Disk Used(Units:"
 msgstr ""
 
-msgid "Harware Disk Usage(Units/"
+msgid "Harware Disk Usage(Units:"
 msgstr ""
 
-msgid "Network Outgoing Bytes Rate(Units/"
+msgid "Network Outgoing Bytes Rate(Units:"
 msgstr ""
 
-msgid "Network Incoming Bytes Rate(Units/"
+msgid "Network Incoming Bytes Rate(Units:"
 msgstr ""
 
-msgid "Network Outgoing Packets Rate(Units/"
+msgid "Network Outgoing Packets Rate(Units:"
 msgstr ""
 
-msgid "Network Incoming Packets Rate(Units/"
+msgid "Network Incoming Packets Rate(Units:"
 msgstr ""
 
 #: openstack_dashboard/dashboards/project/instances/templates/instances/_detail_usage.html 20
-msgid "VM Disk Usage(Units/"
+msgid "VM Disk Usage(Units:"
 msgstr ""
 
 #: openstack_dashboard/dashboards/project/instances/templates/instances/_detail_usage.html 23
-msgid "VM Disk Ephemeral Usage(Units/"
+msgid "VM Disk Ephemeral Usage(Units:"
 msgstr ""
 
 #: dashboards/admin/metering/views.py:40

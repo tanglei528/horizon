@@ -9842,11 +9842,11 @@ msgid "VM Memory Usage Rate"
 msgstr "内存使用率"
 
 #: dashboards/project/instances/templates/instances/_detail_ceilometer.html:124
-msgid "VM Network Outgong and Ingong Bytes"
+msgid "VM Network Outgong and Ingong Bytes Rate"
 msgstr "网络发送速率和网络接收速率"
 
-msgid "VM Network Outgong and Ingong Packets"
-msgstr "网络发送包数和网络接收包数"
+msgid "VM Network Outgong and Ingong Packets Rate"
+msgstr "网络发送包和网络接收包速率"
 
 #: dashboards/project/instances/templates/instances/_detail_ceilometer.html:29
 msgid "refresh cycle"
@@ -9914,11 +9914,11 @@ msgid "Memory Used"
 msgstr "内存使用量"
 
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html:64
-msgid "Network Incoming and Outgoing Bytes"
+msgid "Network Incoming and Outgoing Bytes Rate"
 msgstr "网络发送速率和网络接收速率"
 
-msgid "Network Outgong and Ingong Packets"
-msgstr "网络发送包数和网络接收包数"
+msgid "Network Outgong and Ingong Packets Rate"
+msgstr "网络发送包和网络接收包速率"
 
 msgid "Network Outgoing Bytes"
 msgstr "网络发送字节"
@@ -9940,55 +9940,55 @@ msgid "Network Bandwidth Bytes"
 msgstr "网络带宽速率"
 
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html 32
-msgid "CPU Usage(Units/"
+msgid "CPU Usage(Units:"
 msgstr "CPU使用率(单位: "
 
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html 50
-msgid "Memory Usage(Units/"
+msgid "Memory Usage(Units:"
 msgstr "内存使用率（单位: "
 
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html 81
-msgid "Network Bandwidth(Units/"
+msgid "Network Bandwidth(Units:"
 msgstr "网络带宽速率(单位: "
 
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_instance.html 100
-msgid "Network Packege(Units/"
+msgid "Network Packege(Units:"
 msgstr "网络数据包速率（单位: "
 
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html 17
-msgid "Memory Used(Units/"
+msgid "Memory Used(Units:"
 msgstr "内存使用量(单位: "
 
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html 23
-msgid "Harware Disk Used(Units/"
+msgid "Harware Disk Used(Units:"
 msgstr "磁盘使用量(单位: "
 
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html 26
-msgid "Harware Disk Usage(Units/"
+msgid "Harware Disk Usage(Units:"
 msgstr "磁盘使用率(单位: "
 
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html 29
-msgid "Network Outgoing Bytes Rate(Units/"
+msgid "Network Outgoing Bytes Rate(Units:"
 msgstr "网络发送速率(单位: "
 
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html 32
-msgid "Network Incoming Bytes Rate(Units/"
+msgid "Network Incoming Bytes Rate(Units:"
 msgstr "网络接收速率(单位: "
 
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html 35
-msgid "Network Outgoing Packets Rate(Units/"
+msgid "Network Outgoing Packets Rate(Units:"
 msgstr "网络发送包速率(单位: "
 
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html 38
-msgid "Network Incoming Packets Rate(Units/"
+msgid "Network Incoming Packets Rate(Units:"
 msgstr "网络接收包速率(单位: "
 
 #: openstack_dashboard/dashboards/project/instances/templates/instances/_detail_usage.html 20
-msgid "VM Disk Usage(Units/"
+msgid "VM Disk Usage(Units:"
 msgstr "磁盘使用率(单位: "
 
 #: openstack_dashboard/dashboards/project/instances/templates/instances/_detail_usage.html 23
-msgid "VM Disk Ephemeral Usage(Units/"
+msgid "VM Disk Ephemeral Usage(Units:"
 msgstr "临时磁盘使用率(单位: "
             
 #: openstack_dashboard/dashboards/admin/hypervisor/templates/hypervisor/_detail_usage.html:57

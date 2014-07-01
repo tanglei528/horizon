@@ -11,25 +11,25 @@
       <div class="controls line_chart_time_picker">
         <select data-line-chart-command="select_box_change" onChange="horizon.d3_line_chart_ceilometer.switchUnit();"
                 name="meter" id="meter" class="span2 example">
-                <option title="{% trans "CPU Usage Rate" %}" legend="{% trans "CPU Usage(Units/" %}" value="hardware.cpu.usage" data-unit="%">
+                <option title="{% trans "CPU Usage Rate" %}" legend="{% trans "CPU Usage(Units:" %}" value="hardware.cpu.usage" data-unit="%">
                 	hardware.cpu.usage
                 </option>
-                <option title="{% trans "Memory Usage Rate" %}" legend="{% trans "Memory Usage(Units/" %}" value="hardware.memory.usage" data-unit="%">
+                <option title="{% trans "Memory Usage Rate" %}" legend="{% trans "Memory Usage(Units:" %}" value="hardware.memory.usage" data-unit="%">
                 	hardware.memory.usage
                 </option>
-                <option title="{% trans "Harware Disk Size Usage" %}" legend="{% trans "Harware Disk Usage(Units/" %}" value="hardware.disk.size.usage" data-unit="B">
+                <option title="{% trans "Harware Disk Size Usage" %}" legend="{% trans "Harware Disk Usage(Units:" %}" value="hardware.disk.size.usage" data-unit="B">
                 	hardware.disk.size.usage
                 </option>
-                <option title="{% trans "Network Outgoing Bytes Rate" %}" legend="{% trans "Network Outgoing Bytes Rate(Units/" %}" value="hardware.network.outgoing.bytes.rate" data-unit="B/s">
+                <option title="{% trans "Network Outgoing Bytes Rate" %}" legend="{% trans "Network Outgoing Bytes Rate(Units:" %}" value="hardware.network.outgoing.bytes.rate" data-unit="B/s">
                 	hardware.network.outgoing.bytes.rate
                 </option>
-                <option title="{% trans "Network Incoming Bytes Rate" %}" legend="{% trans "Network Incoming Bytes Rate(Units/" %}" value="hardware.network.incoming.bytes.rate" data-unit="B/s">
+                <option title="{% trans "Network Incoming Bytes Rate" %}" legend="{% trans "Network Incoming Bytes Rate(Units:" %}" value="hardware.network.incoming.bytes.rate" data-unit="B/s">
                 	hardware.network.incoming.bytes.rate
                 </option>
-                <option title="{% trans "Network Outgong Packets Rate" %}" legend="{% trans "Network Outgoing Packets Rate(Units/" %}" value="hardware.network.outgoing.packets.rate" data-unit="packet/s">
+                <option title="{% trans "Network Outgong Packets Rate" %}" legend="{% trans "Network Outgoing Packets Rate(Units:" %}" value="hardware.network.outgoing.packets.rate" data-unit="packet/s">
                 	hardware.network.outgoing.packets.rate
                 </option>
-                <option title="{% trans "Network Ingong Packets Rate" %}" legend="{% trans "Network Incoming Packets Rate(Units/" %}" value="hardware.network.incoming.packets.rate" data-unit="packet/s">
+                <option title="{% trans "Network Ingong Packets Rate" %}" legend="{% trans "Network Incoming Packets Rate(Units:" %}" value="hardware.network.incoming.packets.rate" data-unit="packet/s">
                 	hardware.network.incoming.packets.rate
                 </option>
         </select>
@@ -111,7 +111,7 @@
     <div class="info row-fluid detail">
       <div class="span9 chart_container" style="width: 80%;">
           <div class="chart"
-			   data-y_axis="{% trans 'CPU Usage(Units/' %}"
+			   data-y_axis="{% trans 'CPU Usage(Units:' %}"
                data-chart-type="line_chart"
                data-url="{% url 'horizon:admin:metering:samples'%}"
                data-form-selector='#linechart_general_form'
