@@ -11,28 +11,28 @@
 		<div class="controls line_chart_time_picker">
              <select data-line-chart-command="select_box_change" onChange="horizon.d3_line_chart_ceilometer.switchUnit();"
                  name="meter" id="meter" class="span2 example">
-                 <option title="{% trans "CPU Usage Rate" %}" legend="{% trans "CPU Usage(Units/" %}" value="cpu_util" data-unit="%">
+                 <option title="{% trans "CPU Usage Rate" %}" legend="{% trans "CPU Usage(Units:" %}" value="cpu_util" data-unit="%">
                  cpu_util
                  </option>
-                 <option title="{% trans "Memory Usage Rate" %}" legend="{% trans "Memory Usage(Units/" %}" value="memory.usage.percent" data-unit="%">
+                 <option title="{% trans "Memory Usage Rate" %}" legend="{% trans "Memory Usage(Units:" %}" value="memory.usage.percent" data-unit="%">
                  memory.usage.percent
                  </option>
-                 <option title="{% trans "Harware Disk Size Usage" %}" legend="{% trans "VM Disk Usage(Units/" %}" value="disk.root.size.used.percent" data-unit="B">
+                 <option title="{% trans "Harware Disk Size Usage" %}" legend="{% trans "VM Disk Usage(Units:" %}" value="disk.root.size.used.percent" data-unit="B">
                  disk.root.size.used.percent
                  </option>
-                 <option title="{% trans "Harware Disk Size Usage" %}" legend="{% trans "VM Disk Ephemeral Usage(Units/" %}" value="disk.ephemeral.size.used.percent" data-unit="B/s">
+                 <option title="{% trans "Harware Disk Size Usage" %}" legend="{% trans "VM Disk Ephemeral Usage(Units:" %}" value="disk.ephemeral.size.used.percent" data-unit="B/s">
                  disk.ephemeral.size.used.percent
                  </option>
-                 <option title="{% trans "Network Outgoing Bytes Rate" %}" legend="{% trans "Network Outgoing Bytes Rate(Units/" %}" value="network.outgoing.bytes.rate" data-unit="B/s">
+                 <option title="{% trans "Network Outgoing Bytes Rate" %}" legend="{% trans "Network Outgoing Bytes Rate(Units:" %}" value="network.outgoing.bytes.rate" data-unit="B/s">
                  network.outgoing.bytes.rate
                  </option>
-                 <option title="{% trans "Network Incoming Bytes Rate" %}" legend="{% trans "Network Incoming Bytes Rate(Units/" %}" value="network.incoming.bytes.rate" data-unit="B/s">
+                 <option title="{% trans "Network Incoming Bytes Rate" %}" legend="{% trans "Network Incoming Bytes Rate(Units:" %}" value="network.incoming.bytes.rate" data-unit="B/s">
                  network.incoming.bytes.rate
                  </option>
-                 <option title="{% trans "Network Outgong Packets Rate" %}" legend="{% trans "Network Outgoing Packets Rate(Units/" %}" value="network.outgoing.packets.rate" data-unit="packet/s">
+                 <option title="{% trans "Network Outgong Packets Rate" %}" legend="{% trans "Network Outgoing Packets Rate(Units:" %}" value="network.outgoing.packets.rate" data-unit="packet/s">
                  network.outgoing.packets.rate
                  </option>
-                 <option title="{% trans "Network Ingong Packets Rate" %}" legend="{% trans "Network Incoming Packets Rate(Units/" %}" value="network.incoming.packets.rate" data-unit="packet/s">
+                 <option title="{% trans "Network Ingong Packets Rate" %}" legend="{% trans "Network Incoming Packets Rate(Units:" %}" value="network.incoming.packets.rate" data-unit="packet/s">
                  network.incoming.packets.rate
                  </option>
          </select>
@@ -104,7 +104,7 @@
       <h4 style="float:left;">
         {% trans "Statistics of all resources" %}
       </h4>
-        <a style="float:right" href="javascript:void(0);" onClick="csv();" title="Download CSV Summary" 
+        <a style="float:right" href="javascript:void(0);" onClick="csv();" title="{% trans 'Download CSV Report' %}" 
               class="btn btn-small btn-download" id="project_usage__action_csv_summary">{% trans "Download CSV Report" %}</a>
     </div>
     <div>
@@ -113,7 +113,7 @@
     <div class="info row-fluid detail">
       <div class="span9 chart_container" style="width: 80%;">
           <div class="chart"
-			         data-y_axis="{% trans 'CPU Usage(Units/' %}"
+			         data-y_axis="{% trans 'CPU Usage(Units:' %}"
                data-chart-type="line_chart"
                data-url="{% url 'horizon:admin:metering:samples'%}"
                data-form-selector='#linechart_usage_form'
@@ -127,7 +127,7 @@
           </div>
           <div id="slider_usage"></div>
       </div>
-      <div class="span3" style="position: relative;width: 500px;">
+      <div class="span3" style="position: relative;width: 500px;margin-top:5px;">
   	  	<div id="smoother" title="Smoothing"></div>
   	  	<div id="legend"></div>
 	    </div>

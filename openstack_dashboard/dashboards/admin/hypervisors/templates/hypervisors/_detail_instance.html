@@ -3,9 +3,9 @@
 <div class="control-group">
 	<div class="controls">
 	{% trans "refresh cycle" %}:&nbsp;<select data-line-chart-command="select_box_change" onChange="horizon.d3_line_chart_ceilometer.switchTime();"
-            id="interval" name="interval" class="span2">
-		<option selected="selected" value="60000">{% trans "1 min" %}</option>
+		id="refresh_cycle" name="refresh_cycle" class="span2">
 		<option value="30000">{% trans "30 sec" %}</option>
+		<option selected="selected" value="60000">{% trans "1 min" %}</option>
 		<option value="300000">{% trans "5 min" %}</option>
 		<option value="600000">{% trans "10 min" %}</option>
 	</select>
@@ -22,8 +22,9 @@
 				<div class="chart_title_name_clear"/></div>
 			</div>
 			<div class="span9 chart_container" style="width: 400px;">
-				<div class="chart"
-				   data-y_axis="{% trans 'CPU Usage(Units/' %}"
+				<div id="cpu_util_chart"
+                   class="chart"
+				   data-y_axis="{% trans 'CPU Usage(Units:' %}"
 	               data-chart-type="line_chart"
 	               data-url="{% url 'horizon:admin:metering:raw-samples'%}?meter=hardware.cpu.usage&date_options=null&resource_id={{ instance }}"
 	               data-legend-selector="#legend1"
@@ -33,15 +34,16 @@
 	               data-unit-conver="false"
 	               data-slider-selector="#slider">
 				</div>
-				<div class="span3" style="position: relative;width: 400px;">
+				<div class="span3" style="position: relative;width: 400px;margin-top:5px;">
 					<div id="smoother" title="Smoothing"></div>
 					<div id="legend1"></div>
 				</div>
 				<div id="slider"></div>
 			</div>
 			<div class="span9 chart_container" style="width: 400px;margin-left: 100px;">
-				<div class="chart"
-					 data-y_axis="{% trans 'Memory Usage(Units/' %}"
+				<div id="memery_usage_percent_chart"
+					 class="chart"
+					 data-y_axis="{% trans 'Memory Usage(Units:' %}"
 		             data-chart-type="line_chart"
 		             data-url="{% url 'horizon:admin:metering:raw-samples'%}?meter=hardware.memory.usage&date_options=null&resource_id={{ instance }}"
 		             data-legend-selector="#legend2"
@@ -51,7 +53,7 @@
 		             data-unit-conver="false"
 		             data-slider-selector="#slider">
 		        </div>
-		        <div class="span3" style="position: relative;width: 400px;">
+		        <div class="span3" style="position: relative;width: 400px;margin-top:5px;">
 		        	<div id="smoother" title="Smoothing"></div>
 		        	<div id="legend2"></div>
 		        </div>
@@ -67,15 +69,16 @@
 		<hr class="header_rule" />
 		<div id="network_bytes" class="info row-fluid detail">
 			<div class="chart_title_name">
-				<div class="chart_title_name_left">{% trans "Network Incoming and Outgoing Bytes" %}</div>
-				<div class="chart_title_name_right">{% trans "Network Outgong and Ingong Packets" %}</div>
+				<div class="chart_title_name_left">{% trans "Network Incoming and Outgoing Bytes Rate" %}</div>
+				<div class="chart_title_name_right">{% trans "Network Outgong and Ingong Packets Rate" %}</div>
 				<div class="chart_title_name_clear"/></div>
 			</div>
 			<div class="span9 chart_container" style="width: 400px;">
-				<div class="chart"
-			       data-y_axis="{% trans 'Network Bandwidth(Units/' %}"
+				<div id="net_bytes_chart" 
+				   class="chart"
+			       data-y_axis="{% trans 'Network Bandwidth(Units:' %}"
 	               data-chart-type="line_chart"
-	               data-url="{% url 'horizon:admin:metering:raw-samples'%}?meter=hardware.network.incoming.bytes.rate-hardware.network.outgoing.bytes.rate&date_options=null&resource_id={{ instance }}"
+	               data-url="{% url 'horizon:admin:metering:samples'%}?meter=hardware.network.incoming.bytes.rate-hardware.network.outgoing.bytes.rate&period=60&stats_attr=sum&date_options=null&resource_id={{ instance }}"
 	               data-legend-selector="#legend3"
 	               data-display="true"
 	               data-meter="2"
@@ -83,17 +86,18 @@
 	               data-smoother-selector="#smoother"
 	               data-slider-selector="#slider">
 				</div>
-				<div class="span3" style="position: relative;width: 400px;">
+				<div class="span3" style="position: relative;width: 400px;margin-top:5px;">
 					<div id="smoother" title="Smoothing"></div>
 					<div id="legend3"></div>
 				</div>
 				<div id="slider"></div>
 			</div>
 			<div class="span9 chart_container" style="width: 400px;margin-left: 100px;">
-				<div class="chart"
-					data-y_axis="{% trans 'Network Packege(Units/' %}"
+				<div id="net_packets_chart"
+					class="chart"
+					data-y_axis="{% trans 'Network Packege(Units:' %}"
 					data-chart-type="line_chart"
-					data-url="{% url 'horizon:admin:metering:raw-samples'%}?meter=hardware.network.incoming.packets.rate-hardware.network.outgoing.packets.rate&date_options=null&resource_id={{ instance }}"
+					data-url="{% url 'horizon:admin:metering:samples'%}?meter=hardware.network.incoming.packets.rate-hardware.network.outgoing.packets.rate&period=60&stats_attr=sum&date_options=null&resource_id={{ instance }}"
 					data-legend-selector="#legend4"
 					data-display="true"
 					data-meter="3"
@@ -101,7 +105,7 @@
 					data-smoother-selector="#smoother"
 					data-slider-selector="#slider">
 				</div>
-				<div class="span3" style="position: relative;width: 400px;">
+				<div class="span3" style="position: relative;width: 400px;margin-top:5px;">
 					<div id="smoother" title="Smoothing"></div>
 					<div id="legend4"></div>
 				</div>
