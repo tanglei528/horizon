@@ -1,6 +1,2 @@
-{% load i18n %}{% if date_options == 'other' %}{% trans "Usage Report For Period" %}:{{ date_from }},{{ date_to }}{% endif %}
-{% trans "Project ID" %}:{{ resource_id }}
-{% trans "Metric" %}:{{ meter }}{% if date_options != 'other' %}
-{% trans "Statistics Period" %}:{{ date_options }}{% endif %}
-{% trans "Statistics Method" %}:{{ stats_attr }}
-{% trans "Statistics Interval" %}:{{ period }}
+{% load i18n %}{% if date_options == 'other' %}{% trans "Usage Report For Period" %}:{{ date_from }} {{ date_to }},{% endif %}{% trans "Project ID" %}:{{ resource_id }},{% trans "Metric" %}:{{ meter }},{% if date_options != 'other' %}{% trans "Statistics Period" %}:{{ date_options }},{% endif %}{% trans "Statistics Method" %}:{{ stats_attr }},{% trans "Statistics Interval" %}:{{ period }}
+
