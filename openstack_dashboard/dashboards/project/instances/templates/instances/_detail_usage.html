@@ -100,16 +100,12 @@
 
 <div class="info row-fluid detail">
   <div class="span12">
-    <div style="width:80%;margin-bottom:30px">
-      <h4 style="float:left;">
-        {% trans "Statistics of all resources" %}
+      <h4 style="height:30px;">
+        <span style="float:left;margin-top:8px;">{% trans "Statistics of all resources" %}</span>
+        <a style="float:right;" href="javascript:void(0);" onClick="csv();" title="{% trans 'Download CSV Report' %}" 
+            class="btn btn-small btn-download" id="project_usage__action_csv_summary">{% trans "Download CSV Report" %}</a>
       </h4>
-        <a style="float:right" href="javascript:void(0);" onClick="csv();" title="{% trans 'Download CSV Report' %}" 
-              class="btn btn-small btn-download" id="project_usage__action_csv_summary">{% trans "Download CSV Report" %}</a>
-    </div>
-    <div>
       <hr class="header_rule" />
-    </div>
     <div class="info row-fluid detail">
       <div class="span9 chart_container" style="width: 80%;">
           <div class="chart"
@@ -130,7 +126,7 @@
       <div class="span3" style="position: relative;width: 500px;margin-top:5px;">
   	  	<div id="smoother" title="Smoothing"></div>
   	  	<div id="legend"></div>
-	    </div>
+  	  </div>
     </div>
   </div>
 </div>
