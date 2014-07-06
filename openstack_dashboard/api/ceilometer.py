@@ -1002,7 +1002,7 @@ class Meters(object):
                 'label': '',
                 'description': _("Number of incoming "
                                  "packets for a VM interface"),
-            }),            
+            }),
             ("network.outgoing.packets", {
                 'label': '',
                 'description': _("Number of outgoing "

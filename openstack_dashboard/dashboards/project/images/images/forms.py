@@ -49,7 +49,8 @@ class CreateImageForm(forms.SelfHandlingForm):
         label=_('Image Source'),
         required=False,
         choices=[('url', _('Image Location')),
-                 ('file', _('Image File'))],
+                 ('file', _('Image File')),
+                 ('vmware', _('Vmware Template'))],
         widget=forms.Select(attrs={
             'class': 'switchable',
             'data-slug': 'source'}))
@@ -70,6 +71,14 @@ class CreateImageForm(forms.SelfHandlingForm):
                                      'data-switch-on': 'source',
                                      'data-source-file': _('Image File')}),
                                  required=False)
+    template_name = forms.CharField(max_length="255",
+                                    label=_("Template Name"),
+                                    help_text=_("A template_name in vmware."),
+                                    widget=forms.TextInput(attrs={
+                                    'class': 'switched',
+                                    'data-switch-on': 'source',
+                                    'data-source-vmware': _('Template Name')}),
+                                    required=False)
     disk_format = forms.ChoiceField(label=_('Format'),
                                     required=True,
                                     choices=[],
@@ -156,8 +165,9 @@ class CreateImageForm(forms.SelfHandlingForm):
         # conditions. Code defensively for it here...
         image_file = data.get('image_file', None)
         image_url = data.get('copy_from', None)
+        template_name = data.get('template_name', None)
 
-        if not image_url and not image_file:
+        if not image_url and not image_file and not template_name:
             raise ValidationError(
                 _("A image or external image location must be specified."))
         elif image_url and image_file:
@@ -200,7 +210,9 @@ class CreateImageForm(forms.SelfHandlingForm):
             meta['data'] = self.files['image_file']
         else:
             meta['copy_from'] = data['copy_from']
-
+        if data['template_name']:
+            meta['properties']['template_name'] = data['template_name']
+            meta['data'] = ""
         try:
             image = api.glance.image_create(request, **meta)
             messages.success(request,
