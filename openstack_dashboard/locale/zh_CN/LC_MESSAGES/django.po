@@ -7497,7 +7497,7 @@ msgid ""
 "IP address allocation pools. Each entry is "
 "&lt;start_ip_address&gt;,&lt;end_ip_address&gt; (e.g., "
 "192.168.1.100,192.168.1.120) and one entry per line."
-msgstr "ip地址池.记录<start_ip_address>,<end_ip_address> (例如., 192.168.1.100,192.168.1.120),每记录一行."
+msgstr "ip地址池.记录&lt;start_ip_address&gt;,&lt;end_ip_address&gt; (例如., 192.168.1.100,192.168.1.120),每记录一行."
 
 #: dashboards/project/networks/workflows.py:178
 msgid "DNS Name Servers"
@@ -7517,7 +7517,7 @@ msgid ""
 "Additional routes announced to the hosts. Each entry is "
 "&lt;destination_cidr&gt;,&lt;nexthop&gt; (e.g., "
 "192.168.200.0/24,10.56.1.254) and one entry per line."
-msgstr "主机增加额外的路由.每条<destination_cidr>,<nexthop> (例如., 192.168.200.0/24,10.56.1.254)每行一条"
+msgstr "主机增加额外的路由.每条&lt;destination_cidr&gt;,&lt;nexthop&gt; (例如., 192.168.200.0/24,10.56.1.254)每行一条"
 
 #: dashboards/project/networks/workflows.py:192
 #: dashboards/project/networks/subnets/workflows.py:142
