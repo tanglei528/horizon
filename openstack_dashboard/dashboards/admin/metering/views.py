@@ -12,6 +12,9 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+from csv import DictWriter  # noqa
+from csv import writer  # noqa
+
 from datetime import datetime  # noqa
 from datetime import timedelta  # noqa
 
@@ -38,26 +41,32 @@ from openstack_dashboard.dashboards.admin.metering import tabs as \
 
 
 class ResourceUsageCsvRenderer(csvbase.BaseCsvResponse):
-    columns = [_("value"), _("date")]
 
     def get_row_data(self):
-        unit = ''
+        for inst in self.context['series']:
+            for key, value in inst.items():
+                if (key == 'data'):
+                    for point in value:
+                        line = []
+                        i = 0
+                        for k, v in point.items():
+                            if (k == 'x'):
+                                line.append(str(v))
+                            if (k == 'y'):
+                                line.append(str(v))
+                            i += 1
+                            if i % 2 == 0:
+                                yield (line)
+
+    def get_header_data(self):
         for inst in self.context['series']:
             for key, value in inst.items():
                 if (key == 'unit'):
                     unit = value
                     break
-        for inst in self.context['series']:
-            for key, value in inst.items():
-                if (key == 'data'):
-                    line = []
-                    for point in value:
-                        for k, v in point.items():
-                            if (k == 'x'):
-                                line.append(str(v))
-                            if (k == 'y'):
-                                line.append(str(v) + unit)
-                    yield (line)
+        self.columns = [_("Gauge Value") + "(" + unit + ")", _("Gauge Date")]
+        self.writer = DictWriter(self.out, map(self.encode, self.columns))
+        self.is_dict = True
 
 
 class IndexView(tabs.TabbedTableView):

@@ -64,15 +64,6 @@ class ResourceUsageTab(tabs.Tab):
     template_name = constants.INSTANCE_USAGE_TEMPLATE_NAME
     preload = False
 
-    @staticmethod
-    def _get_flavor_names(request):
-        try:
-            flavors = api.nova.flavor_list(request, None)
-            return [f.name for f in flavors]
-        except Exception:
-            return ['m1.tiny', 'm1.small', 'm1.medium',
-                    'm1.large', 'm1.xlarge']
-
     def get_context_data(self, request):
         instance = self.tab_group.kwargs['hypervisor']
         return {"instance": instance}
