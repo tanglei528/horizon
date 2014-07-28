@@ -100,8 +100,14 @@ class CreateImageForm(forms.SelfHandlingForm):
             'data-switch-on': 'source_format',
             'data-source_format-vmdk': _('Choose a adapter type')}))
 
-    architecture = forms.CharField(max_length="255", label=_("Architecture"),
-                                   required=False)
+    architecture = forms.ChoiceField(
+        label=_("Architecture"),
+        required=False,
+        choices=[('', ''),
+                 ('x86_64', _('x86_64')),
+                 ('x86', _('x86'))],
+        widget=forms.Select(attrs={'class': 'switchable'}))
+
     minimum_disk = forms.IntegerField(label=_("Minimum Disk (GB)"),
                                     help_text=_('The minimum disk size'
                                             ' required to boot the'
